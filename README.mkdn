@@ -1,0 +1,216 @@
+# NAME
+
+Dist::Zilla::PluginBundle::Author::HAYOBAAN - Hayo Baan's Dist::Zilla configuration
+
+# VERSION
+
+version 0.001
+
+# DESCRIPTION
+
+This is a [Dist::Zilla](https://metacpan.org/pod/Dist::Zilla) PluginBundle. It installs and configures
+[Dist::Zilla](https://metacpan.org/pod/Dist::Zilla) plugins according to HAYOBAAN's preferences.
+
+# USAGE
+
+    # In dist.ini
+    [@Author::HAYOBAAN]
+
+# OPTIONS
+
+The following additional command-line option is available for the `dzil` command.
+
+## `--local`, `local_only`, `local_release`, or `--local_release_only`
+
+Adding this option to the `dzil release` command will:
+
+- inhibit uploading to CPAN (if applicable),
+- inhibit git checking, tagging, commiting, and pushing,
+- inhibit Changes file checking
+- keep the version number the same.
+
+The `run_after_release` code is still run so you can use this flag to
+"release" a development version locally for further use or testing,
+without e.g., increasing the version number.
+
+# ATTRIBUTES
+
+## is\_cpan
+
+Specifies that this is a distribution that is destined for CPAN. When
+true, releases are uploaded to CPAN using
+[UploadToCPAN](https://metacpan.org/pod/Dist::Zilla::Plugin::UploadToCPAN). If false, releases
+are made using [FakeRelease](https://metacpan.org/pod/Dist::Zilla::Plugin::FakeRelease).
+
+Default: _false_.
+
+## is\_github\_hosted
+
+Specifies that the distribution's repository is hosted on GitHub.
+
+Default: _false_ (note: setting `is_cpan` enforces `is_github_hosted`
+to _true_)
+
+## git\_remote
+
+Specifies where to push the distribution on GitHub. Can be used
+multiple times to upload to multiple branches.
+
+Default: `origin`
+
+## no\_git
+
+Specifies that the distribution is not under git version control.
+
+Default: _false_ (note: setting `is_github_hosted` enforces this
+setting to _false_)
+
+## local\_release\_only
+
+Setting this to _true_ will:
+
+- inhibit uploading to CPAN (if applicable),
+- inhibit git checking, tagging, commiting, and pushing,
+- keep the version number the same,
+
+when _releasing_ the distribution.
+
+## run\_after\_build
+
+Specifies commands to run after the release has been built (but not yet released). Multiple
+`run_after_build` commands can be specified.
+
+The commands are run from the root of your development tree and has the following special symbols available:
+
+- `%d` the directory in which the distribution was built
+- `%n` the name of the distribution
+- `%p` path separator ('/' on Unix, '\\\\' on Win32... useful for cross-platform dist.ini files)
+- `%v` the version of the distribution
+- `%t` -TRIAL if the release is a trial release, otherwise the empty string
+- `%x` full path to the current perl interpreter (like $^X but from Config)
+
+Default: _nothing_
+
+## run\_after\_release
+
+Specifies commands to run after the release has been made. Use it to e.g.,
+automatically install your distibution after releasing. Multiple
+run\_after\_release commands can be specified.
+
+The commands are run from the root of your development tree and has
+the same symbols available as the `run_after_build`, plus the
+following:
+
+- `%a` the archive of the release
+
+Default: `cpanm './%d'`
+
+### Examples:
+
+To install using cpanm (this is the default):
+
+    run_after_release = cpanm './%d'
+
+To install using cpan:
+
+    run_after_release = %x -MCPAN -einstall './%d'
+
+To not do anything:
+
+    run_after_release =
+
+## additional\_test
+
+Additional test plugin to use. Can be used multiple times.
+
+By default the following tests are executed:
+
+- `Test::Compile` -- Checks if perl code compiles correctly
+- `Test::Perl::Critic` -- Checks Perl source code for best-practices
+- `Test::EOL` -- Checks line endings
+- `Test::NoTabs` -- Checks for the use of tabs
+- `Test::Version` -- Checks to see if each module has the correct version set
+- `Test::MinimumVersion` -- Checks the minimum perl version, using `max_target_perl`
+- `MojibakeTests` -- Checks source encoding
+- `Test::Kwalitee` -- Checks the Kwalitee
+- `Test::Portability` -- Checks portability of code
+- `Test::UnusedVars` -- Checks for unused variables
+- `Test::CPAN::Changes` -- Validation of the Changes file
+- `Test::DistManifest` -- Validation of the MANIFEST file
+- `Test::CPAN::Meta::JSON` -- Validation of the META.json file -- only when hosted on GitHub
+- `MetaTests` -- Validation of the META.yml file -- only when hosted on GitHub
+- `PodSyntaxTests` -- Checks pod syntax
+- `PodCoverageTests` -- Checks pod coverage
+- `Test::Pod::LinkCheck` -- Checks pod links
+- `Test::Synopsis` -- Checks the pod synopsis
+
+## disable\_test
+
+Specifies the tests you don't want to run.
+
+Default: _none_ (i.e., run all default and `additional_test` tests).
+
+## max\_target\_perl
+
+Defines the highest minimum version of perl you intend to require.
+This is passed to [Dist::Zilla::Plugin::Test::MinimumVersion](https://metacpan.org/pod/Dist::Zilla::Plugin::Test::MinimumVersion), which generates
+a `minimum-version.t` test that'll warn you if you accidentally used features
+from a higher version of perl than you wanted. (Having a lower required version
+of perl is okay.)
+
+Default: `5.10`
+
+## weaver\_config
+
+Specifies the configuration for [Pod::Weaver](https://metacpan.org/pod/Pod::Weaver).
+
+Default: `@Author::HAYOBAAN`.
+
+## tag\_format
+
+Specifies the format for tagging a release (see
+[Git::Tag](https://metacpan.org/pod/Dist::Zilla::Plugin::Git::Tag) for details).
+
+Default: `v%v%t`
+
+## version\_regexp
+
+Specifies the regexp for versions (see
+[Git::NextVersion](https://metacpan.org/pod/Dist::Zilla::Plugin::Git::NextVersion) for details).
+
+Default: `^v?([\d.]+)(?:-TRIAL)?$`
+
+Note: only used in case of git version controlled repositories
+([AutoVersion](https://metacpan.org/pod/Dist::Zilla::Plugin::AutoVersion) is used in case of
+non-git version controlled repositories).
+
+# BUGS
+
+Please report any bugs or feature requests on the bugtracker website
+https://github.com/HayoBaan/Dist-Zilla-PluginBundle-Author-HAYOBAAN/issues
+
+When submitting a bug or request, please include a test-file or a
+patch to an existing test-file that illustrates the bug or desired
+feature.
+
+# STABILITY
+
+This module is still under development.
+
+# CREDITS
+
+I took inspiration from many people's [Dist::Zilla](https://metacpan.org/pod/Dist::Zilla) and [Pod::Weaver](https://metacpan.org/pod/Pod::Weaver) PluginBundles. Most notably from:
+
+- David Golden [DAGOLDEN](https://metacpan.org/pod/Dist::Zilla::PluginBundle::DAGOLDEN)
+- Mike Dohorty [DOHORTY](https://metacpan.org/pod/Dist::Zilla::PluginBundle::Author::DOHORTY)
+
+# AUTHOR
+
+Hayo Baan <info@hayobaan.nl>
+
+# COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2014 by Hayo Baan.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
