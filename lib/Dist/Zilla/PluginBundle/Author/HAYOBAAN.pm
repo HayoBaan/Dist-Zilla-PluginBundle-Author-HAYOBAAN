@@ -403,7 +403,10 @@ sub configure {
 
     $self->add_plugins(
         #### Version ####
-        !$self->no_git ? (
+        $self->no_git ? (
+            # Provide automatic version based on date
+            'AutoVersion'
+        ) : (
             # Provide a version number by bumping the last git release tag
             [
                 'Git::NextVersion' => {
@@ -412,9 +415,6 @@ sub configure {
                     version_regexp    => $self->version_regexp, # Regexp for version format
                 },
             ],
-        ) : (
-            # Provide automatic version based on date
-            'AutoVersion'
         ),
 
         # Adds version to file (no line insertion, using our)
@@ -422,7 +422,7 @@ sub configure {
 
         #### Gather & Prune ####
         # Gather files to include
-        [ 'GatherDir' => { exclude_filename => $self->exclude_files } ],
+        [ $self->no_git ? 'GatherDir' : 'Git::GatherDir' => { exclude_filename => $self->exclude_files } ],
         # Remove cruft
         'PruneCruft',
         # Skip files in MANIFEST.SKIP
@@ -455,6 +455,9 @@ sub configure {
         # Automatically determine prerequisites
         'AutoPrereqs',
 
+        # Do not index certain dirs",
+        [ 'MetaNoIndex' => { dir => $self->meta_no_index_dirs } ],
+
         $self->is_github_hosted ? (
             # Add GitHub metadata",
             'GitHub::Meta',
@@ -467,9 +470,6 @@ sub configure {
             # Add provided Classes to META.*",
             'MetaProvides::Class',
         ) : (),
-
-        # Do not index certain dirs",
-        [ 'MetaNoIndex' => { dir => $self->meta_no_index_dirs } ],
 
         #### Build System ####
         # Install content of bin directory as executables
@@ -499,9 +499,15 @@ sub configure {
             'CheckChangesHasContent',
         ) : (),
 
-        # Check git repository before releasing
         !$self->no_git && !$self->local_release_only ? (
+            # Check if we're on the correct git branch
+            'Git::CheckFor::CorrectBranch',
+            # Check git repository for uncommitted files before releasing
             [ 'Git::Check' => { allow_dirty => $self->allow_dirty } ],
+            # Check resources section of meta files
+            'CheckMetaResources',
+            # Check if prereqs are available on CPAN
+            'CheckPrereqsIndexed',
         ) : (),
 
         # Extra test (gatherdir)
@@ -556,9 +562,8 @@ sub configure {
         @{$self->additional_test} ? $self->_add_test(@{$self->additional_test}) : (),
 
         #### Run tests ####
-        # Run provided tests in /t directort before releasing
+        # Run provided tests in /t directory before releasing
         'TestRelease',
-
         # Run the extra tests
         [ 'RunExtraTests' => { default_jobs => 9 } ],
 

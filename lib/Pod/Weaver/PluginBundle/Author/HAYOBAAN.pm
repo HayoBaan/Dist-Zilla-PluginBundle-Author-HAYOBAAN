@@ -107,6 +107,7 @@ Alternatively you can also add the following line to your F<dist.ini>
 =for :list
 * L<Pod::Weaver>
 * L<Pod::Elemental::Transformer::List>
+* L<Pod::Elemental::PerlMunger>
 * L<Pod::Weaver::Section::Bugs>
 * L<Dist::Zilla::Plugin::PodWeaver>
 
