@@ -5,12 +5,77 @@ NAME
 
 VERSION
 
-    version 0.001
+    version 0.002
 
 DESCRIPTION
 
     This is a Dist::Zilla PluginBundle. It installs and configures
-    Dist::Zilla plugins according to HAYOBAAN's preferences.
+    Dist::Zilla plugins according to HAYOBAAN's preferences. The following
+    plugins are (conditionally) installed and configured:
+
+      Dist::Zilla::Plugin::AutoVersion
+      Dist::Zilla::Plugin::Git::NextVersion
+      Dist::Zilla::Plugin::OurPkgVersion
+      Dist::Zilla::Plugin::GatherDir
+      Dist::Zilla::Plugin::Git::GatherDir
+      Dist::Zilla::Plugin::PruneCruft
+      Dist::Zilla::Plugin::ManifestSkip
+      Dist::Zilla::Plugin::PodWeaver
+      Dist::Zilla::Plugin::ReadmeAnyFromPod / Text
+      Dist::Zilla::Plugin::ReadmeAnyFromPod / Markdown
+      Dist::Zilla::Plugin::License
+      Dist::Zilla::Plugin::InstallGuide
+      Dist::Zilla::Plugin::MinimumPerl
+      Dist::Zilla::Plugin::AutoPrereqs
+      Dist::Zilla::Plugin::MetaNoIndex
+      Dist::Zilla::Plugin::GitHub::Meta
+      Dist::Zilla::Plugin::MetaJSON
+      Dist::Zilla::Plugin::MetaYAML
+      Dist::Zilla::Plugin::MetaProvides::Package
+      Dist::Zilla::Plugin::MetaProvides::Class
+      Dist::Zilla::Plugin::ExecDir
+      Dist::Zilla::Plugin::ShareDir
+      Dist::Zilla::Plugin::MakeMaker
+      Dist::Zilla::Plugin::ModuleBuild
+      Dist::Zilla::Plugin::Manifest
+      Dist::Zilla::Plugin::CopyFilesFromBuild
+      Dist::Zilla::Plugin::Run::AfterBuild
+      Dist::Zilla::Plugin::CheckChangesHasContent
+      Dist::Zilla::Plugin::Git::CheckFor::CorrectBranch
+      Dist::Zilla::Plugin::Git::Check
+      Dist::Zilla::Plugin::CheckMetaResources
+      Dist::Zilla::Plugin::CheckPrereqsIndexed
+      Dist::Zilla::Plugin::Test::Compile
+      Dist::Zilla::Plugin::Test::Perl::Critic
+      Dist::Zilla::Plugin::Test::EOL
+      Dist::Zilla::Plugin::Test::NoTabs
+      Dist::Zilla::Plugin::Test::Version
+      Dist::Zilla::Plugin::Test::MinimumVersion
+      Dist::Zilla::Plugin::MojibakeTests
+      Dist::Zilla::Plugin::Test::Kwalitee
+      Dist::Zilla::Plugin::Test::Portability
+      Dist::Zilla::Plugin::Test::UnusedVars
+      Dist::Zilla::Plugin::Test::CPAN::Changes
+      Dist::Zilla::Plugin::Test::DistManifest
+      Dist::Zilla::Plugin::Test::CPAN::Meta::JSON
+      Dist::Zilla::Plugin::MetaTests
+      Dist::Zilla::Plugin::PodSyntaxTests
+      Dist::Zilla::Plugin::PodCoverageTests
+      Dist::Zilla::Plugin::Test::Pod::LinkCheck
+      Dist::Zilla::Plugin::Test::Synopsis
+      Dist::Zilla::Plugin::TestRelease
+      Dist::Zilla::Plugin::RunExtraTests
+      Dist::Zilla::Plugin::ConfirmRelease
+      Dist::Zilla::Plugin::UploadToCPAN
+      Dist::Zilla::Plugin::SchwartzRatio
+      Dist::Zilla::Plugin::FakeRelease
+      Dist::Zilla::Plugin::NextRelease
+      Dist::Zilla::Plugin::Git::Commit
+      Dist::Zilla::Plugin::Git::Tag
+      Dist::Zilla::Plugin::Git::Push
+      Dist::Zilla::Plugin::GitHub::Update
+      Dist::Zilla::Plugin::Run::AfterRelease
+      Dist::Zilla::Plugin::Clean
 
 USAGE
 
@@ -135,7 +200,8 @@ ATTRIBUTES
 
  additional_test
 
-    Additional test plugin to use. Can be used multiple times.
+    Additional test plugin to use. Can be used multiple times to add more
+    than one additional test.
 
     By default the following tests are executed:
 
@@ -181,7 +247,8 @@ ATTRIBUTES
 
  disable_test
 
-    Specifies the tests you don't want to run.
+    Specifies the test you don't want to be run. Can bu used more than once
+    to disable multiple tests.
 
     Default: none (i.e., run all default and additional_test tests).
 
