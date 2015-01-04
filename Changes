@@ -2,5 +2,9 @@ Revision history for Perl module {{$dist->name}}
 
 {{$NEXT}}
 
+0.002     2015-01-04
+  * Added requirements for the non-core Dist::Zilla and Pod::Weaver plugins
+  * Load "CheckMetaResources" and "CheckPrereqsIndexed" only for CPAN distros
+
 0.001     2015-01-03
   * Initial release
