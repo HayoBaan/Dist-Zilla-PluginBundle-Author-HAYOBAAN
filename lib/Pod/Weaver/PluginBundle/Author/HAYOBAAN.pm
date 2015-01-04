@@ -118,6 +118,10 @@ Alternatively you can also add the following line to your F<dist.ini>
 use Pod::Weaver::Config::Assembler;
 sub _exp { Pod::Weaver::Config::Assembler->expand_package( $_[0] ) }
 
+# Required non-core Pod Weaver modules
+use Pod::Elemental::Transformer::List ();
+use Pod::Elemental::PerlMunger ();
+
 sub mvp_bundle_config {
     my @plugins;
     push @plugins, (
