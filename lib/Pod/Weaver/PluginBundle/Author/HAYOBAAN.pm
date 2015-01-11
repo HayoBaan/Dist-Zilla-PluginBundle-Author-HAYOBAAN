@@ -116,7 +116,7 @@ Alternatively you can also add the following line to your F<dist.ini>
 =cut
 
 use Pod::Weaver::Config::Assembler;
-sub _exp { Pod::Weaver::Config::Assembler->expand_package( $_[0] ) }
+sub _exp { return Pod::Weaver::Config::Assembler->expand_package( $_[0] ) }
 
 # Required non-core Pod Weaver modules
 use Pod::Elemental::Transformer::List ();

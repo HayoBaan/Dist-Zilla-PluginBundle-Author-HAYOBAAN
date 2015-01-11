@@ -126,7 +126,7 @@ with 'Dist::Zilla::Role::PluginBundle::Easy';
 use Dist::Zilla::Plugin::Git::NextVersion ();
 use Dist::Zilla::Plugin::OurPkgVersion ();
 use Dist::Zilla::Plugin::Git::GatherDir ();
-use Dist::Zilla::Plugin::PodWeaver ();
+use Dist::Zilla::Plugin::PodWeaver (); # Dist::Zilla::Plugin::SurgicalPodWeaver if enabled
 use Dist::Zilla::Plugin::ReadmeAnyFromPod ();
 use Dist::Zilla::Plugin::InstallGuide ();
 use Dist::Zilla::Plugin::MinimumPerl ();
@@ -162,10 +162,10 @@ use Dist::Zilla::Plugin::Git::Push ();
 use Dist::Zilla::Plugin::GitHub::Update ();
 use Dist::Zilla::Plugin::Clean ();
 
-sub mvp_multivalue_args { qw(git_remote run_after_build run_after_release additional_test disable_test) }
+sub mvp_multivalue_args { return qw(git_remote run_after_build run_after_release additional_test disable_test) }
 
 sub mvp_aliases {
-    {
+    return {
         local         => "local_release_only",
         local_only    => "local_release_only",
         local_release => "local_release_only",
@@ -392,7 +392,27 @@ has max_target_perl => (
     is      => 'ro',
     isa     => 'Str',
     lazy    => 1,
-    default => sub { $_[0]->payload->{max_target_perl} // '5.10.' },
+    default => sub { $_[0]->payload->{max_target_perl} // '5.10' },
+);
+
+=attr surgical
+
+If this is set to I<true>,
+L<SurgicalPodWeaver|Dist::Zilla::Plugin::SurgicalPodWeaver> is used
+instead of the standard L<PodWeaver|Dist::Zilla::Plugin::PodWeaver>
+plugin. L<SurgicalPodWeaver|Dist::Zilla::Plugin::SurgicalPodWeaver>
+only munges files that contain either a C<# ABSTRAC> or a C<#
+Dist::Zilla: +PodWeaver> line.
+
+Default: I<false>
+
+=cut
+
+has surgicalpod => (
+    is      => 'ro',
+    isa     => 'Str',
+    lazy    => 1,
+    default => sub { $_[0]->payload->{surgicalpod} // 0 },
 );
 
 =attr weaver_config
@@ -489,9 +509,9 @@ has meta_no_index_dirs => (
 # Helper function to add a test, checks for disabled tests
 sub _add_test {
     my $self = shift;
-    map {
+    return map {
         my $plugin = ref $_ ? $_->[0] : $_;
-        grep /^$plugin$/, @{$self->disable_test} ? () : $_;
+        grep { /^$plugin$/ } @{$self->disable_test} ? () : $_;
     } @_;
 }
 
@@ -508,7 +528,7 @@ sub configure {
         $self->local_release_only($local) if defined $local;
     }
 
-    $self->add_plugins(
+    return $self->add_plugins(
         #### Version ####
         $self->no_git ? (
             # Provide automatic version based on date
@@ -538,8 +558,8 @@ sub configure {
         #### PodWeaver ####
         # Automatically extends POD
         [
-            'PodWeaver' => {
-                config_plugin      => '@Author::HAYOBAAN',
+            ($self->surgicalpod ? 'SurgicalPodWeaver' : 'PodWeaver') => {
+                config_plugin      => $self->weaver_config,
                 replacer           => 'replace_with_comment',
                 post_code_replacer => 'replace_with_nothing',
             }
