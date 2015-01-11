@@ -4,7 +4,7 @@ Dist::Zilla::PluginBundle::Author::HAYOBAAN - Hayo Baan's Dist::Zilla configurat
 
 # VERSION
 
-version 0.002
+version 0.003
 
 # DESCRIPTION
 
@@ -226,6 +226,17 @@ from a higher version of perl than you wanted. (Having a lower required version
 of perl is okay.)
 
 Default: `5.10`
+
+## surgical
+
+If this is set to _true_,
+[SurgicalPodWeaver](https://metacpan.org/pod/Dist::Zilla::Plugin::SurgicalPodWeaver) is used
+instead of the standard [PodWeaver](https://metacpan.org/pod/Dist::Zilla::Plugin::PodWeaver)
+plugin. [SurgicalPodWeaver](https://metacpan.org/pod/Dist::Zilla::Plugin::SurgicalPodWeaver)
+only munges files that contain either a `# ABSTRAC` or a `#
+Dist::Zilla: +PodWeaver` line.
+
+Default: _false_
 
 ## weaver\_config
 
