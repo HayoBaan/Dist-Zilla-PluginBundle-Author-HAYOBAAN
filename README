@@ -5,7 +5,7 @@ NAME
 
 VERSION
 
-    version 0.002
+    version 0.003
 
 DESCRIPTION
 
@@ -261,6 +261,14 @@ ATTRIBUTES
     required version of perl is okay.)
 
     Default: 5.10
+
+ surgical
+
+    If this is set to true, SurgicalPodWeaver is used instead of the
+    standard PodWeaver plugin. SurgicalPodWeaver only munges files that
+    contain either a # ABSTRAC or a # Dist::Zilla: +PodWeaver line.
+
+    Default: false
 
  weaver_config
 
