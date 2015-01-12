@@ -87,7 +87,7 @@ following plugins are (conditionally) installed and configured:
 
 The following additional command-line option is available for the C<dzil> command.
 
-=head2 C<--local>, C<local_only>, C<local_release>, or C<--local_release_only>
+=head2 C<--local_release_only>
 
 Adding this option to the C<dzil release> command will:
 
@@ -99,7 +99,10 @@ Adding this option to the C<dzil release> command will:
 
 The C<run_after_release> code is still run so you can use this flag to
 "release" a development version locally for further use or testing,
-without e.g., increasing the version number.
+without e.g., fixing the new version number.
+
+C<--local>, C<--local_only>, and C<--local_release> are synonyms for
+this option.
 
 =head1 STABILITY
 
@@ -250,6 +253,9 @@ Setting this to I<true> will:
 * keep the version number the same,
 
 when I<releasing> the distribution.
+
+C<local>, C<local_only>, and C<local_release> are synonyms for
+this setting.
 
 =cut
 
