@@ -1,7 +1,9 @@
 Revision history for Perl module {{$dist->name}}
 
 {{$NEXT}}
-  * Added requirements
+
+0.004     2015-01-24
+  * Added missing requirements
   * Updated the documentation
 
 0.003     2015-01-11
