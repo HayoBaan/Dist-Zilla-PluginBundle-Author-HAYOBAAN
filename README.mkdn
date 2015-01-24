@@ -4,7 +4,7 @@ Dist::Zilla::PluginBundle::Author::HAYOBAAN - Hayo Baan's Dist::Zilla configurat
 
 # VERSION
 
-version 0.003
+version 0.004
 
 # DESCRIPTION
 
@@ -85,7 +85,7 @@ following plugins are (conditionally) installed and configured:
 
 The following additional command-line option is available for the `dzil` command.
 
-## `--local`, `local_only`, `local_release`, or `--local_release_only`
+## `--local_release_only`
 
 Adding this option to the `dzil release` command will:
 
@@ -96,7 +96,10 @@ Adding this option to the `dzil release` command will:
 
 The `run_after_release` code is still run so you can use this flag to
 "release" a development version locally for further use or testing,
-without e.g., increasing the version number.
+without e.g., fixing the new version number.
+
+`--local`, `--local_only`, and `--local_release` are synonyms for
+this option.
 
 # ATTRIBUTES
 
@@ -139,6 +142,9 @@ Setting this to _true_ will:
 - keep the version number the same,
 
 when _releasing_ the distribution.
+
+`local`, `local_only`, and `local_release` are synonyms for
+this setting.
 
 ## run\_after\_build
 
