@@ -19,11 +19,14 @@ It's main features are:
 * Region collectors for:
 
 =for :list
-* requires
-* construct
-* attr
-* method
-* func
+* requires (Requirements)
+* var (Variables)
+* func (Functions)
+* c_attr (Class Attributes)
+* attr (Attributes)
+* construct (Constructors)
+* c_method (Class Methods)
+* method (Methods)
 
 * Replacing the original pod statements with comments, allowing line
   numbers to stay the same between development and build versions.
@@ -52,6 +55,12 @@ It is roughly equivalent to the following weaver.ini:
   [Collect / REQUIREMENTS]
   command = requires
 
+  [Collect / VARIABLES]
+  command = var
+
+  [Collect / FUNCTIONS]
+  command = func
+
   [Collect / CLASS ATTRIBUTES]
   command = c_attr
 
@@ -66,12 +75,6 @@ It is roughly equivalent to the following weaver.ini:
 
   [Collect / METHODS]
   command = method
-
-  [Collect / VARIABLES]
-  command = var
-
-  [Collect / FUNCTIONS]
-  command = func
 
   [Leftovers]
 
@@ -144,13 +147,13 @@ sub mvp_bundle_config {
 
     for my $plugin (
         [ 'Requirements',     _exp('Collect'), { command => 'requires' } ],
+        [ 'Variables',        _exp('Collect'), { command => 'var' } ],
+        [ 'Functions',        _exp('Collect'), { command => 'func' } ],
         [ 'Class Attributes', _exp('Collect'), { command => 'c_attr' } ],
         [ 'Attributes',       _exp('Collect'), { command => 'attr' } ],
         [ 'Constructors',     _exp('Collect'), { command => 'construct' } ],
         [ 'Class Methods',    _exp('Collect'), { command => 'c_method' } ],
         [ 'Methods',          _exp('Collect'), { command => 'method' } ],
-        [ 'Variables',        _exp('Collect'), { command => 'var' } ],
-        [ 'Functions',        _exp('Collect'), { command => 'func' } ],
     ) {
         $plugin->[2]{header} = uc $plugin->[0];
         push @plugins, $plugin;
