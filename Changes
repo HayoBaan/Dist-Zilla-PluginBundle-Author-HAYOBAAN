@@ -2,6 +2,10 @@ Revision history for Perl module {{$dist->name}}
 
 {{$NEXT}}
 
+0.005     2015-03-27
+  * Corrected adding tests with a config (e.g., Test::MinimumVersion)
+  * Moved the Variables and Functions pod sections to the front
+
 0.004     2015-01-24
   * Added missing requirements
   * Updated the documentation
