@@ -517,13 +517,16 @@ has meta_no_index_dirs => (
     default => sub { [ qw(corpus) ] },
 );
 
+sub _is_disabled {
+    my $self = shift;
+    my $plugin = shift;
+    return grep { $_ eq $plugin } @{$self->disable_test}
+}
+
 # Helper function to add a test, checks for disabled tests
 sub _add_test {
     my $self = shift;
-    return map {
-        my $plugin = ref $_ ? $_->[0] : $_;
-        grep { /^$plugin$/ } @{$self->disable_test} ? () : $_;
-    } @_;
+    return grep { ! $self->_is_disabled(ref $_ ? $_->[0] : $_) } @_;
 }
 
 =for Pod::Coverage configure
