@@ -1,4 +1,5 @@
 package Dist::Zilla::PluginBundle::Author::HAYOBAAN;
+use 5.010;                      # For // operator
 use strict;
 use warnings;
 
@@ -160,6 +161,7 @@ use Dist::Zilla::Plugin::Test::CPAN::Meta::JSON ();
 use Test::CPAN::Meta::JSON ();
 use Test::CPAN::Meta ();
 use Test::Pod::Coverage ();
+use Pod::Coverage::TrustPod ();
 use Dist::Zilla::Plugin::Test::Pod::LinkCheck ();
 use Dist::Zilla::Plugin::Test::Synopsis ();
 use Dist::Zilla::Plugin::RunExtraTests ();
@@ -395,7 +397,7 @@ a F<minimum-version.t> test that'll warn you if you accidentally used features
 from a higher version of perl than you wanted. (Having a lower required version
 of perl is okay.)
 
-Default: C<5.10>
+Default: C<5.006>
 
 =cut
 
@@ -403,7 +405,7 @@ has max_target_perl => (
     is      => 'ro',
     isa     => 'Str',
     lazy    => 1,
-    default => sub { $_[0]->payload->{max_target_perl} // '5.10' },
+    default => sub { $_[0]->payload->{max_target_perl} // '5.006' },
 );
 
 =attr surgical
