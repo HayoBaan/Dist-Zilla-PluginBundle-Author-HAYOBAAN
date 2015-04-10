@@ -20,7 +20,7 @@ my %module_build_args = (
     "Hayo Baan <info\@hayobaan.nl>"
   ],
   "dist_name" => "Dist-Zilla-PluginBundle-Author-HAYOBAAN",
-  "dist_version" => "0.005",
+  "dist_version" => "0.006",
   "license" => "perl",
   "module_name" => "Dist::Zilla::PluginBundle::Author::HAYOBAAN",
   "recommends" => {},
@@ -69,6 +69,7 @@ my %module_build_args = (
     "Dist::Zilla::Role::PluginBundle::Easy" => 0,
     "Getopt::Long" => 0,
     "Moose" => "0.99",
+    "Pod::Coverage::TrustPod" => 0,
     "Pod::Elemental::PerlMunger" => 0,
     "Pod::Elemental::Transformer::List" => 0,
     "Pod::Weaver::Config::Assembler" => 0,

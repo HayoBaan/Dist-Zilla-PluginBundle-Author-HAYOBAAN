@@ -65,6 +65,7 @@ my %WriteMakefileArgs = (
     "Dist::Zilla::Role::PluginBundle::Easy" => 0,
     "Getopt::Long" => 0,
     "Moose" => "0.99",
+    "Pod::Coverage::TrustPod" => 0,
     "Pod::Elemental::PerlMunger" => 0,
     "Pod::Elemental::Transformer::List" => 0,
     "Pod::Weaver::Config::Assembler" => 0,
@@ -85,7 +86,7 @@ my %WriteMakefileArgs = (
     "Test::DZil" => 0,
     "Test::More" => "0.96"
   },
-  "VERSION" => "0.005",
+  "VERSION" => "0.006",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -143,6 +144,7 @@ my %FallbackPrereqs = (
   "Module::Build" => "0.28",
   "Moose" => "0.99",
   "Path::Tiny" => 0,
+  "Pod::Coverage::TrustPod" => 0,
   "Pod::Elemental::PerlMunger" => 0,
   "Pod::Elemental::Transformer::List" => 0,
   "Pod::Weaver::Config::Assembler" => 0,
