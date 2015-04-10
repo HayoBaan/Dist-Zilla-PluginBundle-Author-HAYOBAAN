@@ -2,6 +2,11 @@ Revision history for Perl module {{$dist->name}}
 
 {{$NEXT}}
 
+0.006     2015-04-10
+  * Added missing requirement (Pod::Coverage::TrustPod)
+  * Corrected default max_target_perl (now 5.006)
+  * Corrected version requirement of pluginbundle itself (5.010)
+
 0.005     2015-03-27
   * Corrected adding tests with a config (e.g., Test::MinimumVersion)
   * Moved the Variables and Functions pod sections to the front

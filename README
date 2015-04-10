@@ -5,7 +5,7 @@ NAME
 
 VERSION
 
-    version 0.005
+    version 0.006
 
 DESCRIPTION
 
@@ -265,7 +265,7 @@ ATTRIBUTES
     features from a higher version of perl than you wanted. (Having a lower
     required version of perl is okay.)
 
-    Default: 5.10
+    Default: 5.006
 
  surgical
 

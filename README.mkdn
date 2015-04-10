@@ -4,7 +4,7 @@ Dist::Zilla::PluginBundle::Author::HAYOBAAN - Hayo Baan's Dist::Zilla configurat
 
 # VERSION
 
-version 0.005
+version 0.006
 
 # DESCRIPTION
 
@@ -231,7 +231,7 @@ a `minimum-version.t` test that'll warn you if you accidentally used features
 from a higher version of perl than you wanted. (Having a lower required version
 of perl is okay.)
 
-Default: `5.10`
+Default: `5.006`
 
 ## surgical
 
