@@ -6,78 +6,75 @@ use warnings;
 # ABSTRACT: Hayo Baan's Dist::Zilla configuration
 # VERSION
 
-=for test_synopsis
-my @HAYOBAAN;
-
 =head1 DESCRIPTION
 
 This is a L<Dist::Zilla> PluginBundle. It installs and configures
 L<Dist::Zilla> plugins according to HAYOBAAN's preferences. The
 following plugins are (conditionally) installed and configured:
 
-  Dist::Zilla::Plugin::AutoVersion
-  Dist::Zilla::Plugin::Git::NextVersion
-  Dist::Zilla::Plugin::OurPkgVersion
-  Dist::Zilla::Plugin::GatherDir
-  Dist::Zilla::Plugin::Git::GatherDir
-  Dist::Zilla::Plugin::PruneCruft
-  Dist::Zilla::Plugin::ManifestSkip
-  Dist::Zilla::Plugin::PodWeaver
-  Dist::Zilla::Plugin::ReadmeAnyFromPod / Text
-  Dist::Zilla::Plugin::ReadmeAnyFromPod / Markdown
-  Dist::Zilla::Plugin::License
-  Dist::Zilla::Plugin::InstallGuide
-  Dist::Zilla::Plugin::MinimumPerl
-  Dist::Zilla::Plugin::AutoPrereqs
-  Dist::Zilla::Plugin::MetaNoIndex
-  Dist::Zilla::Plugin::GitHub::Meta
-  Dist::Zilla::Plugin::MetaJSON
-  Dist::Zilla::Plugin::MetaYAML
-  Dist::Zilla::Plugin::MetaProvides::Package
-  Dist::Zilla::Plugin::MetaProvides::Class
-  Dist::Zilla::Plugin::ExecDir
-  Dist::Zilla::Plugin::ShareDir
-  Dist::Zilla::Plugin::MakeMaker
-  Dist::Zilla::Plugin::ModuleBuild
-  Dist::Zilla::Plugin::Manifest
-  Dist::Zilla::Plugin::CopyFilesFromBuild
-  Dist::Zilla::Plugin::Run::AfterBuild
-  Dist::Zilla::Plugin::CheckChangesHasContent
-  Dist::Zilla::Plugin::Git::CheckFor::CorrectBranch
-  Dist::Zilla::Plugin::Git::Check
-  Dist::Zilla::Plugin::CheckMetaResources
-  Dist::Zilla::Plugin::CheckPrereqsIndexed
-  Dist::Zilla::Plugin::Test::Compile
-  Dist::Zilla::Plugin::Test::Perl::Critic
-  Dist::Zilla::Plugin::Test::EOL
-  Dist::Zilla::Plugin::Test::NoTabs
-  Dist::Zilla::Plugin::Test::Version
-  Dist::Zilla::Plugin::Test::MinimumVersion
-  Dist::Zilla::Plugin::MojibakeTests
-  Dist::Zilla::Plugin::Test::Kwalitee
-  Dist::Zilla::Plugin::Test::Portability
-  Dist::Zilla::Plugin::Test::UnusedVars
-  Dist::Zilla::Plugin::Test::CPAN::Changes
-  Dist::Zilla::Plugin::Test::DistManifest
-  Dist::Zilla::Plugin::Test::CPAN::Meta::JSON
-  Dist::Zilla::Plugin::MetaTests
-  Dist::Zilla::Plugin::PodSyntaxTests
-  Dist::Zilla::Plugin::PodCoverageTests
-  Dist::Zilla::Plugin::Test::Pod::LinkCheck
-  Dist::Zilla::Plugin::Test::Synopsis
-  Dist::Zilla::Plugin::TestRelease
-  Dist::Zilla::Plugin::RunExtraTests
-  Dist::Zilla::Plugin::ConfirmRelease
-  Dist::Zilla::Plugin::UploadToCPAN
-  Dist::Zilla::Plugin::SchwartzRatio
-  Dist::Zilla::Plugin::FakeRelease
-  Dist::Zilla::Plugin::NextRelease
-  Dist::Zilla::Plugin::Git::Commit
-  Dist::Zilla::Plugin::Git::Tag
-  Dist::Zilla::Plugin::Git::Push
-  Dist::Zilla::Plugin::GitHub::Update
-  Dist::Zilla::Plugin::Run::AfterRelease
-  Dist::Zilla::Plugin::Clean
+=for :list
+* L<AutoVersion|Dist::Zilla::Plugin::AutoVersion>
+* L<Author::HAYOBAAN::NextVersion|Dist::Zilla::Plugin::Author::HAYOBAAN::NextVersion>
+* L<OurPkgVersion|Dist::Zilla::Plugin::OurPkgVersion>
+* L<GatherDir|Dist::Zilla::Plugin::GatherDir>
+* L<Git::GatherDir|Dist::Zilla::Plugin::Git::GatherDir>
+* L<PruneCruft|Dist::Zilla::Plugin::PruneCruft>
+* L<ManifestSkip|Dist::Zilla::Plugin::ManifestSkip>
+* L<PodWeaver|Dist::Zilla::Plugin::PodWeaver>
+* L<ReadmeAnyFromPod|Dist::Zilla::Plugin::ReadmeAnyFromPod> (both Text and Markdown generation are configured)
+* L<License|Dist::Zilla::Plugin::License>
+* L<InstallGuide|Dist::Zilla::Plugin::InstallGuide>
+* L<MinimumPerl|Dist::Zilla::Plugin::MinimumPerl>
+* L<AutoPrereqs|Dist::Zilla::Plugin::AutoPrereqs>
+* L<MetaNoIndex|Dist::Zilla::Plugin::MetaNoIndex>
+* L<GitHub::Meta|Dist::Zilla::Plugin::GitHub::Meta>
+* L<MetaJSON|Dist::Zilla::Plugin::MetaJSON>
+* L<MetaYAML|Dist::Zilla::Plugin::MetaYAML>
+* L<MetaProvides::Package|Dist::Zilla::Plugin::MetaProvides::Package>
+* L<MetaProvides::Class|Dist::Zilla::Plugin::MetaProvides::Class>
+* L<ExecDir|Dist::Zilla::Plugin::ExecDir>
+* L<ShareDir|Dist::Zilla::Plugin::ShareDir>
+* L<MakeMaker|Dist::Zilla::Plugin::MakeMaker>
+* L<ModuleBuild|Dist::Zilla::Plugin::ModuleBuild>
+* L<Manifest|Dist::Zilla::Plugin::Manifest>
+* L<CopyFilesFromBuild|Dist::Zilla::Plugin::CopyFilesFromBuild>
+* L<Run::AfterBuild|Dist::Zilla::Plugin::Run::AfterBuild>
+* L<CheckChangesHasContent|Dist::Zilla::Plugin::CheckChangesHasContent>
+* L<Git::CheckFor::CorrectBranch|Dist::Zilla::Plugin::Git::CheckFor::CorrectBranch>
+* L<Git::Check|Dist::Zilla::Plugin::Git::Check>
+* L<CheckMetaResources|Dist::Zilla::Plugin::CheckMetaResources>
+* L<CheckPrereqsIndexed|Dist::Zilla::Plugin::CheckPrereqsIndexed>
+* L<Test::Compile|Dist::Zilla::Plugin::Test::Compile>
+* L<Test::Perl::Critic|Dist::Zilla::Plugin::Test::Perl::Critic>
+* L<Test::EOL|Dist::Zilla::Plugin::Test::EOL>
+* L<Test::NoTabs|Dist::Zilla::Plugin::Test::NoTabs>
+* L<Test::Version|Dist::Zilla::Plugin::Test::Version>
+* L<Test::MinimumVersion|Dist::Zilla::Plugin::Test::MinimumVersion>
+* L<MojibakeTests|Dist::Zilla::Plugin::MojibakeTests>
+* L<Test::Kwalitee|Dist::Zilla::Plugin::Test::Kwalitee>
+* L<Test::Portability|Dist::Zilla::Plugin::Test::Portability>
+* L<Test::UnusedVars|Dist::Zilla::Plugin::Test::UnusedVars>
+* L<Test::CPAN::Changes|Dist::Zilla::Plugin::Test::CPAN::Changes>
+* L<Test::DistManifest|Dist::Zilla::Plugin::Test::DistManifest>
+* L<Test::CPAN::Meta::JSON|Dist::Zilla::Plugin::Test::CPAN::Meta::JSON>
+* L<MetaTests|Dist::Zilla::Plugin::MetaTests>
+* L<PodSyntaxTests|Dist::Zilla::Plugin::PodSyntaxTests>
+* L<PodCoverageTests|Dist::Zilla::Plugin::PodCoverageTests>
+* L<Test::Pod::LinkCheck|Dist::Zilla::Plugin::Test::Pod::LinkCheck>
+* L<Test::Synopsis|Dist::Zilla::Plugin::Test::Synopsis>
+* L<TestRelease|Dist::Zilla::Plugin::TestRelease>
+* L<RunExtraTests|Dist::Zilla::Plugin::RunExtraTests>
+* L<ConfirmRelease|Dist::Zilla::Plugin::ConfirmRelease>
+* L<UploadToCPAN|Dist::Zilla::Plugin::UploadToCPAN>
+* L<SchwartzRatio|Dist::Zilla::Plugin::SchwartzRatio>
+* L<FakeRelease|Dist::Zilla::Plugin::FakeRelease>
+* L<NextRelease|Dist::Zilla::Plugin::NextRelease>
+* L<Git::Commit|Dist::Zilla::Plugin::Git::Commit>
+* L<Git::Tag|Dist::Zilla::Plugin::Git::Tag>
+* L<Git::Push|Dist::Zilla::Plugin::Git::Push>
+* L<GitHub::Update|Dist::Zilla::Plugin::GitHub::Update>
+* L<Run::AfterRelease|Dist::Zilla::Plugin::Run::AfterRelease>
+* L<Clean|Dist::Zilla::Plugin::Clean>
 
 =head1 USAGE
 
@@ -90,32 +87,18 @@ The following additional command-line option is available for the C<dzil> comman
 
 =head2 C<--local_release_only>
 
-Adding this option to the C<dzil release> command will:
-
-=for :list
-* inhibit uploading to CPAN (if applicable),
-* inhibit git checking, tagging, commiting, and pushing,
-* inhibit Changes file checking
-* keep the version number the same.
-
-The C<run_after_release> code is still run so you can use this flag to
-"release" a development version locally for further use or testing,
-without e.g., fixing the new version number.
+Adding this option will set the L</local_release_only> attribute to true.
 
 C<--local>, C<--local_only>, and C<--local_release> are synonyms for
 this option.
-
-=head1 STABILITY
-
-This module is still under development.
 
 =head1 CREDITS
 
 I took inspiration from many people's L<Dist::Zilla> and L<Pod::Weaver> PluginBundles. Most notably from:
 
 =for :list
-* David Golden L<DAGOLDEN|https://metacpan.org/pod/Dist::Zilla::PluginBundle::DAGOLDEN>
-* Mike Dohorty L<DOHORTY|https://metacpan.org/pod/Dist::Zilla::PluginBundle::Author::DOHORTY>
+* David Golden L<DAGOLDEN|Dist::Zilla::PluginBundle::DAGOLDEN>
+* Mike Doherty L<DOHERTY|Dist::Zilla::PluginBundle::Author::DOHERTY>
 
 =cut
 
@@ -127,50 +110,49 @@ use Dist::Zilla 5.014; # default_jobs
 with 'Dist::Zilla::Role::PluginBundle::Easy';
 
 # Required non-core Dist::Zilla plugins:
-use Dist::Zilla::Plugin::Git::NextVersion ();
-use Dist::Zilla::Plugin::OurPkgVersion ();
-use Dist::Zilla::Plugin::Git::GatherDir ();
-use Dist::Zilla::Plugin::PodWeaver (); # Dist::Zilla::Plugin::SurgicalPodWeaver if enabled
-use Dist::Zilla::Plugin::ReadmeAnyFromPod ();
-use Dist::Zilla::Plugin::InstallGuide ();
-use Dist::Zilla::Plugin::MinimumPerl ();
-use Dist::Zilla::Plugin::GitHub::Meta ();
-use Dist::Zilla::Plugin::MetaProvides::Package ();
-use Dist::Zilla::Plugin::MetaProvides::Class ();
-use Dist::Zilla::Plugin::CopyFilesFromBuild ();
-use Dist::Zilla::Plugin::Run ();
-use Dist::Zilla::Plugin::CheckChangesHasContent ();
-use Dist::Zilla::Plugin::Git::CheckFor::CorrectBranch ();
-use Dist::Zilla::Plugin::Git::Check ();
-use Dist::Zilla::Plugin::CheckMetaResources ();
-use Dist::Zilla::Plugin::CheckPrereqsIndexed ();
-use Dist::Zilla::Plugin::Test::Compile ();
-use Dist::Zilla::Plugin::Test::Perl::Critic ();
-use Test::Perl::Critic ();
-use Dist::Zilla::Plugin::Test::EOL ();
-use Dist::Zilla::Plugin::Test::NoTabs ();
-use Dist::Zilla::Plugin::Test::Version ();
-use Dist::Zilla::Plugin::Test::MinimumVersion ();
-use Dist::Zilla::Plugin::MojibakeTests ();
-use Dist::Zilla::Plugin::Test::Kwalitee ();
-use Dist::Zilla::Plugin::Test::Portability ();
-use Dist::Zilla::Plugin::Test::UnusedVars ();
-use Dist::Zilla::Plugin::Test::CPAN::Changes ();
-use Dist::Zilla::Plugin::Test::DistManifest ();
-use Dist::Zilla::Plugin::Test::CPAN::Meta::JSON ();
-use Test::CPAN::Meta::JSON ();
-use Test::CPAN::Meta ();
-use Test::Pod::Coverage ();
-use Pod::Coverage::TrustPod ();
-use Dist::Zilla::Plugin::Test::Pod::LinkCheck ();
-use Dist::Zilla::Plugin::Test::Synopsis ();
-use Dist::Zilla::Plugin::RunExtraTests ();
-use Dist::Zilla::Plugin::SchwartzRatio ();
-use Dist::Zilla::Plugin::Git::Commit ();
-use Dist::Zilla::Plugin::Git::Tag ();
-use Dist::Zilla::Plugin::Git::Push ();
-use Dist::Zilla::Plugin::GitHub::Update ();
-use Dist::Zilla::Plugin::Clean ();
+require Dist::Zilla::Plugin::OurPkgVersion;
+require Dist::Zilla::Plugin::Git::GatherDir;
+require Dist::Zilla::Plugin::PodWeaver; # And Dist::Zilla::Plugin::SurgicalPodWeaver if enabled
+require Dist::Zilla::Plugin::ReadmeAnyFromPod;
+require Dist::Zilla::Plugin::InstallGuide;
+require Dist::Zilla::Plugin::MinimumPerl;
+require Dist::Zilla::Plugin::GitHub::Meta;
+require Dist::Zilla::Plugin::MetaProvides::Package;
+require Dist::Zilla::Plugin::MetaProvides::Class;
+require Dist::Zilla::Plugin::CopyFilesFromBuild;
+require Dist::Zilla::Plugin::Run;
+require Dist::Zilla::Plugin::CheckChangesHasContent;
+require Dist::Zilla::Plugin::Git::CheckFor::CorrectBranch;
+require Dist::Zilla::Plugin::Git::Check;
+require Dist::Zilla::Plugin::CheckMetaResources;
+require Dist::Zilla::Plugin::CheckPrereqsIndexed;
+require Dist::Zilla::Plugin::Test::Compile;
+require Dist::Zilla::Plugin::Test::Perl::Critic;
+require Test::Perl::Critic;
+require Dist::Zilla::Plugin::Test::EOL;
+require Dist::Zilla::Plugin::Test::NoTabs;
+require Dist::Zilla::Plugin::Test::Version;
+require Dist::Zilla::Plugin::Test::MinimumVersion;
+require Dist::Zilla::Plugin::MojibakeTests;
+require Dist::Zilla::Plugin::Test::Kwalitee;
+require Dist::Zilla::Plugin::Test::Portability;
+require Dist::Zilla::Plugin::Test::UnusedVars;
+require Dist::Zilla::Plugin::Test::CPAN::Changes;
+require Dist::Zilla::Plugin::Test::DistManifest;
+require Dist::Zilla::Plugin::Test::CPAN::Meta::JSON;
+require Test::CPAN::Meta::JSON;
+require Test::CPAN::Meta;
+require Test::Pod::Coverage;
+require Pod::Coverage::TrustPod;
+require Dist::Zilla::Plugin::Test::Pod::LinkCheck;
+require Dist::Zilla::Plugin::Test::Synopsis;
+require Dist::Zilla::Plugin::RunExtraTests;
+require Dist::Zilla::Plugin::SchwartzRatio;
+require Dist::Zilla::Plugin::Git::Commit;
+require Dist::Zilla::Plugin::Git::Tag;
+require Dist::Zilla::Plugin::Git::Push;
+require Dist::Zilla::Plugin::GitHub::Update;
+require Dist::Zilla::Plugin::Clean;
 
 sub mvp_multivalue_args { return qw(git_remote run_after_build run_after_release additional_test disable_test) }
 
@@ -255,11 +237,14 @@ has no_git => (
 Setting this to I<true> will:
 
 =for :list
-* inhibit uploading to CPAN (if applicable),
+* inhibit uploading to CPAN,
 * inhibit git checking, tagging, commiting, and pushing,
-* keep the version number the same,
+* inhibit checking the F<Changes> file,
+* keep the version number the same.
 
-when I<releasing> the distribution.
+When releasing, the C<run_after_release> code is still run so you can use this flag to
+"release" a development version locally for further use or testing,
+without e.g., fixing a new version number.
 
 C<local>, C<local_only>, and C<local_release> are synonyms for
 this setting.
@@ -414,7 +399,7 @@ If this is set to I<true>,
 L<SurgicalPodWeaver|Dist::Zilla::Plugin::SurgicalPodWeaver> is used
 instead of the standard L<PodWeaver|Dist::Zilla::Plugin::PodWeaver>
 plugin. L<SurgicalPodWeaver|Dist::Zilla::Plugin::SurgicalPodWeaver>
-only munges files that contain either a C<# ABSTRAC> or a C<#
+only munges files that contain either a C<# ABSTRACT> or a C<#
 Dist::Zilla: +PodWeaver> line.
 
 Default: I<false>
@@ -552,10 +537,11 @@ sub configure {
         ) : (
             # Provide a version number by bumping the last git release tag
             [
-                'Git::NextVersion' => {
-                    first_version     => 0.001,                 # First version = 0.001
-                    version_by_branch => 0,                     # Set to 1 if doing maintenance branch
-                    version_regexp    => $self->version_regexp, # Regexp for version format
+                'Author::HAYOBAAN::NextVersion' => {
+                    first_version        => 0.001,                    # First version = 0.001
+                    version_by_branch    => 0,                        # Set to 1 if doing maintenance branch
+                    version_regexp       => $self->version_regexp,    # Regexp for version format
+                    inhibit_version_bump => $self->local_release_only # Local releases do not increase version number
                 },
             ],
         ),
@@ -765,4 +751,5 @@ sub configure {
     );
 }
 
+__PACKAGE__->meta->make_immutable;
 1;
