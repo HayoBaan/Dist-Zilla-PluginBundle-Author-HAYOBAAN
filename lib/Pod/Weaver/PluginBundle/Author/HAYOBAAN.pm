@@ -111,7 +111,7 @@ Alternatively you can also add the following line to your F<dist.ini>
 * L<Pod::Weaver>
 * L<Pod::Elemental::Transformer::List>
 * L<Pod::Elemental::PerlMunger>
-* L<Pod::Weaver::Section::Bugs>
+* L<Pod::Weaver::Section::Autor::HAYOBAAN::Bugs>
 * L<Dist::Zilla::Plugin::PodWeaver>
 
 =for Pod::Coverage mvp_bundle_config
@@ -160,20 +160,20 @@ sub mvp_bundle_config {
     }
 
     push @plugins, (
-        [ '@HAYOBAAN/Leftovers',      _exp('Leftovers'),       {} ],
+        [ '@HAYOBAAN/Leftovers',     _exp('Leftovers'),              {} ],
 
-        [ '@HAYOBAAN/postlude',       _exp('Region'),          { region_name => 'postlude' } ],
+        [ '@HAYOBAAN/postlude',      _exp('Region'),                 { region_name => 'postlude' } ],
 
-        [ '@HAYOBAAN/Bugs',           _exp('Bugs'),            {} ],
+        [ '@HAYOBAAN/Bugs',          _exp('Author::HAYOBAAN::Bugs'), {} ],
 
-        [ '@HAYOBAAN/Stability',      _exp('Generic'),         { header      => 'STABILITY' } ],
-        [ '@HAYOBAAN/Compatibility',  _exp('Generic'),         { header      => 'COMPATIBILITY' } ],
+        [ '@HAYOBAAN/Stability',     _exp('Generic'),                { header      => 'STABILITY' } ],
+        [ '@HAYOBAAN/Compatibility', _exp('Generic'),                { header      => 'COMPATIBILITY' } ],
 
-        [ '@HAYOBAAN/SeeAlso',        _exp('Generic'),         { header      => 'SEE ALSO' } ],
-        [ '@HAYOBAAN/Credits',        _exp('Generic'),         { header      => 'CREDITS' } ],
+        [ '@HAYOBAAN/SeeAlso',       _exp('Generic'),                { header      => 'SEE ALSO' } ],
+        [ '@HAYOBAAN/Credits',       _exp('Generic'),                { header      => 'CREDITS' } ],
 
-        [ '@HAYOBAAN/Authors',        _exp('Authors'),         {} ],
-        [ '@HAYOBAAN/Legal',          _exp('Legal'),           {} ],
+        [ '@HAYOBAAN/Authors',       _exp('Authors'),                {} ],
+        [ '@HAYOBAAN/Legal',         _exp('Legal'),                  {} ],
       );
 
     return @plugins;
