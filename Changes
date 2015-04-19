@@ -2,6 +2,12 @@ Revision history for Perl module {{$dist->name}}
 
 {{$NEXT}}
 
+0.007     2015-04-19
+  * Added own (configurable) plugin to provide next version
+  * Added own version of the pod BUGS section plugin
+  * Documentation enhancements and corrections
+  * New author e-mail address
+
 0.006     2015-04-10
   * Added missing requirement (Pod::Coverage::TrustPod)
   * Corrected default max_target_perl (now 5.006)
