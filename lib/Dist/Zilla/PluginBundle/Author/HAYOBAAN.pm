@@ -20,7 +20,7 @@ following plugins are (conditionally) installed and configured:
 * L<Git::GatherDir|Dist::Zilla::Plugin::Git::GatherDir>
 * L<PruneCruft|Dist::Zilla::Plugin::PruneCruft>
 * L<ManifestSkip|Dist::Zilla::Plugin::ManifestSkip>
-* L<PodWeaver|Dist::Zilla::Plugin::PodWeaver>
+* L<PodWeaver|Dist::Zilla::Plugin::PodWeaver> (or L<SurgicalPodWeaver|Dist::Zilla::Plugin::SurgicalPodWeaver> when enabled)
 * L<ReadmeAnyFromPod|Dist::Zilla::Plugin::ReadmeAnyFromPod> (both Text and Markdown generation are configured)
 * L<License|Dist::Zilla::Plugin::License>
 * L<InstallGuide|Dist::Zilla::Plugin::InstallGuide>
@@ -85,12 +85,37 @@ following plugins are (conditionally) installed and configured:
 
 The following additional command-line option is available for the C<dzil> command.
 
-=head2 C<--local_release_only>
+=head2 --local-release-only
 
-Adding this option will set the L</local_release_only> attribute to true.
+Adding this option to the C<dzil> command will set the
+L</local_release_only> attribute to I<true>.
 
-C<--local>, C<--local_only>, and C<--local_release> are synonyms for
+C<--local>, C<--local-only>, and C<--local-release> are synonyms for
 this option.
+
+=head2 --make-minor-release
+
+Adding this option to the C<dzil> command will set the
+L</make_minor_release> attribute to I<true>.
+
+C<--minor>, C<--minor-release>, and C<--make-minor> are synonyms for
+this option.
+
+Note: Implied with L</--local-release-only>, overriden by L</--make-major-release>.
+
+=head2 --make-major-release
+
+Adding this option to the C<dzil> command will set the
+L</make_major_release> attribute to true.
+
+C<--major>, C<--major-release>, and C<--make-major> are synonyms for
+this option.
+
+Note: Overrides L<--make-minor-release>.
+
+=head2 --keep-version
+
+Adding this option will force keep the version number the same (regardless of the other settings above!).
 
 =head1 CREDITS
 
@@ -161,6 +186,12 @@ sub mvp_aliases {
         local         => "local_release_only",
         local_only    => "local_release_only",
         local_release => "local_release_only",
+        minor         => "make_minor_release",
+        minor_relase  => "make_minor_release",
+        make_minor    => "make_minor_release",
+        major         => "make_major_release",
+        major_relase  => "make_major_release",
+        make_major    => "make_major_release",
     }
 }
 
@@ -188,7 +219,7 @@ has is_cpan => (
 
 Specifies that the distribution's repository is hosted on GitHub.
 
-Default: I<false> (note: setting C<is_cpan> enforces C<is_github_hosted>
+Default: I<false> (note: setting L</is_cpan> enforces L</is_github_hosted>
 to I<true>)
 
 =cut
@@ -220,7 +251,7 @@ has git_remote => (
 
 Specifies that the distribution is not under git version control.
 
-Default: I<false> (note: setting C<is_github_hosted> enforces this
+Default: I<false> (note: setting L</is_github_hosted> enforces this
 setting to I<false>)
 
 =cut
@@ -240,14 +271,16 @@ Setting this to I<true> will:
 * inhibit uploading to CPAN,
 * inhibit git checking, tagging, commiting, and pushing,
 * inhibit checking the F<Changes> file,
-* keep the version number the same.
+* include a minor version number (e.g., C<_001>) in the version string (see L</make_minor_release>).
 
-When releasing, the C<run_after_release> code is still run so you can use this flag to
-"release" a development version locally for further use or testing,
-without e.g., fixing a new version number.
+When releasing, the L</run_after_release> code is still run so you can
+use this flag to I<release> a development version locally for further
+use or testing, without e.g., fixing a new major version number.
 
 C<local>, C<local_only>, and C<local_release> are synonyms for
 this setting.
+
+Default: I<false>
 
 =cut
 
@@ -258,10 +291,63 @@ has local_release_only => (
     default => sub { $_[0]->payload->{local_release_only} }
 );
 
+=attr make_minor_release
+
+If the version string does not yet have a minor release number, this will add one with the value of C<_001>.
+
+C<minor>, C<minor_release>, and C<make_minor> are synonyms for this
+setting.
+
+Default: value of L</local_release_only>
+
+Note: Overridden by L</make_major_release>.
+
+=cut
+
+has make_minor_release => (
+    is      => 'rw',
+    isa     => 'Bool',
+    lazy    => 1,
+    default => sub { exists $_[0]->payload->{make_minor_release} ? $_[0]->payload->{make_minor_release} : $_[0]->local_release_only }
+);
+
+=attr make_major_release
+
+Removes any minor version from the version string.
+
+C<major>, C<major_release>, and C<make_major> are synonyms for this
+setting.
+
+Default: I<false>
+
+Note: Overrides L</make_minor_release>.
+
+=cut
+
+has make_major_release => (
+    is      => 'rw',
+    isa     => 'Bool',
+    lazy    => 1,
+    default => sub { $_[0]->payload->{make_major_release} }
+);
+
+=attr keep_version
+
+Will keep the current version number the same when building/releasing.
+
+=cut
+
+has keep_version => (
+    is      => 'rw',
+    isa     => 'Bool',
+    lazy    => 1,
+    default => sub { $_[0]->payload->{keep_version} }
+);
+
 =attr run_after_build
 
 Specifies commands to run after the release has been built (but not yet released). Multiple
-C<run_after_build> commands can be specified.
+L</run_after_build> commands can be specified.
 
 The commands are run from the root of your development tree and has the following special symbols available:
 
@@ -291,7 +377,7 @@ automatically install your distibution after releasing. Multiple
 run_after_release commands can be specified.
 
 The commands are run from the root of your development tree and has
-the same symbols available as the C<run_after_build>, plus the
+the same symbols available as the L</run_after_build>, plus the
 following:
 
 =for :list
@@ -330,24 +416,24 @@ than one additional test.
 By default the following tests are executed:
 
 =for :list
-* C<Test::Compile> -- Checks if perl code compiles correctly
-* C<Test::Perl::Critic> -- Checks Perl source code for best-practices
-* C<Test::EOL> -- Checks line endings
-* C<Test::NoTabs> -- Checks for the use of tabs
-* C<Test::Version> -- Checks to see if each module has the correct version set
-* C<Test::MinimumVersion> -- Checks the minimum perl version, using C<max_target_perl>
-* C<MojibakeTests> -- Checks source encoding
-* C<Test::Kwalitee> -- Checks the Kwalitee
-* C<Test::Portability> -- Checks portability of code
-* C<Test::UnusedVars> -- Checks for unused variables
-* C<Test::CPAN::Changes> -- Validation of the Changes file
-* C<Test::DistManifest> -- Validation of the MANIFEST file
-* C<Test::CPAN::Meta::JSON> -- Validation of the META.json file -- only when hosted on GitHub
-* C<MetaTests> -- Validation of the META.yml file -- only when hosted on GitHub
-* C<PodSyntaxTests> -- Checks pod syntax
-* C<PodCoverageTests> -- Checks pod coverage
-* C<Test::Pod::LinkCheck> -- Checks pod links
-* C<Test::Synopsis> -- Checks the pod synopsis
+* L<Test::Compile|Dist::Zilla::Plugin::Test::Compile> -- Checks if perl code compiles correctly
+* L<Test::Perl::Critic|Dist::Zilla::Plugin::Test::Perl::Critic> -- Checks Perl source code for best-practices
+* L<Test::EOL|Dist::Zilla::Plugin::Test::EOL> -- Checks line endings
+* L<Test::NoTabs|Dist::Zilla::Plugin::Test::NoTabs> -- Checks for the use of tabs
+* L<Test::Version|Dist::Zilla::Plugin::Test::Version> -- Checks to see if each module has the correct version set
+* L<Test::MinimumVersion|Dist::Zilla::Plugin::Test::MinimumVersion> -- Checks the minimum perl version, using L</max_target_perl>
+* L<MojibakeTests|Dist::Zilla::Plugin::MojibakeTests> -- Checks source encoding
+* L<Test::Kwalitee|Dist::Zilla::Plugin::Test::Kwalitee> -- Checks the Kwalitee
+* L<Test::Portability|Dist::Zilla::Plugin::Test::Portability> -- Checks portability of code
+* L<Test::UnusedVars|Dist::Zilla::Plugin::Test::UnusedVars> -- Checks for unused variables
+* L<Test::CPAN::Changes|Dist::Zilla::Plugin::Test::CPAN::Changes> -- Validation of the Changes file
+* L<Test::DistManifest|Dist::Zilla::Plugin::Test::DistManifest> -- Validation of the MANIFEST file
+* L<Test::CPAN::Meta::JSON|Dist::Zilla::Plugin::Test::CPAN::Meta::JSON> -- Validation of the META.json file -- only when hosted on GitHub
+* L<MetaTests|Dist::Zilla::Plugin::MetaTests> -- Validation of the META.yml file -- only when hosted on GitHub
+* L<PodSyntaxTests|Dist::Zilla::Plugin::PodSyntaxTests> -- Checks pod syntax
+* L<PodCoverageTests|Dist::Zilla::Plugin::PodCoverageTests> -- Checks pod coverage
+* L<Test::Pod::LinkCheck|Dist::Zilla::Plugin::Test::Pod::LinkCheck> -- Checks pod links
+* L<Test::Synopsis|Dist::Zilla::Plugin::Test::Synopsis> -- Checks the pod synopsis
 
 =cut
 
@@ -363,7 +449,7 @@ has additional_test => (
 Specifies the test you don't want to be run. Can bu used more than
 once to disable multiple tests.
 
-Default: I<none> (i.e., run all default and C<additional_test> tests).
+Default: I<none> (i.e., run all default and L</additional_test> tests).
 
 =cut
 
@@ -377,7 +463,7 @@ has disable_test => (
 =attr max_target_perl
 
 Defines the highest minimum version of perl you intend to require.
-This is passed to L<Dist::Zilla::Plugin::Test::MinimumVersion>, which generates
+This is passed to L<Test::MinimumVersion|Dist::Zilla::Plugin::Test::MinimumVersion>, which generates
 a F<minimum-version.t> test that'll warn you if you accidentally used features
 from a higher version of perl than you wanted. (Having a lower required version
 of perl is okay.)
@@ -449,9 +535,9 @@ has tag_format => (
 Specifies the regexp for versions (see
 L<Git::NextVersion|Dist::Zilla::Plugin::Git::NextVersion> for details).
 
-Default: C<^v?([\d.]+)(?:-TRIAL)?$>
+Default: C<^v?([\d.]+(?:_\d+)?)(?:-TRIAL)?$>
 
-Note: only used in case of git version controlled repositories
+Note: Only used in case of git version controlled repositories
 (L<AutoVersion|Dist::Zilla::Plugin::AutoVersion> is used in case of
 non-git version controlled repositories).
 
@@ -461,7 +547,7 @@ has version_regexp => (
     is      => 'ro',
     isa     => 'Str',
     lazy    => 1,
-    default => sub { $_[0]->payload->{version_regexp} // '^v?([\d.]+)(?:-TRIAL)?$' },
+    default => sub { $_[0]->payload->{version_regexp} // '^v?([\d.]+(?:_\d+)?)(?:-TRIAL)?$' },
 );
 
 ################################################################################
@@ -524,9 +610,22 @@ sub configure {
     my $self = shift;
 
     {
+        # Command-line argument processing
+
+        # Local-relase-only
         my $local;
-        GetOptions('local|local_only|local_release|local-release-only!' => \$local);
+        GetOptions('local|local-only|local-release|local-release-only!' => \$local);
         $self->local_release_only($local) if defined $local;
+
+        # Make-minor-release
+        my $minor;
+        GetOptions('minor|minor-relase|make-minor|make-minor-release!' => \$minor);
+        $self->make_minor_release($minor) if defined $minor;
+
+        # Make-major-release
+        my $major;
+        GetOptions('major|major-relase|make-major|make-major-release!' => \$major);
+        $self->make_major_release($major) if defined $major;
     }
 
     return $self->add_plugins(
@@ -538,10 +637,12 @@ sub configure {
             # Provide a version number by bumping the last git release tag
             [
                 'Author::HAYOBAAN::NextVersion' => {
-                    first_version        => 0.001,                    # First version = 0.001
-                    version_by_branch    => 0,                        # Set to 1 if doing maintenance branch
-                    version_regexp       => $self->version_regexp,    # Regexp for version format
-                    inhibit_version_bump => $self->local_release_only # Local releases do not increase version number
+                    first_version         => '0.001',                    # First version = 0.001
+                    version_by_branch     => 0,                          # Set to 1 if doing maintenance branch
+                    version_regexp        => $self->version_regexp,      # Regexp for version format
+                    include_minor_version => $self->make_minor_release,  # Minor release?
+                    remove_minor_version  => $self->make_major_release,  # Force major release?
+                    inhibit_version_bump  => $self->keep_version,        # Keep release?
                 },
             ],
         ),

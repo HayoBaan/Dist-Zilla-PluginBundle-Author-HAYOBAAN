@@ -2,24 +2,49 @@ package Dist::Zilla::Plugin::Author::HAYOBAAN::NextVersion;
 use strict;
 use warnings;
 
-# ABSTRACT: Adapted version of Git::NextVersion to allow influencing version bumping.
+# ABSTRACT: Adapted version of the Git::NextVersion plugin to allow influencing version bumping.
 # VERSION
 
 =head1 DESCRIPTION
 
-Provides the next version number, just as Git::NextVersion would
-do. This module just adds the ability to inhibit bumping the version
-by setting the attribute C<inhibit_version_bump> to a true value.
+Provides the next version number, just as
+L<Git::NextVersion|Dist::Zilla::Plugin::Git::NextVersion> would do,
+including specifying the version using the C<V> environment variable.
+
+Unlike L<Git::NextVersion|Dist::Zilla::Plugin::Git::NextVersion>, you are, however, able to influence I<if> and I<how> the version is bumped:
+
+=begin :list
+
+=*
+
+By setting the attribute L</include_minor_version> to I<true> you specify that the version string should include a minor version (i.e., end in C<_I<xxx>>).
+
+=*
+
+Likewise, setting L</remove_minor_version> to I<true>, will remove any existing minor version.
+
+=*
+
+Finally, setting the attribute L</keep_version> to a I<true> value will keep the version as is (ignoring above settings).
+
+=end :list
+
+Specifying a specific version using the C<V> environment variable,
+overrides all of these settings.
 
 =head1 USAGE
 
-  # In dist.ini
+Add the following to your F<dist.ini>:
+
   [Author::HAYOBAAN::NextVersion]
-  inhibit_version_bump = 0
+  include_minor_version = 0
+  remove_minor_version  = 0
+  keep_version          = 0
 
 =head1 SEE ALSO
 
-L<Dist::Zilla::Plugin::Git::NextVersion>
+=for :list
+* The original L<Git::NextVersion|Dist::Zilla::Plugin::Git::NextVersion> plugin.
 
 =cut
 
@@ -28,13 +53,50 @@ use namespace::autoclean 0.09;
 use Dist::Zilla 5.014; # default_jobs
 extends 'Dist::Zilla::Plugin::Git::NextVersion';
 
-=attr inhibit_version_bump
+=attr include_minor_version
 
-Specifies that the version should not be increased.
+Specifies that a minor version should be included in the version
+string.  This will add C<_001> to the current version if the current
+version string did not already end in C<_I<xxx>>.
+
+Default: I<false>
 
 =cut
 
-has inhibit_version_bump => (
+has include_minor_version => (
+    is      => 'ro',
+    isa     => 'Bool',
+    lazy    => 1,
+    default => 0,
+);
+
+=attr remove_minor_version
+
+Specifies that an existing minor version should be removed from the existing version
+string.  This will remove any C<_I<xxx>> from the end of the current version string.
+
+Note: overrides L</include_minor_version>.
+
+Default: I<false>
+
+=cut
+
+has remove_minor_version => (
+    is      => 'ro',
+    isa     => 'Bool',
+    lazy    => 1,
+    default => 0,
+);
+
+=attr keep_version
+
+Specifies that the version should be kept the same.
+
+Default: I<false>
+
+=cut
+
+has keep_version => (
     is      => 'ro',
     isa     => 'Bool',
     lazy    => 1,
@@ -45,31 +107,31 @@ has inhibit_version_bump => (
 sub provide_version {
     my ($self) = @_;
 
-    my $inhibit_bump = $self->inhibit_version_bump;
+    my $keep_version = $self->keep_version;
+    my $remove_minor_version = $self->remove_minor_version;
+    my $include_minor_version = $self->include_minor_version && !$remove_minor_version;
     my $last_ver = $self->_last_version;
     my $new_ver = $last_ver;
 
     if (exists $ENV{V}) {
         # Override with value of V from enviroment
         $new_ver = $ENV{V};
-    } else {
-        if (!defined $last_ver) {
-            $new_ver = $self->first_version;
-            $inhibit_bump = 1;
-        }
+    } elsif (!defined $last_ver) {
+        # Initialise if no version set
+        $new_ver = $self->first_version;
+    } elsif (!$keep_version) {
+        $new_ver .= '_000' if $include_minor_version && $last_ver !~ /_\d+$/;
+        $new_ver =~ s/_\d+$// if $remove_minor_version;
 
-        # Bump version
-        unless ($inhibit_bump) {
-            require Version::Next;
-            $new_ver = Version::Next::next_version($new_ver);
-        }
+        require Version::Next;
+        $new_ver = Version::Next::next_version($new_ver);
     }
 
     # Inform about what was done
     if (!defined $last_ver) {
         $self->log("Initialising version to $new_ver");
     } elsif ($last_ver eq $new_ver) {
-        $self->log("Maintaining version at $new_ver");
+        $self->log("Keeping version at $new_ver");
     } else {
         $self->log("Updating version from $last_ver to $new_ver");
     }
@@ -83,7 +145,7 @@ sub before_release {
     my $self = shift;
 
     # No duplicate version check when not bumping
-    unless ($self->inhibit_version_bump) {
+    unless ($self->keep_version) {
         # Make sure we're not duplicating a version
         my $version = version->parse( $self->zilla->version );
 
