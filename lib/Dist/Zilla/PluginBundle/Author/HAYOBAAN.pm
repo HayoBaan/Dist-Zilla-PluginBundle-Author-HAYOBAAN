@@ -117,6 +117,8 @@ Note: Overrides L<--make-minor-release>.
 
 Adding this option will force keep the version number the same (regardless of the other settings above!).
 
+C<--keep> is a synonym for this option.
+
 =head1 CREDITS
 
 I took inspiration from many people's L<Dist::Zilla> and L<Pod::Weaver> PluginBundles. Most notably from:
@@ -626,6 +628,11 @@ sub configure {
         my $major;
         GetOptions('major|major-relase|make-major|make-major-release!' => \$major);
         $self->make_major_release($major) if defined $major;
+
+        # Keep-version
+        my $keep;
+        GetOptions('keep|keep-version!' => \$keep);
+        $self->keep_version($keep) if defined $keep;
     }
 
     return $self->add_plugins(
@@ -642,7 +649,7 @@ sub configure {
                     version_regexp        => $self->version_regexp,      # Regexp for version format
                     include_minor_version => $self->make_minor_release,  # Minor release?
                     remove_minor_version  => $self->make_major_release,  # Force major release?
-                    inhibit_version_bump  => $self->keep_version,        # Keep release?
+                    keep_version          => $self->keep_version,        # Keep release number?
                 },
             ],
         ),
