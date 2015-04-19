@@ -2,6 +2,9 @@ Revision history for Perl module {{$dist->name}}
 
 {{$NEXT}}
 
+0.008     2015-04-19
+  * Corrected --keep-version option, added --keep as synonym
+
 0.007     2015-04-19
   * Added own (configurable) plugin to provide next version
   * Added own version of the pod BUGS section plugin

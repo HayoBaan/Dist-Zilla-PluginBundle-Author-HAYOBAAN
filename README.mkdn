@@ -4,7 +4,7 @@ Dist::Zilla::PluginBundle::Author::HAYOBAAN - Hayo Baan's Dist::Zilla configurat
 
 # VERSION
 
-version 0.007
+version 0.008
 
 # DESCRIPTION
 
@@ -115,6 +115,8 @@ Note: Overrides [--make-minor-release](https://metacpan.org/pod/--make-minor-rel
 ## --keep-version
 
 Adding this option will force keep the version number the same (regardless of the other settings above!).
+
+`--keep` is a synonym for this option.
 
 # ATTRIBUTES
 
