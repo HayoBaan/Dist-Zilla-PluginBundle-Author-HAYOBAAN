@@ -17,10 +17,10 @@ my %module_build_args = (
   },
   "dist_abstract" => "Hayo Baan's Dist::Zilla configuration",
   "dist_author" => [
-    "Hayo Baan <info\@hayobaan.nl>"
+    "Hayo Baan <info\@hayobaan.com>"
   ],
   "dist_name" => "Dist-Zilla-PluginBundle-Author-HAYOBAAN",
-  "dist_version" => "0.006",
+  "dist_version" => "0.007",
   "license" => "perl",
   "module_name" => "Dist::Zilla::PluginBundle::Author::HAYOBAAN",
   "recommends" => {},
@@ -73,10 +73,12 @@ my %module_build_args = (
     "Pod::Elemental::PerlMunger" => 0,
     "Pod::Elemental::Transformer::List" => 0,
     "Pod::Weaver::Config::Assembler" => 0,
+    "Pod::Weaver::Role::Section" => 0,
     "Test::CPAN::Meta" => 0,
     "Test::CPAN::Meta::JSON" => 0,
     "Test::Perl::Critic" => 0,
     "Test::Pod::Coverage" => 0,
+    "Version::Next" => 0,
     "namespace::autoclean" => "0.09",
     "perl" => "5.010",
     "strict" => 0,

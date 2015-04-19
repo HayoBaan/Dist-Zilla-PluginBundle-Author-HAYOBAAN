@@ -8,7 +8,7 @@ use ExtUtils::MakeMaker;
 
 my %WriteMakefileArgs = (
   "ABSTRACT" => "Hayo Baan's Dist::Zilla configuration",
-  "AUTHOR" => "Hayo Baan <info\@hayobaan.nl>",
+  "AUTHOR" => "Hayo Baan <info\@hayobaan.com>",
   "BUILD_REQUIRES" => {
     "Module::Build" => "0.28"
   },
@@ -69,10 +69,12 @@ my %WriteMakefileArgs = (
     "Pod::Elemental::PerlMunger" => 0,
     "Pod::Elemental::Transformer::List" => 0,
     "Pod::Weaver::Config::Assembler" => 0,
+    "Pod::Weaver::Role::Section" => 0,
     "Test::CPAN::Meta" => 0,
     "Test::CPAN::Meta::JSON" => 0,
     "Test::Perl::Critic" => 0,
     "Test::Pod::Coverage" => 0,
+    "Version::Next" => 0,
     "namespace::autoclean" => "0.09",
     "strict" => 0,
     "warnings" => 0
@@ -86,7 +88,7 @@ my %WriteMakefileArgs = (
     "Test::DZil" => 0,
     "Test::More" => "0.96"
   },
-  "VERSION" => "0.006",
+  "VERSION" => "0.007",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -148,12 +150,14 @@ my %FallbackPrereqs = (
   "Pod::Elemental::PerlMunger" => 0,
   "Pod::Elemental::Transformer::List" => 0,
   "Pod::Weaver::Config::Assembler" => 0,
+  "Pod::Weaver::Role::Section" => 0,
   "Test::CPAN::Meta" => 0,
   "Test::CPAN::Meta::JSON" => 0,
   "Test::DZil" => 0,
   "Test::More" => "0.96",
   "Test::Perl::Critic" => 0,
   "Test::Pod::Coverage" => 0,
+  "Version::Next" => 0,
   "namespace::autoclean" => "0.09",
   "strict" => 0,
   "warnings" => 0
