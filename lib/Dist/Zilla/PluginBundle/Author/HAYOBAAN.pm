@@ -34,8 +34,8 @@ following plugins are (conditionally) installed and configured:
 * L<MetaProvides::Class|Dist::Zilla::Plugin::MetaProvides::Class>
 * L<ExecDir|Dist::Zilla::Plugin::ExecDir>
 * L<ShareDir|Dist::Zilla::Plugin::ShareDir>
-* L<MakeMaker|Dist::Zilla::Plugin::MakeMaker>
-* L<ModuleBuild|Dist::Zilla::Plugin::ModuleBuild>
+* L<MakeMaker|Dist::Zilla::Plugin::MakeMaker> (default)
+* L<ModuleBuild|Dist::Zilla::Plugin::ModuleBuild> (optional)
 * L<Manifest|Dist::Zilla::Plugin::Manifest>
 * L<CopyFilesFromBuild|Dist::Zilla::Plugin::CopyFilesFromBuild>
 * L<Run::AfterBuild|Dist::Zilla::Plugin::Run::AfterBuild>
@@ -344,6 +344,38 @@ has keep_version => (
     isa     => 'Bool',
     lazy    => 1,
     default => sub { $_[0]->payload->{keep_version} }
+);
+
+=attr use_makemaker
+
+Uses MakeMaker as build method.
+
+Default: I<true>
+
+Note: When both C<use_makemaker> and C<use_modulebuild> are I<false>, MakeMaker will be used!
+
+=cut
+
+has use_makemaker => (
+    is      => 'rw',
+    isa     => 'Bool',
+    lazy    => 1,
+    default => sub { ($_[0]->payload->{use_makemaker} // 1) || !$_[0]->payload->{use_modulebuild} }
+);
+
+=attr use_modulebuild
+
+Uses L<Module::Build> as build method.
+
+Default: I<false>
+
+=cut
+
+has use_modulebuild => (
+    is      => 'rw',
+    isa     => 'Bool',
+    lazy    => 1,
+    default => sub { $_[0]->payload->{use_modulebuild} }
 );
 
 =attr run_after_build
@@ -713,10 +745,14 @@ sub configure {
         'ExecDir',
         # Install content of share directory as sharedir
         'ShareDir',
-        # Build a Makefile.PL that uses ExtUtils::MakeMaker
-        [ 'MakeMaker', { default_jobs => 9 } ],
-        # Build a Build.PL that uses Module::Build
-        'ModuleBuild',
+        $self->use_makemaker ? (
+            # Build a Makefile.PL that uses ExtUtils::MakeMaker
+            [ 'MakeMaker', { default_jobs => 9 } ],
+        ) : (),
+        $self->use_modulebuild ? (
+            # Build a Build.PL that uses Module::Build
+            'ModuleBuild',
+        ) : (),
 
         # Add Manifest
         'Manifest',
