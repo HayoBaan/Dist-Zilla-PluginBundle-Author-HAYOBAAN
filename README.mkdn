@@ -4,7 +4,7 @@ Dist::Zilla::PluginBundle::Author::HAYOBAAN - Hayo Baan's Dist::Zilla configurat
 
 # VERSION
 
-version 0.008
+version 0.009
 
 # DESCRIPTION
 
@@ -33,8 +33,8 @@ following plugins are (conditionally) installed and configured:
 - [MetaProvides::Class](https://metacpan.org/pod/Dist::Zilla::Plugin::MetaProvides::Class)
 - [ExecDir](https://metacpan.org/pod/Dist::Zilla::Plugin::ExecDir)
 - [ShareDir](https://metacpan.org/pod/Dist::Zilla::Plugin::ShareDir)
-- [MakeMaker](https://metacpan.org/pod/Dist::Zilla::Plugin::MakeMaker)
-- [ModuleBuild](https://metacpan.org/pod/Dist::Zilla::Plugin::ModuleBuild)
+- [MakeMaker](https://metacpan.org/pod/Dist::Zilla::Plugin::MakeMaker) (default)
+- [ModuleBuild](https://metacpan.org/pod/Dist::Zilla::Plugin::ModuleBuild) (optional)
 - [Manifest](https://metacpan.org/pod/Dist::Zilla::Plugin::Manifest)
 - [CopyFilesFromBuild](https://metacpan.org/pod/Dist::Zilla::Plugin::CopyFilesFromBuild)
 - [Run::AfterBuild](https://metacpan.org/pod/Dist::Zilla::Plugin::Run::AfterBuild)
@@ -193,6 +193,20 @@ Note: Overrides ["make\_minor\_release"](#make_minor_release).
 ## keep\_version
 
 Will keep the current version number the same when building/releasing.
+
+## use\_makemaker
+
+Uses MakeMaker as build method.
+
+Default: _true_
+
+Note: When both `use_makemaker` and `use_modulebuild` are _false_, MakeMaker will be used!
+
+## use\_modulebuild
+
+Uses [Module::Build](https://metacpan.org/pod/Module::Build) as build method.
+
+Default: _false_
 
 ## run\_after\_build
 

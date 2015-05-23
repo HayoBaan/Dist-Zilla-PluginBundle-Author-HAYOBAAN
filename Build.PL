@@ -20,7 +20,7 @@ my %module_build_args = (
     "Hayo Baan <info\@hayobaan.com>"
   ],
   "dist_name" => "Dist-Zilla-PluginBundle-Author-HAYOBAAN",
-  "dist_version" => "0.008",
+  "dist_version" => "0.008_001",
   "license" => "perl",
   "module_name" => "Dist::Zilla::PluginBundle::Author::HAYOBAAN",
   "recommends" => {},
