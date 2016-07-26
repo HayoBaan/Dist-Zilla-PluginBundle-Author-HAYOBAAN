@@ -2,6 +2,9 @@ Revision history for Perl module {{$dist->name}}
 
 {{$NEXT}}
 
+0.010     2016-07-26
+  * Changes file added to test environment for Dist::Zilla 6.005 and newer
+
 0.009     2015-05-23
   * Made use of MakeMaker (default) and/or Module::Build optional [GH #1]
 
