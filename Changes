@@ -2,6 +2,10 @@ Revision history for Perl module {{$dist->name}}
 
 {{$NEXT}}
 
+0.011     2016-08-10
+  * Removed Build.PL (as should have been done as of v0.009...)
+  * Updated author e-mail address
+
 0.010     2016-07-26
   * Changes file added to test environment for Dist::Zilla 6.005 and newer
 

@@ -4,7 +4,7 @@ Dist::Zilla::PluginBundle::Author::HAYOBAAN - Hayo Baan's Dist::Zilla configurat
 
 # VERSION
 
-version 0.010
+version 0.011
 
 # DESCRIPTION
 
@@ -348,7 +348,7 @@ I took inspiration from many people's [Dist::Zilla](https://metacpan.org/pod/Dis
 
 # AUTHOR
 
-Hayo Baan <info@hayobaan.com>
+Hayo Baan <hayobaan@cpan.org>
 
 # COPYRIGHT AND LICENSE
 

@@ -8,7 +8,7 @@ use ExtUtils::MakeMaker;
 
 my %WriteMakefileArgs = (
   "ABSTRACT" => "Hayo Baan's Dist::Zilla configuration",
-  "AUTHOR" => "Hayo Baan <info\@hayobaan.com>",
+  "AUTHOR" => "Hayo Baan <hayobaan\@cpan.org>",
   "CONFIGURE_REQUIRES" => {
     "ExtUtils::MakeMaker" => 0
   },
@@ -81,9 +81,10 @@ my %WriteMakefileArgs = (
     "IPC::Open3" => 0,
     "Path::Tiny" => 0,
     "Test::DZil" => 0,
-    "Test::More" => "0.96"
+    "Test::More" => "0.96",
+    "blib" => "1.01"
   },
-  "VERSION" => "0.010",
+  "VERSION" => "0.011",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -151,6 +152,7 @@ my %FallbackPrereqs = (
   "Test::Perl::Critic" => 0,
   "Test::Pod::Coverage" => 0,
   "Version::Next" => 0,
+  "blib" => "1.01",
   "namespace::autoclean" => "0.09",
   "strict" => 0,
   "warnings" => 0
