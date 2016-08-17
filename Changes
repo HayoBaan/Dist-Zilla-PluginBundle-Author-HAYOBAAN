@@ -1,6 +1,7 @@
 Revision history for Perl module {{$dist->name}}
 
 {{$NEXT}}
+  * Added Travis and AppVeyor testing
 
 0.011     2016-08-10
   * Removed Build.PL (as should have been done as of v0.009...)
