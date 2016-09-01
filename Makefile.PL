@@ -8,7 +8,7 @@ use ExtUtils::MakeMaker;
 
 my %WriteMakefileArgs = (
   "ABSTRACT" => "Hayo Baan's Dist::Zilla configuration",
-  "AUTHOR" => "Hayo Baan <hayobaan\@cpan.org>",
+  "AUTHOR" => "Hayo Baan <info\@hayobaan.com>",
   "CONFIGURE_REQUIRES" => {
     "ExtUtils::MakeMaker" => 0
   },
@@ -32,6 +32,7 @@ my %WriteMakefileArgs = (
     "Dist::Zilla::Plugin::Git::Tag" => 0,
     "Dist::Zilla::Plugin::GitHub::Meta" => 0,
     "Dist::Zilla::Plugin::GitHub::Update" => 0,
+    "Dist::Zilla::Plugin::GitHubREADME::Badge" => 0,
     "Dist::Zilla::Plugin::InstallGuide" => 0,
     "Dist::Zilla::Plugin::MetaProvides::Class" => 0,
     "Dist::Zilla::Plugin::MetaProvides::Package" => 0,
@@ -84,7 +85,7 @@ my %WriteMakefileArgs = (
     "Test::More" => "0.96",
     "blib" => "1.01"
   },
-  "VERSION" => "0.011",
+  "VERSION" => "0.011_001",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -107,6 +108,7 @@ my %FallbackPrereqs = (
   "Dist::Zilla::Plugin::Git::Tag" => 0,
   "Dist::Zilla::Plugin::GitHub::Meta" => 0,
   "Dist::Zilla::Plugin::GitHub::Update" => 0,
+  "Dist::Zilla::Plugin::GitHubREADME::Badge" => 0,
   "Dist::Zilla::Plugin::InstallGuide" => 0,
   "Dist::Zilla::Plugin::MetaProvides::Class" => 0,
   "Dist::Zilla::Plugin::MetaProvides::Package" => 0,

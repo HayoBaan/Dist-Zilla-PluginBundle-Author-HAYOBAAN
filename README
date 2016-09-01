@@ -5,7 +5,7 @@ NAME
 
 VERSION
 
-    version 0.011
+    version 0.011_001
 
 DESCRIPTION
 
@@ -64,6 +64,8 @@ DESCRIPTION
       * CopyFilesFromBuild
 
       * Run::AfterBuild
+
+      * GitHubREADME::Badge
 
       * CheckChangesHasContent
 
@@ -440,7 +442,7 @@ CREDITS
 
 AUTHOR
 
-    Hayo Baan <hayobaan@cpan.org>
+    Hayo Baan <info@hayobaan.com>
 
 COPYRIGHT AND LICENSE
 
