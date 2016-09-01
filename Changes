@@ -2,13 +2,16 @@ Revision history for Perl module {{$dist->name}}
 
 {{$NEXT}}
   * Added Travis and AppVeyor testing
+  * Added Travis and CPAN badges to README.mkdn for GitHub hosted
+    CPAN distributions
 
 0.011     2016-08-10
   * Removed Build.PL (as should have been done as of v0.009...)
   * Updated author e-mail address
 
 0.010     2016-07-26
-  * Changes file added to test environment for Dist::Zilla 6.005 and newer
+  * Changes file added to test environment for Dist::Zilla 6.005 and
+    newer
 
 0.009     2015-05-23
   * Made use of MakeMaker (default) and/or Module::Build optional [GH #1]

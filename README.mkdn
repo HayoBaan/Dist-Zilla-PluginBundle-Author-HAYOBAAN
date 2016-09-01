@@ -1,10 +1,13 @@
+[![Build Status](https://travis-ci.org/HayoBaan/Dist-Zilla-PluginBundle-Author-HAYOBAAN.svg?branch=master)](https://travis-ci.org/HayoBaan/Dist-Zilla-PluginBundle-Author-HAYOBAAN)
+[![Kwalitee status](http://cpants.cpanauthors.org/dist/Dist-Zilla-PluginBundle-Author-HAYOBAAN.png)](http://cpants.charsbar.org/dist/overview/Dist-Zilla-PluginBundle-Author-HAYOBAAN)
+
 # NAME
 
 Dist::Zilla::PluginBundle::Author::HAYOBAAN - Hayo Baan's Dist::Zilla configuration
 
 # VERSION
 
-version 0.011
+version 0.011\_001
 
 # DESCRIPTION
 
@@ -38,6 +41,7 @@ following plugins are (conditionally) installed and configured:
 - [Manifest](https://metacpan.org/pod/Dist::Zilla::Plugin::Manifest)
 - [CopyFilesFromBuild](https://metacpan.org/pod/Dist::Zilla::Plugin::CopyFilesFromBuild)
 - [Run::AfterBuild](https://metacpan.org/pod/Dist::Zilla::Plugin::Run::AfterBuild)
+- [GitHubREADME::Badge](https://metacpan.org/pod/Dist::Zilla::Plugin::GitHubREADME::Badge)
 - [CheckChangesHasContent](https://metacpan.org/pod/Dist::Zilla::Plugin::CheckChangesHasContent)
 - [Git::CheckFor::CorrectBranch](https://metacpan.org/pod/Dist::Zilla::Plugin::Git::CheckFor::CorrectBranch)
 - [Git::Check](https://metacpan.org/pod/Dist::Zilla::Plugin::Git::Check)
@@ -348,7 +352,7 @@ I took inspiration from many people's [Dist::Zilla](https://metacpan.org/pod/Dis
 
 # AUTHOR
 
-Hayo Baan <hayobaan@cpan.org>
+Hayo Baan <info@hayobaan.com>
 
 # COPYRIGHT AND LICENSE
 

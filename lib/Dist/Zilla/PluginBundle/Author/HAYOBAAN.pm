@@ -39,6 +39,7 @@ following plugins are (conditionally) installed and configured:
 * L<Manifest|Dist::Zilla::Plugin::Manifest>
 * L<CopyFilesFromBuild|Dist::Zilla::Plugin::CopyFilesFromBuild>
 * L<Run::AfterBuild|Dist::Zilla::Plugin::Run::AfterBuild>
+* L<GitHubREADME::Badge|Dist::Zilla::Plugin::GitHubREADME::Badge>
 * L<CheckChangesHasContent|Dist::Zilla::Plugin::CheckChangesHasContent>
 * L<Git::CheckFor::CorrectBranch|Dist::Zilla::Plugin::Git::CheckFor::CorrectBranch>
 * L<Git::Check|Dist::Zilla::Plugin::Git::Check>
@@ -148,6 +149,7 @@ require Dist::Zilla::Plugin::MetaProvides::Package;
 require Dist::Zilla::Plugin::MetaProvides::Class;
 require Dist::Zilla::Plugin::CopyFilesFromBuild;
 require Dist::Zilla::Plugin::Run;
+require Dist::Zilla::Plugin::GitHubREADME::Badge;
 require Dist::Zilla::Plugin::CheckChangesHasContent;
 require Dist::Zilla::Plugin::Git::CheckFor::CorrectBranch;
 require Dist::Zilla::Plugin::Git::Check;
@@ -764,6 +766,11 @@ sub configure {
         @{$self->run_after_build} ? (
             # Run specified commands
             [ 'Run::AfterBuild' => { run => $self->run_after_build } ],
+        ) : (),
+
+        $self->is_github_hosted && $self->is_cpan ? (
+            # Add status badges to README.mkdn
+            [ 'GitHubREADME::Badge' => { ':version' => '0.16', badges => [ qw(travis cpants) ] } ],
         ) : (),
 
         #### Before Release Tests ####
