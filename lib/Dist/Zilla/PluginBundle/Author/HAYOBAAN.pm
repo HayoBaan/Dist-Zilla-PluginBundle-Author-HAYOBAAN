@@ -593,7 +593,9 @@ has copy_build_files => (
     is  => 'ro',
     isa => 'ArrayRef[Str]',
     lazy => 1,
-    default => sub { [ qw(Build.PL Makefile.PL README README.mkdn) ] },
+    default => sub { [ ($_[0]->use_modulebuild ? qw(Build.PL) : ()),
+                       ($_[0]->use_makemaker ? qw(Makefile.PL) : ()),
+                       qw(README README.mkdn) ] },
 );
 
 # Files to exclude from gatherer
