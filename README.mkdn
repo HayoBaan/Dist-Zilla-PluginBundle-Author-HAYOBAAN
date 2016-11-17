@@ -7,7 +7,7 @@ Dist::Zilla::PluginBundle::Author::HAYOBAAN - Hayo Baan's Dist::Zilla configurat
 
 # VERSION
 
-version 0.011\_001
+version 0.012
 
 # DESCRIPTION
 
