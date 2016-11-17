@@ -1,6 +1,8 @@
 Revision history for Perl module {{$dist->name}}
 
 {{$NEXT}}
+
+0.012     2016-11-17
   * Fixed missing files in copy files from build [GH #4]
   * Added Travis and AppVeyor testing
   * Added Travis and CPAN badges to README.mkdn for GitHub hosted
