@@ -141,7 +141,7 @@ with 'Dist::Zilla::Role::PluginBundle::Easy';
 require Dist::Zilla::Plugin::OurPkgVersion;
 require Dist::Zilla::Plugin::Git::GatherDir;
 require Dist::Zilla::Plugin::PodWeaver; # And Dist::Zilla::Plugin::SurgicalPodWeaver if enabled
-require Dist::Zilla::Plugin::ReadmeAnyFromPod;
+use     Dist::Zilla::Plugin::ReadmeAnyFromPod 0.161150;
 require Dist::Zilla::Plugin::InstallGuide;
 require Dist::Zilla::Plugin::MinimumPerl;
 require Dist::Zilla::Plugin::GitHub::Meta;
