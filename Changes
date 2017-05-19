@@ -1,6 +1,8 @@
 Revision history for Perl module {{$dist->name}}
 
 {{$NEXT}}
+
+0.013     2017-05-19
   * Requiring ReadmeAnyFromPod 0.161150 [GH #3]
 
 0.012     2016-11-17
