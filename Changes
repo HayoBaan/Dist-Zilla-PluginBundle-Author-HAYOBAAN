@@ -1,6 +1,10 @@
 Revision history for Perl module {{$dist->name}}
 
 {{$NEXT}}
+  * Skipping Kwalitee's has_meta_yml test if not building a github hosted
+    release 
+  * Created own version of Test::Pod::LinkCheck which sets the cpan_backend to
+    CPAN instead of the deprecated CPANPLUS
 
 0.013     2017-05-19
   * Requiring ReadmeAnyFromPod 0.161150 [GH #3]
