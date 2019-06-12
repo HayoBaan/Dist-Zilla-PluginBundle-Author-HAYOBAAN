@@ -20,8 +20,9 @@ following plugins are (conditionally) installed and configured:
 * L<Git::GatherDir|Dist::Zilla::Plugin::Git::GatherDir>
 * L<PruneCruft|Dist::Zilla::Plugin::PruneCruft>
 * L<ManifestSkip|Dist::Zilla::Plugin::ManifestSkip>
-* L<PodWeaver|Dist::Zilla::Plugin::PodWeaver> (or L<SurgicalPodWeaver|Dist::Zilla::Plugin::SurgicalPodWeaver> when enabled)
+* L<PodWeaver|Dist::Zilla::Plugin::PodWeaver> (and L<SurgicalPodWeaver|Dist::Zilla::Plugin::SurgicalPodWeaver> when enabled)
 * L<ReadmeAnyFromPod|Dist::Zilla::Plugin::ReadmeAnyFromPod> (both Text and Markdown generation are configured)
+* L<Dist::Zilla::Plugin::MetaYAML>
 * L<License|Dist::Zilla::Plugin::License>
 * L<InstallGuide|Dist::Zilla::Plugin::InstallGuide>
 * L<MinimumPerl|Dist::Zilla::Plugin::MinimumPerl>
@@ -61,7 +62,7 @@ following plugins are (conditionally) installed and configured:
 * L<MetaTests|Dist::Zilla::Plugin::MetaTests>
 * L<PodSyntaxTests|Dist::Zilla::Plugin::PodSyntaxTests>
 * L<PodCoverageTests|Dist::Zilla::Plugin::PodCoverageTests>
-* L<Test::Pod::LinkCheck|Dist::Zilla::Plugin::Test::Pod::LinkCheck>
+* L<Author::HAYOBAAN::LinkCheck|Dist::Zilla::Plugin::Author::HAYOBAAN::LinkCheck>
 * L<Test::Synopsis|Dist::Zilla::Plugin::Test::Synopsis>
 * L<TestRelease|Dist::Zilla::Plugin::TestRelease>
 * L<RunExtraTests|Dist::Zilla::Plugin::RunExtraTests>
@@ -142,6 +143,7 @@ require Dist::Zilla::Plugin::OurPkgVersion;
 require Dist::Zilla::Plugin::Git::GatherDir;
 require Dist::Zilla::Plugin::PodWeaver; # And Dist::Zilla::Plugin::SurgicalPodWeaver if enabled
 use     Dist::Zilla::Plugin::ReadmeAnyFromPod 0.161150;
+require Dist::Zilla::Plugin::MetaYAML;
 require Dist::Zilla::Plugin::InstallGuide;
 require Dist::Zilla::Plugin::MinimumPerl;
 require Dist::Zilla::Plugin::GitHub::Meta;
@@ -173,7 +175,7 @@ require Test::CPAN::Meta::JSON;
 require Test::CPAN::Meta;
 require Test::Pod::Coverage;
 require Pod::Coverage::TrustPod;
-require Dist::Zilla::Plugin::Test::Pod::LinkCheck;
+#require Dist::Zilla::Plugin::Author::HAYOBAAN::LinkCheck;
 require Dist::Zilla::Plugin::Test::Synopsis;
 require Dist::Zilla::Plugin::RunExtraTests;
 require Dist::Zilla::Plugin::SchwartzRatio;
@@ -468,7 +470,7 @@ By default the following tests are executed:
 * L<MetaTests|Dist::Zilla::Plugin::MetaTests> -- Validation of the META.yml file -- only when hosted on GitHub
 * L<PodSyntaxTests|Dist::Zilla::Plugin::PodSyntaxTests> -- Checks pod syntax
 * L<PodCoverageTests|Dist::Zilla::Plugin::PodCoverageTests> -- Checks pod coverage
-* L<Test::Pod::LinkCheck|Dist::Zilla::Plugin::Test::Pod::LinkCheck> -- Checks pod links
+* L<LinkCheck|Dist::Zilla::Plugin::Author::HAYOBAAN::LinkCheck> -- Checks pod links
 * L<Test::Synopsis|Dist::Zilla::Plugin::Test::Synopsis> -- Checks the pod synopsis
 
 =cut
@@ -736,7 +738,7 @@ sub configure {
             'GitHub::Meta',
             # Add META.json",
             'MetaJSON',
-            # Add META.yaml",
+            # Add META.yml",
             'MetaYAML',
             # Add provided Packages to META.*",
             'MetaProvides::Package',
@@ -814,7 +816,7 @@ sub configure {
         # Checks source encoding
         $self->_add_test('MojibakeTests'),
         # Checks the Kwalitee
-        $self->_add_test('Test::Kwalitee'),
+        $self->_add_test([ 'Test::Kwalitee' => { $self->is_github_hosted ? () : (skiptest => [ qw(has_meta_yml) ]) } ]),
         # Checks portability of code
         $self->_add_test('Test::Portability'),
         # Checks for unused variables
@@ -838,7 +840,7 @@ sub configure {
         # Checks pod coverage
         $self->_add_test('PodCoverageTests'),
         # Checks pod links
-        $self->_add_test('Test::Pod::LinkCheck'),
+        $self->_add_test('Author::HAYOBAAN::LinkCheck'),
         # Checks the pod synopsis
         $self->_add_test('Test::Synopsis'),
 
