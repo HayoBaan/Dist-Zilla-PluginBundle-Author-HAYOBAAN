@@ -70,7 +70,6 @@ following plugins are (conditionally) installed and configured:
 - [RunExtraTests](https://metacpan.org/pod/Dist::Zilla::Plugin::RunExtraTests)
 - [ConfirmRelease](https://metacpan.org/pod/Dist::Zilla::Plugin::ConfirmRelease)
 - [UploadToCPAN](https://metacpan.org/pod/Dist::Zilla::Plugin::UploadToCPAN)
-- [SchwartzRatio](https://metacpan.org/pod/Dist::Zilla::Plugin::SchwartzRatio)
 - [FakeRelease](https://metacpan.org/pod/Dist::Zilla::Plugin::FakeRelease)
 - [NextRelease](https://metacpan.org/pod/Dist::Zilla::Plugin::NextRelease)
 - [Git::Commit](https://metacpan.org/pod/Dist::Zilla::Plugin::Git::Commit)
