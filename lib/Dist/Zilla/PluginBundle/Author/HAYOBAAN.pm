@@ -68,7 +68,6 @@ following plugins are (conditionally) installed and configured:
 * L<RunExtraTests|Dist::Zilla::Plugin::RunExtraTests>
 * L<ConfirmRelease|Dist::Zilla::Plugin::ConfirmRelease>
 * L<UploadToCPAN|Dist::Zilla::Plugin::UploadToCPAN>
-* L<SchwartzRatio|Dist::Zilla::Plugin::SchwartzRatio>
 * L<FakeRelease|Dist::Zilla::Plugin::FakeRelease>
 * L<NextRelease|Dist::Zilla::Plugin::NextRelease>
 * L<Git::Commit|Dist::Zilla::Plugin::Git::Commit>
@@ -175,10 +174,11 @@ require Test::CPAN::Meta::JSON;
 require Test::CPAN::Meta;
 require Test::Pod::Coverage;
 require Pod::Coverage::TrustPod;
-#require Dist::Zilla::Plugin::Author::HAYOBAAN::LinkCheck;
+require Dist::Zilla::Plugin::Author::HAYOBAAN::LinkCheck;
+require Pod::Weaver::PluginBundle::Author::HAYOBAAN;
+require Pod::Weaver::Section::Author::HAYOBAAN::Bugs;
 require Dist::Zilla::Plugin::Test::Synopsis;
 require Dist::Zilla::Plugin::RunExtraTests;
-require Dist::Zilla::Plugin::SchwartzRatio;
 require Dist::Zilla::Plugin::Git::Commit;
 require Dist::Zilla::Plugin::Git::Tag;
 require Dist::Zilla::Plugin::Git::Push;
@@ -861,8 +861,6 @@ sub configure {
         $self->is_cpan && !$self->local_release_only ? (
             # Upload release to CPAN,
             'UploadToCPAN',
-            # Provide statistics
-            'SchwartzRatio',
         ) : (
             # Fake release
             'FakeRelease',
