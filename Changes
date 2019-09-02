@@ -1,6 +1,7 @@
 Revision history for Perl module {{$dist->name}}
 
 {{$NEXT}}
+  * Updated Travis' perl versions
   * No longer using Dist::Zilla::Plugin::SchwartzRatio since it requires a
     Perl version newer than is installed on Mac by default
   * Making sure internals are required
