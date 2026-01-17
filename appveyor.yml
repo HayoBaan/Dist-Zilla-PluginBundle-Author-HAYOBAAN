@@ -1,21 +1,6 @@
-branches:
-  except:
-    - /travis/
-skip_tags: true
-
-cache:
-  - C:\strawberry -> appveyor.yml
-
-install:
-  - if not exist "C:\strawberry" cinst strawberryperl
-  - set PATH=C:\strawberry\perl\bin;C:\strawberry\perl\site\bin;C:\strawberry\c\bin;%PATH%
-  - cd C:\projects\%APPVEYOR_PROJECT_NAME%
-  - cpanm --installdeps --force .
-
+version: 1.0.{build}
+image: macOS
 build_script:
-  - perl Makefile.PL
-  - gmake
-
+- sh: PERL_MM_USE_DEFAULT=1 cpan App::cpanminus && /Users/appveyor/perl5/bin/cpanm --installdeps . && perl Makefile.PL && make
 test_script:
-  - gmake test
-
+- sh: make test

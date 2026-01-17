@@ -774,7 +774,7 @@ sub configure {
 
         $self->is_github_hosted && $self->is_cpan ? (
             # Add status badges to README.mkdn
-            [ 'GitHubREADME::Badge' => { ':version' => '0.16', badges => [ qw(travis cpants) ] } ],
+            [ 'GitHubREADME::Badge' => { ':version' => '0.16', badges => [ qw(cpants) ] } ],
         ) : (),
 
         #### Before Release Tests ####
