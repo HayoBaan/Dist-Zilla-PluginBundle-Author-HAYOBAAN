@@ -1,6 +1,7 @@
 Revision history for Perl module {{$dist->name}}
 
 {{$NEXT}}
+  * Removed travis-ci
   * Force use of archive-tar to prevent issues on MacOs
 
 0.014     2019-09-02
