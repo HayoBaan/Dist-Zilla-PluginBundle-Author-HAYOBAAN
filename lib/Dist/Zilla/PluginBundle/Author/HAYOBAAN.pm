@@ -642,9 +642,16 @@ sub _add_test {
     return grep { ! $self->_is_disabled(ref $_ ? $_->[0] : $_) } @_;
 }
 
-=for Pod::Coverage configure
+=for Pod::Coverage configure getBooleanCommandlineOption
 
 =cut
+
+# Returns the value of a boolean command-line option
+sub getBooleanCommandlineOption {
+    my $option = $_[0];
+    my @result = grep { /^--?(no-)?$option$/ } @ARGV;
+    return @result ? $result[-1] !~ /^--?no-/ : undef;
+}
 
 sub configure {
     my $self = shift;
@@ -653,23 +660,19 @@ sub configure {
         # Command-line argument processing
 
         # Local-relase-only
-        my $local;
-        GetOptions('local|local-only|local-release|local-release-only!' => \$local);
+        my $local = getBooleanCommandlineOption('local|local-only|local-release|local-release-only');
         $self->local_release_only($local) if defined $local;
 
         # Make-minor-release
-        my $minor;
-        GetOptions('minor|minor-relase|make-minor|make-minor-release!' => \$minor);
+        my $minor = getBooleanCommandlineOption('minor|minor-relase|make-minor|make-minor-release');
         $self->make_minor_release($minor) if defined $minor;
 
         # Make-major-release
-        my $major;
-        GetOptions('major|major-relase|make-major|make-major-release!' => \$major);
+        my $major = getBooleanCommandlineOption('major|major-relase|make-major|make-major-release');
         $self->make_major_release($major) if defined $major;
 
         # Keep-version
-        my $keep;
-        GetOptions('keep|keep-version!' => \$keep);
+        my $keep = getBooleanCommandlineOption('keep|keep-version');
         $self->keep_version($keep) if defined $keep;
     }
 
