@@ -1,6 +1,7 @@
 Revision history for Perl module {{$dist->name}}
 
 {{$NEXT}}
+  * Adapted command-line option processing to newer Dist::Zilla
   * Removed travis, fixed appveyor setup
   * Force use of archive-tar to prevent issues on MacOs
 
