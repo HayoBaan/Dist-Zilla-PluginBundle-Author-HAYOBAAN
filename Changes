@@ -1,6 +1,7 @@
 Revision history for Perl module {{$dist->name}}
 
 {{$NEXT}}
+  * Skipping tests when installing dependencies in AppVeyor build
 
 0.015     2026-01-17
   * Adapted command-line option processing to newer Dist::Zilla
