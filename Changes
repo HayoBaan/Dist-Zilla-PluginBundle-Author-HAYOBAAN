@@ -1,6 +1,7 @@
 Revision history for Perl module {{$dist->name}}
 
 {{$NEXT}}
+  * appveyor.yml (CI configuration) is no longer included in the distribution
   * Added the Author::HAYOBAAN::NamingTests plugin: an author test that names
     follow Perl's naming conventions (Perl::Critic's Capitalization policy).
     Exemptions per distribution: naming_package_exemptions and

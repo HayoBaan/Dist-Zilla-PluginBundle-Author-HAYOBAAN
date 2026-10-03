@@ -640,7 +640,7 @@ has exclude_files => (
     lazy => 1,
     default => sub { [
         @{$_[0]->copy_build_files},
-        qw(MANIFEST),
+        qw(MANIFEST appveyor.yml),
     ] },
 );
 
