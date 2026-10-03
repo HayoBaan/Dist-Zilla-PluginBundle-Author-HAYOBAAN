@@ -5,7 +5,7 @@ NAME
 
 VERSION
 
-    version 0.016
+    version 0.016_001
 
 DESCRIPTION
 
@@ -113,6 +113,8 @@ DESCRIPTION
 
       * Author::HAYOBAAN::LinkCheck
 
+      * Author::HAYOBAAN::NamingTests
+
       * Test::Synopsis
 
       * TestRelease
@@ -165,7 +167,7 @@ OPTIONS
     --minor, --minor-release, and --make-minor are synonyms for this
     option.
 
-    Note: Implied with "--local-release-only", overriden by
+    Note: Implied with "--local-release-only", overridden by
     "--make-major-release".
 
  --make-major-release
@@ -374,6 +376,8 @@ ATTRIBUTES
 
       * LinkCheck -- Checks pod links
 
+      * NamingTests -- Checks names follow Perl's naming conventions
+
       * Test::Synopsis -- Checks the pod synopsis
 
  disable_test
@@ -392,6 +396,20 @@ ATTRIBUTES
     perl is okay.)
 
     Default: 5.006
+
+ naming_package_exemptions
+
+    Space-separated regular expressions of package name components the
+    naming test accepts despite not starting with an uppercase letter (e.g.
+    utf8 for Cwd::utf8). See
+    Dist::Zilla::Plugin::Author::HAYOBAAN::NamingTests.
+
+ naming_subroutine_exemptions
+
+    Space-separated regular expressions of subroutine names the naming test
+    accepts despite being mixed case (e.g. camelCase aliases kept for
+    backward compatibility). See
+    Dist::Zilla::Plugin::Author::HAYOBAAN::NamingTests.
 
  surgical
 

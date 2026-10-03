@@ -6,7 +6,7 @@ Dist::Zilla::PluginBundle::Author::HAYOBAAN - Hayo Baan's Dist::Zilla configurat
 
 # VERSION
 
-version 0.016
+version 0.016\_001
 
 # DESCRIPTION
 
@@ -64,6 +64,7 @@ following plugins are (conditionally) installed and configured:
 - [PodSyntaxTests](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3APodSyntaxTests)
 - [PodCoverageTests](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3APodCoverageTests)
 - [Author::HAYOBAAN::LinkCheck](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AAuthor%3A%3AHAYOBAAN%3A%3ALinkCheck)
+- [Author::HAYOBAAN::NamingTests](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AAuthor%3A%3AHAYOBAAN%3A%3ANamingTests)
 - [Test::Synopsis](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ATest%3A%3ASynopsis)
 - [TestRelease](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ATestRelease)
 - [RunExtraTests](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ARunExtraTests)
@@ -103,7 +104,7 @@ Adding this option to the `dzil` command will set the
 `--minor`, `--minor-release`, and `--make-minor` are synonyms for
 this option.
 
-Note: Implied with ["--local-release-only"](#local-release-only), overriden by ["--make-major-release"](#make-major-release).
+Note: Implied with ["--local-release-only"](#local-release-only), overridden by ["--make-major-release"](#make-major-release).
 
 ## --make-major-release
 
@@ -279,6 +280,7 @@ By default the following tests are executed:
 - [PodSyntaxTests](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3APodSyntaxTests) -- Checks pod syntax
 - [PodCoverageTests](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3APodCoverageTests) -- Checks pod coverage
 - [LinkCheck](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AAuthor%3A%3AHAYOBAAN%3A%3ALinkCheck) -- Checks pod links
+- [NamingTests](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AAuthor%3A%3AHAYOBAAN%3A%3ANamingTests) -- Checks names follow Perl's naming conventions
 - [Test::Synopsis](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ATest%3A%3ASynopsis) -- Checks the pod synopsis
 
 ## disable\_test
@@ -297,6 +299,18 @@ from a higher version of perl than you wanted. (Having a lower required version
 of perl is okay.)
 
 Default: `5.006`
+
+## naming\_package\_exemptions
+
+Space-separated regular expressions of package name components the naming test
+accepts despite not starting with an uppercase letter (e.g. `utf8` for
+`Cwd::utf8`). See [Dist::Zilla::Plugin::Author::HAYOBAAN::NamingTests](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AAuthor%3A%3AHAYOBAAN%3A%3ANamingTests).
+
+## naming\_subroutine\_exemptions
+
+Space-separated regular expressions of subroutine names the naming test accepts
+despite being mixed case (e.g. camelCase aliases kept for backward
+compatibility). See [Dist::Zilla::Plugin::Author::HAYOBAAN::NamingTests](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AAuthor%3A%3AHAYOBAAN%3A%3ANamingTests).
 
 ## surgical
 

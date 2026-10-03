@@ -117,7 +117,7 @@ sub provide_version {
         # Override with value of V from enviroment
         $new_ver = $ENV{V};
     } elsif (!defined $last_ver) {
-        # Initialise if no version set
+        # Initialize if no version set
         $new_ver = $self->first_version;
     } elsif (!$keep_version) {
         $new_ver .= '_000' if $include_minor_version && $last_ver !~ /_\d+$/;
@@ -129,7 +129,7 @@ sub provide_version {
 
     # Inform about what was done
     if (!defined $last_ver) {
-        $self->log("Initialising version to $new_ver");
+        $self->log("Initializing version to $new_ver");
     } elsif ($last_ver eq $new_ver) {
         $self->log("Keeping version at $new_ver");
     } else {

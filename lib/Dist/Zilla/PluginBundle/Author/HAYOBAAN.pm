@@ -63,6 +63,7 @@ following plugins are (conditionally) installed and configured:
 * L<PodSyntaxTests|Dist::Zilla::Plugin::PodSyntaxTests>
 * L<PodCoverageTests|Dist::Zilla::Plugin::PodCoverageTests>
 * L<Author::HAYOBAAN::LinkCheck|Dist::Zilla::Plugin::Author::HAYOBAAN::LinkCheck>
+* L<Author::HAYOBAAN::NamingTests|Dist::Zilla::Plugin::Author::HAYOBAAN::NamingTests>
 * L<Test::Synopsis|Dist::Zilla::Plugin::Test::Synopsis>
 * L<TestRelease|Dist::Zilla::Plugin::TestRelease>
 * L<RunExtraTests|Dist::Zilla::Plugin::RunExtraTests>
@@ -102,7 +103,7 @@ L</make_minor_release> attribute to I<true>.
 C<--minor>, C<--minor-release>, and C<--make-minor> are synonyms for
 this option.
 
-Note: Implied with L</--local-release-only>, overriden by L</--make-major-release>.
+Note: Implied with L</--local-release-only>, overridden by L</--make-major-release>.
 
 =head2 --make-major-release
 
@@ -175,6 +176,7 @@ require Test::CPAN::Meta;
 require Test::Pod::Coverage;
 require Pod::Coverage::TrustPod;
 require Dist::Zilla::Plugin::Author::HAYOBAAN::LinkCheck;
+require Dist::Zilla::Plugin::Author::HAYOBAAN::NamingTests;
 require Pod::Weaver::PluginBundle::Author::HAYOBAAN;
 require Pod::Weaver::Section::Author::HAYOBAAN::Bugs;
 require Dist::Zilla::Plugin::Test::Synopsis;
@@ -471,6 +473,7 @@ By default the following tests are executed:
 * L<PodSyntaxTests|Dist::Zilla::Plugin::PodSyntaxTests> -- Checks pod syntax
 * L<PodCoverageTests|Dist::Zilla::Plugin::PodCoverageTests> -- Checks pod coverage
 * L<LinkCheck|Dist::Zilla::Plugin::Author::HAYOBAAN::LinkCheck> -- Checks pod links
+* L<NamingTests|Dist::Zilla::Plugin::Author::HAYOBAAN::NamingTests> -- Checks names follow Perl's naming conventions
 * L<Test::Synopsis|Dist::Zilla::Plugin::Test::Synopsis> -- Checks the pod synopsis
 
 =cut
@@ -515,6 +518,36 @@ has max_target_perl => (
     isa     => 'Str',
     lazy    => 1,
     default => sub { $_[0]->payload->{max_target_perl} // '5.006' },
+);
+
+=attr naming_package_exemptions
+
+Space-separated regular expressions of package name components the naming test
+accepts despite not starting with an uppercase letter (e.g. C<utf8> for
+C<Cwd::utf8>). See L<Dist::Zilla::Plugin::Author::HAYOBAAN::NamingTests>.
+
+=cut
+
+has naming_package_exemptions => (
+    is      => 'ro',
+    isa     => 'Str',
+    lazy    => 1,
+    default => sub { $_[0]->payload->{naming_package_exemptions} // '' },
+);
+
+=attr naming_subroutine_exemptions
+
+Space-separated regular expressions of subroutine names the naming test accepts
+despite being mixed case (e.g. camelCase aliases kept for backward
+compatibility). See L<Dist::Zilla::Plugin::Author::HAYOBAAN::NamingTests>.
+
+=cut
+
+has naming_subroutine_exemptions => (
+    is      => 'ro',
+    isa     => 'Str',
+    lazy    => 1,
+    default => sub { $_[0]->payload->{naming_subroutine_exemptions} // '' },
 );
 
 =attr surgical
@@ -597,7 +630,7 @@ has copy_build_files => (
     lazy => 1,
     default => sub { [ ($_[0]->use_modulebuild ? qw(Build.PL) : ()),
                        ($_[0]->use_makemaker ? qw(Makefile.PL) : ()),
-                       qw(README README.mkdn) ] },
+                       qw(README README.md) ] },
 );
 
 # Files to exclude from gatherer
@@ -642,12 +675,12 @@ sub _add_test {
     return grep { ! $self->_is_disabled(ref $_ ? $_->[0] : $_) } @_;
 }
 
-=for Pod::Coverage configure getBooleanCommandlineOption
+=for Pod::Coverage configure
 
 =cut
 
 # Returns the value of a boolean command-line option
-sub getBooleanCommandlineOption {
+sub _get_boolean_command_line_option {
     my $option = $_[0];
     my @result = grep { /^--?(no-)?$option$/ } @ARGV;
     return @result ? $result[-1] !~ /^--?no-/ : undef;
@@ -659,20 +692,20 @@ sub configure {
     {
         # Command-line argument processing
 
-        # Local-relase-only
-        my $local = getBooleanCommandlineOption('local|local-only|local-release|local-release-only');
+        # Local-release-only
+        my $local = _get_boolean_command_line_option('local|local-only|local-release|local-release-only');
         $self->local_release_only($local) if defined $local;
 
         # Make-minor-release
-        my $minor = getBooleanCommandlineOption('minor|minor-relase|make-minor|make-minor-release');
+        my $minor = _get_boolean_command_line_option('minor|minor-release|make-minor|make-minor-release');
         $self->make_minor_release($minor) if defined $minor;
 
         # Make-major-release
-        my $major = getBooleanCommandlineOption('major|major-relase|make-major|make-major-release');
+        my $major = _get_boolean_command_line_option('major|major-release|make-major|make-major-release');
         $self->make_major_release($major) if defined $major;
 
         # Keep-version
-        my $keep = getBooleanCommandlineOption('keep|keep-version');
+        my $keep = _get_boolean_command_line_option('keep|keep-version');
         $self->keep_version($keep) if defined $keep;
     }
 
@@ -717,9 +750,9 @@ sub configure {
         ],
 
         #### Distribution Files & Metadata ####
-        # Create README and README.mkdn from POD
+        # Create README and README.md from POD
         [ 'ReadmeAnyFromPod', 'Text' ],
-        [ 'ReadmeAnyFromPod', 'Markdown' ],
+        [ 'ReadmeAnyFromPod', 'Markdown', { type => 'markdown', filename => 'README.md' } ],
 
         $self->is_github_hosted ? (
             # Create a LICENSE file
@@ -776,7 +809,7 @@ sub configure {
         ) : (),
 
         $self->is_github_hosted && $self->is_cpan ? (
-            # Add status badges to README.mkdn
+            # Add status badges to README.md
             [ 'GitHubREADME::Badge' => { ':version' => '0.16', badges => [ qw(cpants) ] } ],
         ) : (),
 
@@ -806,6 +839,11 @@ sub configure {
         # Extra tests (author)
         # Checks Perl source code for best-practices
         $self->_add_test('Test::Perl::Critic'),
+        # Checks names follow Perl's naming conventions
+        $self->_add_test([ 'Author::HAYOBAAN::NamingTests' => {
+            package_exemptions    => $self->naming_package_exemptions,
+            subroutine_exemptions => $self->naming_subroutine_exemptions,
+        } ]),
         # Checks line endings
         $self->_add_test('Test::EOL'),
         # Checks for the use of tabs
