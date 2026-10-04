@@ -10,6 +10,13 @@ Revision history for Perl module {{$dist->name}}
   * Fixed the --minor-release and --major-release options (they were only
     accepted with a typo)
   * Converted to snake_case naming and American English spelling
+  * The --local-release-only, --make-minor-release, --make-major-release, and
+    --keep-version options need a double dash (single-dash forms no longer
+    work), and no longer match longer option names by accident
+  * Documented that these options go after "--" (dzil release -- --minor),
+    and that they can be negated with --no-
+  * Documented how to set up the GitHub authorization for GitHub::Update
+  * Updated the author contact address and extended the copyright years to 2026
 
 0.016     2026-01-18
   * Skipping tests when installing dependencies in AppVeyor build

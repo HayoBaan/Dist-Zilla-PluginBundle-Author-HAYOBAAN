@@ -86,7 +86,10 @@ following plugins are (conditionally) installed and configured:
 
 # OPTIONS
 
-The following additional command-line option is available for the `dzil` command.
+The following additional command-line options are available for the `dzil`
+command. The `dzil` command itself doesn't know them, so give them after
+`--`, e.g. `dzil release -- --minor`. Each option can be negated with
+`--no-`, e.g. `--no-keep`.
 
 ## --local-release-only
 
@@ -114,7 +117,7 @@ Adding this option to the `dzil` command will set the
 `--major`, `--major-release`, and `--make-major` are synonyms for
 this option.
 
-Note: Overrides [--make-minor-release](https://metacpan.org/pod/--make-minor-release).
+Note: Overrides ["--make-minor-release"](#make-minor-release).
 
 ## --keep-version
 
@@ -347,6 +350,34 @@ Note: Only used in case of git version controlled repositories
 ([AutoVersion](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AAutoVersion) is used in case of
 non-git version controlled repositories).
 
+# GITHUB AUTHORIZATION
+
+When the distribution is hosted on GitHub (see ["is\_github\_hosted"](#is_github_hosted)), a
+release updates the repository's homepage and description on GitHub with
+[GitHub::Update](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AGitHub%3A%3AUpdate). This needs a GitHub
+access token. A classic personal access token with the `public_repo` scope is
+enough for a public repository. Create one on GitHub under
+_Settings, Developer settings, Personal access tokens_.
+
+The plugin looks for the credentials in two places:
+
+- The file `~/.github`, or its GPG-encrypted version `~/.github.gpg` (read
+with [Config::Identity::GitHub](https://metacpan.org/pod/Config%3A%3AIdentity%3A%3AGitHub)). It holds a `login` and a `token` line:
+
+        login your-github-username
+        token ghp_...
+
+- The git config settings `github.user` and `github.token`, when there is
+no `~/.github` file:
+
+        git config --global github.user your-github-username
+        git config --global github.token ghp_...
+
+When neither holds a token, the plugin asks for a password. GitHub's API no
+longer accepts passwords, so the update then fails. A token in `~/.github` or
+the git config is stored in plain text. Use `~/.github.gpg` to keep it
+encrypted.
+
 # BUGS
 
 Please report any bugs or feature requests on the bugtracker
@@ -365,11 +396,11 @@ I took inspiration from many people's [Dist::Zilla](https://metacpan.org/pod/Dis
 
 # AUTHOR
 
-Hayo Baan <info@hayobaan.com>
+Hayo Baan (it at hayobaan.nl)
 
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2014 by Hayo Baan.
+This software is copyright (c) 2014–2026 by Hayo Baan.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

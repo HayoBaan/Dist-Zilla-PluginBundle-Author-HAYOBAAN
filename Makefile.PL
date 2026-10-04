@@ -8,7 +8,7 @@ use ExtUtils::MakeMaker;
 
 my %WriteMakefileArgs = (
   "ABSTRACT" => "Hayo Baan's Dist::Zilla configuration",
-  "AUTHOR" => "Hayo Baan <info\@hayobaan.com>",
+  "AUTHOR" => "Hayo Baan (it at hayobaan.nl)",
   "CONFIGURE_REQUIRES" => {
     "ExtUtils::MakeMaker" => 0
   },
@@ -64,7 +64,6 @@ my %WriteMakefileArgs = (
     "Dist::Zilla::Role::PluginBundle::Easy" => 0,
     "Dist::Zilla::Role::PrereqSource" => 0,
     "Dist::Zilla::Role::TextTemplate" => 0,
-    "Getopt::Long" => 0,
     "Moose" => "0.99",
     "Pod::Coverage::TrustPod" => 0,
     "Pod::Elemental::PerlMunger" => 0,
@@ -146,7 +145,6 @@ my %FallbackPrereqs = (
   "Dist::Zilla::Role::TextTemplate" => 0,
   "File::Spec" => 0,
   "File::pushd" => 0,
-  "Getopt::Long" => 0,
   "IO::Handle" => 0,
   "IPC::Open3" => 0,
   "Moose" => "0.99",

@@ -85,7 +85,10 @@ following plugins are (conditionally) installed and configured:
 
 =head1 OPTIONS
 
-The following additional command-line option is available for the C<dzil> command.
+The following additional command-line options are available for the C<dzil>
+command. The C<dzil> command itself doesn't know them, so give them after
+C<-->, e.g. C<dzil release -- --minor>. Each option can be negated with
+C<--no->, e.g. C<--no-keep>.
 
 =head2 --local-release-only
 
@@ -113,13 +116,49 @@ L</make_major_release> attribute to true.
 C<--major>, C<--major-release>, and C<--make-major> are synonyms for
 this option.
 
-Note: Overrides L<--make-minor-release>.
+Note: Overrides L</--make-minor-release>.
 
 =head2 --keep-version
 
 Adding this option will force keep the version number the same (regardless of the other settings above!).
 
 C<--keep> is a synonym for this option.
+
+=head1 GITHUB AUTHORIZATION
+
+When the distribution is hosted on GitHub (see L</is_github_hosted>), a
+release updates the repository's homepage and description on GitHub with
+L<GitHub::Update|Dist::Zilla::Plugin::GitHub::Update>. This needs a GitHub
+access token. A classic personal access token with the C<public_repo> scope is
+enough for a public repository. Create one on GitHub under
+I<Settings, Developer settings, Personal access tokens>.
+
+The plugin looks for the credentials in two places:
+
+=over 4
+
+=item *
+
+The file F<~/.github>, or its GPG-encrypted version F<~/.github.gpg> (read
+with L<Config::Identity::GitHub>). It holds a C<login> and a C<token> line:
+
+  login your-github-username
+  token ghp_...
+
+=item *
+
+The git config settings C<github.user> and C<github.token>, when there is
+no F<~/.github> file:
+
+  git config --global github.user your-github-username
+  git config --global github.token ghp_...
+
+=back
+
+When neither holds a token, the plugin asks for a password. GitHub's API no
+longer accepts passwords, so the update then fails. A token in F<~/.github> or
+the git config is stored in plain text. Use F<~/.github.gpg> to keep it
+encrypted.
 
 =head1 CREDITS
 
@@ -130,8 +169,6 @@ I took inspiration from many people's L<Dist::Zilla> and L<Pod::Weaver> PluginBu
 * Mike Doherty L<DOHERTY|Dist::Zilla::PluginBundle::Author::DOHERTY>
 
 =cut
-
-use Getopt::Long;
 
 use Moose 0.99;
 use namespace::autoclean 0.09;
@@ -682,8 +719,8 @@ sub _add_test {
 # Returns the value of a boolean command-line option
 sub _get_boolean_command_line_option {
     my $option = $_[0];
-    my @result = grep { /^--?(no-)?$option$/ } @ARGV;
-    return @result ? $result[-1] !~ /^--?no-/ : undef;
+    my @result = grep { /^--(no-)?(?:$option)$/ } @ARGV;
+    return @result ? $result[-1] !~ /^--no-/ : undef;
 }
 
 sub configure {
