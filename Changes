@@ -1,6 +1,7 @@
 Revision history for Perl module {{$dist->name}}
 
 {{$NEXT}}
+  * Requires perl 5.014 (was 5.010)
   * appveyor.yml (CI configuration) is no longer included in the distribution
   * Added the Author::HAYOBAAN::NamingTests plugin: an author test that names
     follow Perl's naming conventions (Perl::Critic's Capitalization policy).
@@ -17,6 +18,18 @@ Revision history for Perl module {{$dist->name}}
     and that they can be negated with --no-
   * Documented how to set up the GitHub authorization for GitHub::Update
   * Updated the author contact address and extended the copyright years to 2026
+  * Added the Author::HAYOBAAN::HelpTests plugin: an author test that every
+    script shows its help with --help and -h, and its version with --version.
+    Its SYNOPSIS starts with the help line, followed by the version line
+  * Added the Author::HAYOBAAN::ScriptUnusedVarsTests plugin: an author test for
+    unused variables in scripts (Test::UnusedVars only checks modules)
+  * Added the Author::HAYOBAAN::PodStructureTests plugin: an author test for the
+    POD sections (missing or appearing twice), the layout and form of the
+    authors, e-mail addresses, and list items outside a list
+  * Added the Author::HAYOBAAN::CheckCopyrightYear plugin: a release stops when
+    copyright_year doesn't end with the current year (not with --keep-version)
+  * Author::HAYOBAAN::LinkCheck: Pod::Weaver writes its NAME, AUTHOR and
+    COPYRIGHT sections, and the original author is credited in ACKNOWLEDGEMENTS
 
 0.016     2026-01-18
   * Skipping tests when installing dependencies in AppVeyor build

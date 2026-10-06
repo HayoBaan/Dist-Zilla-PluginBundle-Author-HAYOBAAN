@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-use 5.010;
+use 5.014;
 
 use ExtUtils::MakeMaker;
 
@@ -14,7 +14,7 @@ my %WriteMakefileArgs = (
   },
   "DISTNAME" => "Dist-Zilla-PluginBundle-Author-HAYOBAAN",
   "LICENSE" => "perl",
-  "MIN_PERL_VERSION" => "5.010",
+  "MIN_PERL_VERSION" => "5.014",
   "NAME" => "Dist::Zilla::PluginBundle::Author::HAYOBAAN",
   "PREREQ_PM" => {
     "Data::Section" => "0.004",
@@ -60,6 +60,7 @@ my %WriteMakefileArgs = (
     "Dist::Zilla::Plugin::Test::Synopsis" => 0,
     "Dist::Zilla::Plugin::Test::UnusedVars" => 0,
     "Dist::Zilla::Plugin::Test::Version" => 0,
+    "Dist::Zilla::Role::BeforeRelease" => 0,
     "Dist::Zilla::Role::FileGatherer" => 0,
     "Dist::Zilla::Role::PluginBundle::Easy" => 0,
     "Dist::Zilla::Role::PrereqSource" => 0,
@@ -77,6 +78,7 @@ my %WriteMakefileArgs = (
     "Version::Next" => 0,
     "namespace::autoclean" => "0.09",
     "strict" => 0,
+    "utf8" => 0,
     "warnings" => 0
   },
   "TEST_REQUIRES" => {
@@ -139,6 +141,7 @@ my %FallbackPrereqs = (
   "Dist::Zilla::Plugin::Test::Synopsis" => 0,
   "Dist::Zilla::Plugin::Test::UnusedVars" => 0,
   "Dist::Zilla::Plugin::Test::Version" => 0,
+  "Dist::Zilla::Role::BeforeRelease" => 0,
   "Dist::Zilla::Role::FileGatherer" => 0,
   "Dist::Zilla::Role::PluginBundle::Easy" => 0,
   "Dist::Zilla::Role::PrereqSource" => 0,
@@ -163,6 +166,7 @@ my %FallbackPrereqs = (
   "Version::Next" => 0,
   "namespace::autoclean" => "0.09",
   "strict" => 0,
+  "utf8" => 0,
   "warnings" => 0
 );
 

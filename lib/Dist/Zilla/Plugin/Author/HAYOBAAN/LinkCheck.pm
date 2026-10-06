@@ -2,8 +2,7 @@ package Dist::Zilla::Plugin::Author::HAYOBAAN::LinkCheck;
 use strict;
 use warnings;
 
-# ABSTRACT: Adapted version of the Dist::Zilla::Plugin::Test::Pod::LinkCheck
-# plugin to set the cpan backend to CPAN instead of the deprecated CPANPLUS.
+# ABSTRACT: Add author tests for POD links
 # VERSION
 
 use Moose;
@@ -27,37 +26,37 @@ sub register_prereqs {
 =for :stopwords Randy Stauner ACKNOWLEDGEMENTS cpan testmatrix url annocpan anno bugtracker
 rt cpants kwalitee diff irc mailto metadata placeholders metacpan
 
-=head1 NAME
-
-Dist::Zilla::Plugin::Author::HAYOBAAN::LinkCheck - Add author tests for POD links
-
 =head1 USAGE
 
 Add the following to your F<dist.ini>:
 
   [Author::HAYOBAAN::LinkCheck]
 
+=head1 DESCRIPTION
+
+Adds the author test F<xt/author/pod-linkcheck.t>, which checks that the
+links in the POD resolve. It is Randy Stauner's
+L<Test::Pod::LinkCheck|Dist::Zilla::Plugin::Test::Pod::LinkCheck> plugin,
+modified by Hayo Baan. The test looks up modules on CPAN, instead of with the
+deprecated CPANPLUS.
+
 =head1 SEE ALSO
 
 =for :list
 * The original L<Test::Pod::LinkCheck|Dist::Zilla::Plugin::Test::Pod::LinkCheck> plugin
-
 * The underlying test L<Test::Pod::LinkCheck>
 
 =cut
 
 =for Pod::Coverage register_prereqs
 
-=head1 AUTHOR
+=head1 ACKNOWLEDGEMENTS
 
-Randy Stauner <rwstauner@cpan.org>, modifications by Hayo Baan.
-
-=head1 COPYRIGHT AND LICENSE
-
-This software is copyright (c) 2011 by Randy Stauner.
-
-This is free software; you can redistribute it and/or modify it under
-the same terms as the Perl 5 programming language system itself.
+This plugin is based on the
+L<Test::Pod::LinkCheck|Dist::Zilla::Plugin::Test::Pod::LinkCheck> plugin by
+Randy Stauner (rwstauner at cpan.org). That plugin is copyright (c) 2011 by
+Randy Stauner, under the same terms as the Perl 5 programming language
+system itself.
 
 =cut
 

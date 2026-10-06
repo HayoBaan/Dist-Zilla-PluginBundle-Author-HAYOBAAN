@@ -43,6 +43,7 @@ following plugins are (conditionally) installed and configured:
 - [Run::AfterBuild](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ARun%3A%3AAfterBuild)
 - [GitHubREADME::Badge](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AGitHubREADME%3A%3ABadge)
 - [CheckChangesHasContent](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ACheckChangesHasContent)
+- [Author::HAYOBAAN::CheckCopyrightYear](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AAuthor%3A%3AHAYOBAAN%3A%3ACheckCopyrightYear)
 - [Git::CheckFor::CorrectBranch](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AGit%3A%3ACheckFor%3A%3ACorrectBranch)
 - [Git::Check](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AGit%3A%3ACheck)
 - [CheckMetaResources](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ACheckMetaResources)
@@ -57,6 +58,7 @@ following plugins are (conditionally) installed and configured:
 - [Test::Kwalitee](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ATest%3A%3AKwalitee)
 - [Test::Portability](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ATest%3A%3APortability)
 - [Test::UnusedVars](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ATest%3A%3AUnusedVars)
+- [Author::HAYOBAAN::ScriptUnusedVarsTests](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AAuthor%3A%3AHAYOBAAN%3A%3AScriptUnusedVarsTests)
 - [Test::CPAN::Changes](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ATest%3A%3ACPAN%3A%3AChanges)
 - [Test::DistManifest](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ATest%3A%3ADistManifest)
 - [Test::CPAN::Meta::JSON](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ATest%3A%3ACPAN%3A%3AMeta%3A%3AJSON)
@@ -65,6 +67,8 @@ following plugins are (conditionally) installed and configured:
 - [PodCoverageTests](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3APodCoverageTests)
 - [Author::HAYOBAAN::LinkCheck](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AAuthor%3A%3AHAYOBAAN%3A%3ALinkCheck)
 - [Author::HAYOBAAN::NamingTests](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AAuthor%3A%3AHAYOBAAN%3A%3ANamingTests)
+- [Author::HAYOBAAN::PodStructureTests](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AAuthor%3A%3AHAYOBAAN%3A%3APodStructureTests)
+- [Author::HAYOBAAN::HelpTests](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AAuthor%3A%3AHAYOBAAN%3A%3AHelpTests)
 - [Test::Synopsis](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ATest%3A%3ASynopsis)
 - [TestRelease](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ATestRelease)
 - [RunExtraTests](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ARunExtraTests)
@@ -275,7 +279,8 @@ By default the following tests are executed:
 - [MojibakeTests](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AMojibakeTests) -- Checks source encoding
 - [Test::Kwalitee](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ATest%3A%3AKwalitee) -- Checks the Kwalitee
 - [Test::Portability](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ATest%3A%3APortability) -- Checks portability of code
-- [Test::UnusedVars](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ATest%3A%3AUnusedVars) -- Checks for unused variables
+- [Test::UnusedVars](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ATest%3A%3AUnusedVars) -- Checks for unused variables in modules
+- [ScriptUnusedVarsTests](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AAuthor%3A%3AHAYOBAAN%3A%3AScriptUnusedVarsTests) -- Checks for unused variables in scripts
 - [Test::CPAN::Changes](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ATest%3A%3ACPAN%3A%3AChanges) -- Validation of the Changes file
 - [Test::DistManifest](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ATest%3A%3ADistManifest) -- Validation of the MANIFEST file
 - [Test::CPAN::Meta::JSON](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ATest%3A%3ACPAN%3A%3AMeta%3A%3AJSON) -- Validation of the META.json file -- only when hosted on GitHub
@@ -284,6 +289,8 @@ By default the following tests are executed:
 - [PodCoverageTests](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3APodCoverageTests) -- Checks pod coverage
 - [LinkCheck](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AAuthor%3A%3AHAYOBAAN%3A%3ALinkCheck) -- Checks pod links
 - [NamingTests](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AAuthor%3A%3AHAYOBAAN%3A%3ANamingTests) -- Checks names follow Perl's naming conventions
+- [PodStructureTests](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AAuthor%3A%3AHAYOBAAN%3A%3APodStructureTests) -- Checks the pod sections, authors and e-mail addresses
+- [HelpTests](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AAuthor%3A%3AHAYOBAAN%3A%3AHelpTests) -- Checks every script shows its help and version
 - [Test::Synopsis](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ATest%3A%3ASynopsis) -- Checks the pod synopsis
 
 ## disable\_test

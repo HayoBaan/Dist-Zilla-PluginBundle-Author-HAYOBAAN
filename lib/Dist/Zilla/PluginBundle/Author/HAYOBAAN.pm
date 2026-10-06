@@ -1,5 +1,5 @@
 package Dist::Zilla::PluginBundle::Author::HAYOBAAN;
-use 5.010;                      # For // operator
+use 5.014;                      # For //, and s///r in the tests and HelpTests' template
 use strict;
 use warnings;
 
@@ -42,6 +42,7 @@ following plugins are (conditionally) installed and configured:
 * L<Run::AfterBuild|Dist::Zilla::Plugin::Run::AfterBuild>
 * L<GitHubREADME::Badge|Dist::Zilla::Plugin::GitHubREADME::Badge>
 * L<CheckChangesHasContent|Dist::Zilla::Plugin::CheckChangesHasContent>
+* L<Author::HAYOBAAN::CheckCopyrightYear|Dist::Zilla::Plugin::Author::HAYOBAAN::CheckCopyrightYear>
 * L<Git::CheckFor::CorrectBranch|Dist::Zilla::Plugin::Git::CheckFor::CorrectBranch>
 * L<Git::Check|Dist::Zilla::Plugin::Git::Check>
 * L<CheckMetaResources|Dist::Zilla::Plugin::CheckMetaResources>
@@ -56,6 +57,7 @@ following plugins are (conditionally) installed and configured:
 * L<Test::Kwalitee|Dist::Zilla::Plugin::Test::Kwalitee>
 * L<Test::Portability|Dist::Zilla::Plugin::Test::Portability>
 * L<Test::UnusedVars|Dist::Zilla::Plugin::Test::UnusedVars>
+* L<Author::HAYOBAAN::ScriptUnusedVarsTests|Dist::Zilla::Plugin::Author::HAYOBAAN::ScriptUnusedVarsTests>
 * L<Test::CPAN::Changes|Dist::Zilla::Plugin::Test::CPAN::Changes>
 * L<Test::DistManifest|Dist::Zilla::Plugin::Test::DistManifest>
 * L<Test::CPAN::Meta::JSON|Dist::Zilla::Plugin::Test::CPAN::Meta::JSON>
@@ -64,6 +66,8 @@ following plugins are (conditionally) installed and configured:
 * L<PodCoverageTests|Dist::Zilla::Plugin::PodCoverageTests>
 * L<Author::HAYOBAAN::LinkCheck|Dist::Zilla::Plugin::Author::HAYOBAAN::LinkCheck>
 * L<Author::HAYOBAAN::NamingTests|Dist::Zilla::Plugin::Author::HAYOBAAN::NamingTests>
+* L<Author::HAYOBAAN::PodStructureTests|Dist::Zilla::Plugin::Author::HAYOBAAN::PodStructureTests>
+* L<Author::HAYOBAAN::HelpTests|Dist::Zilla::Plugin::Author::HAYOBAAN::HelpTests>
 * L<Test::Synopsis|Dist::Zilla::Plugin::Test::Synopsis>
 * L<TestRelease|Dist::Zilla::Plugin::TestRelease>
 * L<RunExtraTests|Dist::Zilla::Plugin::RunExtraTests>
@@ -214,6 +218,10 @@ require Test::Pod::Coverage;
 require Pod::Coverage::TrustPod;
 require Dist::Zilla::Plugin::Author::HAYOBAAN::LinkCheck;
 require Dist::Zilla::Plugin::Author::HAYOBAAN::NamingTests;
+require Dist::Zilla::Plugin::Author::HAYOBAAN::PodStructureTests;
+require Dist::Zilla::Plugin::Author::HAYOBAAN::HelpTests;
+require Dist::Zilla::Plugin::Author::HAYOBAAN::ScriptUnusedVarsTests;
+require Dist::Zilla::Plugin::Author::HAYOBAAN::CheckCopyrightYear;
 require Pod::Weaver::PluginBundle::Author::HAYOBAAN;
 require Pod::Weaver::Section::Author::HAYOBAAN::Bugs;
 require Dist::Zilla::Plugin::Test::Synopsis;
@@ -502,7 +510,8 @@ By default the following tests are executed:
 * L<MojibakeTests|Dist::Zilla::Plugin::MojibakeTests> -- Checks source encoding
 * L<Test::Kwalitee|Dist::Zilla::Plugin::Test::Kwalitee> -- Checks the Kwalitee
 * L<Test::Portability|Dist::Zilla::Plugin::Test::Portability> -- Checks portability of code
-* L<Test::UnusedVars|Dist::Zilla::Plugin::Test::UnusedVars> -- Checks for unused variables
+* L<Test::UnusedVars|Dist::Zilla::Plugin::Test::UnusedVars> -- Checks for unused variables in modules
+* L<ScriptUnusedVarsTests|Dist::Zilla::Plugin::Author::HAYOBAAN::ScriptUnusedVarsTests> -- Checks for unused variables in scripts
 * L<Test::CPAN::Changes|Dist::Zilla::Plugin::Test::CPAN::Changes> -- Validation of the Changes file
 * L<Test::DistManifest|Dist::Zilla::Plugin::Test::DistManifest> -- Validation of the MANIFEST file
 * L<Test::CPAN::Meta::JSON|Dist::Zilla::Plugin::Test::CPAN::Meta::JSON> -- Validation of the META.json file -- only when hosted on GitHub
@@ -511,6 +520,8 @@ By default the following tests are executed:
 * L<PodCoverageTests|Dist::Zilla::Plugin::PodCoverageTests> -- Checks pod coverage
 * L<LinkCheck|Dist::Zilla::Plugin::Author::HAYOBAAN::LinkCheck> -- Checks pod links
 * L<NamingTests|Dist::Zilla::Plugin::Author::HAYOBAAN::NamingTests> -- Checks names follow Perl's naming conventions
+* L<PodStructureTests|Dist::Zilla::Plugin::Author::HAYOBAAN::PodStructureTests> -- Checks the pod sections, authors and e-mail addresses
+* L<HelpTests|Dist::Zilla::Plugin::Author::HAYOBAAN::HelpTests> -- Checks every script shows its help and version
 * L<Test::Synopsis|Dist::Zilla::Plugin::Test::Synopsis> -- Checks the pod synopsis
 
 =cut
@@ -855,6 +866,8 @@ sub configure {
             # Check if Changes file has content
             'CheckChangesHasContent',
         ) : (),
+        # Check that the copyright year is up to date, unless the release keeps the version
+        !$self->keep_version ? $self->_add_test('Author::HAYOBAAN::CheckCopyrightYear') : (),
 
         !$self->no_git && !$self->local_release_only ? (
             # Check if we're on the correct git branch
@@ -897,8 +910,10 @@ sub configure {
         $self->_add_test([ 'Test::Kwalitee' => { $self->is_github_hosted ? () : (skiptest => [ qw(has_meta_yml) ]) } ]),
         # Checks portability of code
         $self->_add_test('Test::Portability'),
-        # Checks for unused variables
+        # Checks for unused variables in modules
         $self->_add_test('Test::UnusedVars'),
+        # Checks for unused variables in scripts
+        $self->_add_test('Author::HAYOBAAN::ScriptUnusedVarsTests'),
         !$self->local_release_only ? (
             # Validation of the Changes file
             $self->_add_test('Test::CPAN::Changes'),
@@ -919,6 +934,10 @@ sub configure {
         $self->_add_test('PodCoverageTests'),
         # Checks pod links
         $self->_add_test('Author::HAYOBAAN::LinkCheck'),
+        # Checks the pod sections, authors and e-mail addresses
+        $self->_add_test('Author::HAYOBAAN::PodStructureTests'),
+        # Checks every script shows its help and version
+        $self->_add_test('Author::HAYOBAAN::HelpTests'),
         # Checks the pod synopsis
         $self->_add_test('Test::Synopsis'),
 

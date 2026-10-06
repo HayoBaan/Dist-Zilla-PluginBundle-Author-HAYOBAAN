@@ -71,6 +71,8 @@ DESCRIPTION
 
       * CheckChangesHasContent
 
+      * Author::HAYOBAAN::CheckCopyrightYear
+
       * Git::CheckFor::CorrectBranch
 
       * Git::Check
@@ -99,6 +101,8 @@ DESCRIPTION
 
       * Test::UnusedVars
 
+      * Author::HAYOBAAN::ScriptUnusedVarsTests
+
       * Test::CPAN::Changes
 
       * Test::DistManifest
@@ -114,6 +118,10 @@ DESCRIPTION
       * Author::HAYOBAAN::LinkCheck
 
       * Author::HAYOBAAN::NamingTests
+
+      * Author::HAYOBAAN::PodStructureTests
+
+      * Author::HAYOBAAN::HelpTests
 
       * Test::Synopsis
 
@@ -360,7 +368,9 @@ ATTRIBUTES
 
       * Test::Portability -- Checks portability of code
 
-      * Test::UnusedVars -- Checks for unused variables
+      * Test::UnusedVars -- Checks for unused variables in modules
+
+      * ScriptUnusedVarsTests -- Checks for unused variables in scripts
 
       * Test::CPAN::Changes -- Validation of the Changes file
 
@@ -379,6 +389,11 @@ ATTRIBUTES
       * LinkCheck -- Checks pod links
 
       * NamingTests -- Checks names follow Perl's naming conventions
+
+      * PodStructureTests -- Checks the pod sections, authors and e-mail
+      addresses
+
+      * HelpTests -- Checks every script shows its help and version
 
       * Test::Synopsis -- Checks the pod synopsis
 
