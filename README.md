@@ -37,6 +37,7 @@ following plugins are (conditionally) installed and configured:
 - [ExecDir](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AExecDir)
 - [ShareDir](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AShareDir)
 - [MakeMaker](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AMakeMaker) (default)
+- [Author::HAYOBAAN::ManPages](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AAuthor%3A%3AHAYOBAAN%3A%3AManPages) (with MakeMaker)
 - [ModuleBuild](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AModuleBuild) (optional)
 - [Manifest](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AManifest)
 - [CopyFilesFromBuild](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ACopyFilesFromBuild)

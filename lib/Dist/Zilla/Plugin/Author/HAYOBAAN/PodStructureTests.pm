@@ -55,7 +55,16 @@ OVERVIEW), AUTHOR (or AUTHORS), and COPYRIGHT AND LICENSE;
 * no paragraph outside a list starts with C<* >. Such a paragraph is meant as
 a list item, for instance after a C<=for :list> whose items are separated by
 blank lines, but shows a literal C<*>;
-* NAME starts with the name of the module or script;
+* NAME is the name of the module or script, a hyphen and what it does:
+C<name - does something>;
+* the SYNOPSIS of a script in F<bin> or F<script>, also in a subdirectory,
+holds only its usage lines. Each starts with the script's name, or with a command that pipes
+into it. A line indented further continues the usage line above it. Options go
+in the OPTIONS section, and other arguments in an ARGUMENTS section;
+* such a script has an OPTIONS section, with an item for each option written
+as C<=item BE<lt>--longE<gt>, BE<lt>-sE<gt> IE<lt>ARGE<gt>>: the long form
+first, and the argument, if any, after each form. There are items for
+C<BE<lt>--helpE<gt>, BE<lt>-hE<gt>> and C<BE<lt>--versionE<gt>>;
 * the authors have the layout Pod::Weaver gives them: one author is a
 paragraph in an AUTHOR section, more authors are a list in an AUTHORS
 section, with an C<=item *> per author;
@@ -151,6 +160,48 @@ sub author_problems {
     return @problems;
 }
 
+# Returns the problems with the SYNOPSIS of a script: each line must be a usage
+# line, starting with the script's name, or with a command that pipes into it.
+# A line indented further than the first one continues the usage line above it.
+sub synopsis_problems {
+    my ($name, $synopsis) = @_;
+
+    my @lines = grep { /\S/ } split(/\n/, $synopsis);
+    return if !@lines;
+    my ($indent) = $lines[0] =~ /^(\s*)/;
+    my @problems;
+    for my $line (@lines) {
+        my ($line_indent, $text) = $line =~ /^(\s*)(.*?)\s*$/;
+        next if length($line_indent) > length($indent);
+        push(@problems, "the SYNOPSIS line '$text' isn't a usage line of $name (options go in the OPTIONS section)")
+            if $text !~ /^(?:.*\|\s*)?\Q$name\E(?:\s|$)/;
+    }
+    return @problems;
+}
+
+# Returns the problems with the OPTIONS section of a script: its items must be
+# written as B<--long>, B<-s> I<ARG>, and there must be items for --help and
+# --version. List items in the descriptions (=item * or a number) aren't
+# options.
+sub options_problems {
+    my ($options) = @_;
+
+    return ('no OPTIONS section') if !defined $options;
+    my @items = grep { !/^(?:\*|\d+\.?)(?:\s|$)/ } $options =~ /^=item[ \t]+(.*?)[ \t]*$/mg;
+    my $form = qr/B<--?(?:\[no-\])?\w[\w-]*>(?:[ =]I<[^<>]+>)?/;
+    my @problems;
+    for my $item (@items) {
+        if ($item !~ /^$form(?:, $form)*$/) {
+            push(@problems, "the option item '$item' isn't written as B<--long>, B<-s> I<ARG>");
+        } elsif ($item =~ /B<-\w>.*B<--/) {
+            push(@problems, "the option item '$item' doesn't have its long form first");
+        }
+    }
+    push(@problems, map { "no '=item $_' in the OPTIONS section" } grep { my $item = $_; !grep { $_ eq $item } @items }
+        ('B<--help>, B<-h>', 'B<--version>'));
+    return @problems;
+}
+
 # Returns the problems with the POD structure of a module or script
 sub pod_problems {
     my ($file) = @_;
@@ -170,8 +221,13 @@ sub pod_problems {
     push(@problems, map { "'$_' looks like a list item, but isn't in a list" } stray_items($pod));
     push(@problems, author_problems(\%section));
     my $name = pod_name($file);
-    push(@problems, "the NAME section doesn't start with '$name -'")
-        if exists $section{NAME} && $section{NAME} !~ /^\s*\Q$name\E\s+-/;
+    push(@problems, "the NAME section isn't '$name - what it does'")
+        if exists $section{NAME} && $section{NAME} !~ /^\s*\Q$name\E - \S/;
+    # A script in bin or script, also in a subdirectory, is a command
+    if ($file =~ m{^(?:bin|script)/}) {
+        push(@problems, synopsis_problems($name =~ s/^git-/git /r, $section{SYNOPSIS} // $section{USAGE} // ''));
+        push(@problems, options_problems($section{OPTIONS}));
+    }
     my @addresses = grep { !/\@(?:(?:[\w-]+\.)*example\.(?:com|net|org)|[\w.-]+\.(?:example|test|invalid|localhost))$/i }
         $pod =~ /([\w.+-]+\@[\w-]+(?:\.[\w-]+)+)/g;
     push(@problems, map { "e-mail address $_ in the POD (write it as user at domain)" } @addresses);
@@ -181,7 +237,7 @@ sub pod_problems {
 my @files;
 find({ no_chdir => 1, wanted => sub { push(@files, $_) if -f $_ && /\.pm$/ } }, 'lib') if -d 'lib';
 find({ no_chdir => 1, wanted => sub {
-    return if !-f $_;
+    return if !-f $_ || -l $_;
     open my $fh, '<', $_ or die "Can't read $_: $!";
     my $first_line = <$fh> // '';
     push(@files, $_) if $first_line =~ /\A#!\s*(?:\S*\/env\s+)?\S*perl/;

@@ -59,6 +59,8 @@ DESCRIPTION
 
       * MakeMaker (default)
 
+      * Author::HAYOBAAN::ManPages (with MakeMaker)
+
       * ModuleBuild (optional)
 
       * Manifest

@@ -4,6 +4,7 @@ use utf8;
 use Test::More 0.96;
 use File::pushd qw/tempd/;
 use IPC::Open3;
+use Config;
 use Path::Tiny;
 
 use Test::DZil;
@@ -11,10 +12,11 @@ use Test::DZil;
 use Dist::Zilla::Plugin::Author::HAYOBAAN::HelpTests;
 use Dist::Zilla::Plugin::Author::HAYOBAAN::PodStructureTests;
 
-# Tests of the bundle's own test plugins:
-# - a build with @Author::HAYOBAAN adds their author tests;
-# - CheckCopyrightYear stops a release when the copyright year isn't up to date;
-# - the generated pod-structure and help tests pass and fail the right files.
+# Tests of the bundle's own plugins:
+# - a build with @Author::HAYOBAAN adds their author tests
+# - ManPages makes the man pages name their manual, version and date
+# - CheckCopyrightYear stops a release when the copyright year isn't up to date
+# - the generated pod-structure and help tests pass and fail the right files
 
 binmode(Test::More->builder->$_, ':encoding(UTF-8)') for qw(output failure_output todo_output);
 
@@ -53,14 +55,26 @@ sub sample_dist {
     return $dir;
 }
 
+# The OPTIONS section of a script with only --help and --version, and one with
+# the given extra items
+sub options_pod {
+    my (@items) = @_;
+
+    return "=head1 OPTIONS\n\n=over 4\n\n" . join('', map { "=item $_\n\nDoes something.\n\n" }
+        ('B<--help>, B<-h>', 'B<--version>', @items)) . "=back\n\n";
+}
+
 # Returns the POD of a script or module with the given sections
 sub pod {
     my ($name, %options) = @_;
 
     my $authors = $options{authors} // "=head1 AUTHOR\n\nSome Author (someone at example.com)\n\n";
     my $description = exists $options{description} ? $options{description} : "=head1 DESCRIPTION\n\nDoes something.\n\n";
-    return "=head1 NAME\n\n$name - Does something\n\n=head1 SYNOPSIS\n\n  $name --help|-h\n\n  $name --version\n\n"
-        . "$description$authors=head1 COPYRIGHT AND LICENSE\n\nThis software is copyright (c) $current_year.\n\n=cut\n";
+    my $name_line = $options{name_line} // "$name - Does something";
+    my $synopsis = $options{synopsis} // "  $name --help|-h\n\n  $name --version\n\n";
+    my $options = $options{options} // '';
+    return "=head1 NAME\n\n$name_line\n\n=head1 SYNOPSIS\n\n$synopsis"
+        . "$description$options$authors=head1 COPYRIGHT AND LICENSE\n\nThis software is copyright (c) $current_year.\n\n=cut\n";
 }
 
 subtest 'the bundle adds the author tests' => sub {
@@ -69,6 +83,38 @@ subtest 'the bundle adds the author tests' => sub {
     $tzil->build;
     my %files = map { ($_->name => 1) } @{ $tzil->files };
     ok($files{$_}, "the build has $_") for qw(xt/author/help.t xt/author/pod-structure.t xt/author/unused-vars-scripts.t);
+};
+
+subtest 'ManPages' => sub {
+    my $wd = tempd;
+    my $tzil = Builder->from_config({ dist_root => 'does-not-exist' }, {
+        add_files => {
+            'source/dist.ini'          => simple_ini({ version => '0.018' }, 'GatherDir', 'ExecDir', 'MakeMaker',
+                'Author::HAYOBAAN::ManPages'),
+            'source/lib/Foo.pm'        => "package Foo;\n1;\n\n=head1 NAME\n\nFoo - Does something\n\n=cut\n",
+            'source/bin/some_script'   => "#!/usr/bin/env perl\n\n=head1 NAME\n\nsome_script - Does something\n\n=cut\n",
+        },
+    });
+    $tzil->build;
+    my $build_dir = path($tzil->tempdir)->child('build');
+    my $makefile = $build_dir->child('Makefile.PL')->slurp_utf8;
+    like($makefile, qr/^\s+sub manifypods \{/m, 'Makefile.PL gets its own manifypods');
+    my @now = localtime;
+    my $today = sprintf('%04d-%02d-%02d', $now[5] + 1900, $now[4] + 1, $now[3]);
+    like($makefile, qr/^\s+my \$date = '\Q$today\E';$/m, 'with the date of the build fixed in it');
+    my $built = File::pushd::pushd($build_dir);
+    my $make = $Config::Config{make};
+    my $output = `"$^X" Makefile.PL 2>&1 && $make manifypods 2>&1`;
+    is($?, 0, 'make manifypods succeeds') or diag($output);
+    SKIP: {
+        # Perl installations without man directories, such as Strawberry Perl on Windows, make no man pages
+        skip 'This perl makes no man pages', 2 if ($Config::Config{installman1dir} // '') =~ /^(?:|none)$/;
+        my $th_line = sub { my ($page) = @_; my ($line) = grep { /^\.TH / } path($page)->lines_utf8; return $line // '' };
+        like($th_line->('blib/man1/some_script.1'), qr/^\.TH SOME_SCRIPT 1 \Q$today\E "some_script 0\.018" "User Commands"$/,
+            'a script has its name in uppercase, and names its manual, its name with the version, and the date');
+        like($th_line->((glob('blib/man3/Foo.*'))[0]),
+            qr/^\.TH Foo 3(?:pm)? \Q$today\E "Foo 0\.018" "Perl Programmers Reference Guide"$/, 'a module too');
+    }
 };
 
 subtest 'CheckCopyrightYear' => sub {
@@ -109,7 +155,17 @@ subtest 'the pod-structure test' => sub {
             . pod('OneOfAuthors', authors => "=head1 AUTHORS\n\nSome Author\n\n"),
         'lib/RealAddress.pm'    => "package RealAddress;\n1;\n\n"
             . pod('RealAddress', authors => "=head1 AUTHOR\n\nSome Author <someone\@realdomain.nl>\n\n"),
-        'bin/some_script'       => "#!/usr/bin/env perl\n\n" . pod('some_script'),
+        'bin/some_script'       => "#!/usr/bin/env perl\n\n" . pod('some_script', options => options_pod(
+            'B<--target> I<dir>, B<-t> I<dir>', 'B<--[no-]colorize>', 'B<--output>=I<base>'),
+            synopsis => "  some_script --help|-h\n\n  some_script --version\n\n  cat file | some_script [--long-option]\n"
+                . "      [--other]\n\n"),
+        'bin/no_options'        => "#!/usr/bin/env perl\n\n" . pod('no_options'),
+        'bin/summary'           => "#!/usr/bin/env perl\n\n" . pod('summary', options => options_pod(),
+            synopsis => "  summary --help|-h\n\n  summary --version\n\n  Options:\n    --target  the target\n\n"),
+        'bin/bad_items'         => "#!/usr/bin/env perl\n\n" . pod('bad_items', options => options_pod('B<-t>, B<--target>', 'B<--dir> DIR')),
+        'bin/no_help_item'      => "#!/usr/bin/env perl\n\n" . pod('no_help_item',
+            options => "=head1 OPTIONS\n\n=over 4\n\n=item B<--version>\n\nShows it.\n\n=back\n\n"),
+        'lib/DoubleDash.pm'     => "package DoubleDash;\n1;\n\n" . pod('DoubleDash', name_line => 'DoubleDash -- Does something'),
         'lib/Twice.pm'          => "package Twice;\n1;\n\n" . pod('Twice') . "\n=head1 NAME\n\nTwice - Again\n\n=cut\n",
         'lib/StrayItem.pm'      => "package StrayItem;\n1;\n\n" . pod('StrayItem')
             . "\n=head1 SEE ALSO\n\n=over 4\n\n=item *\n\nIn a list\n\n=back\n\n* Outside the list\n\n=cut\n",
@@ -120,12 +176,22 @@ subtest 'the pod-structure test' => sub {
     is_deeply([sort @{ $result->{ok} }], [sort map { "$_ has the standard POD structure" } qw(lib/Good.pm lib/Listed.pm bin/some_script)],
         'complete PODs pass, also with authors as list items, and names with accents') or diag($result->{output});
     is_deeply([sort @{ $result->{'not ok'} }],
-        [sort map { "$_ has the standard POD structure" } qw(lib/NoDescription.pm lib/OneOfAuthors.pm lib/Paragraphs.pm lib/RealAddress.pm lib/StrayItem.pm lib/Twice.pm)],
+        [sort map { "$_ has the standard POD structure" } qw(lib/NoDescription.pm lib/OneOfAuthors.pm lib/Paragraphs.pm lib/RealAddress.pm lib/StrayItem.pm lib/Twice.pm
+            bin/no_options bin/summary bin/bad_items bin/no_help_item lib/DoubleDash.pm)],
         'a missing section, a wrong heading, authors not in a list, a real address, a list item outside a list, '
         . 'and a section that appears twice fail');
     like($result->{output}, qr/lib\/StrayItem\.pm: '\* Outside the list' looks like a list item, but isn't in a list/,
         'naming the list item');
     like($result->{output}, qr/lib\/RealAddress\.pm: e-mail address someone\@realdomain\.nl in the POD/, 'naming the address');
+    like($result->{output}, qr/bin\/no_options: no OPTIONS section/, 'a script needs an OPTIONS section');
+    like($result->{output}, qr/bin\/summary: the SYNOPSIS line 'Options:' isn't a usage line of summary/,
+        'a SYNOPSIS holds only usage lines');
+    like($result->{output}, qr/bin\/bad_items: the option item 'B<-t>, B<--target>' doesn't have its long form first/,
+        'an option item has its long form first');
+    like($result->{output}, qr/bin\/bad_items: the option item 'B<--dir> DIR' isn't written as B<--long>, B<-s> I<ARG>/,
+        'and its argument in I<>');
+    like($result->{output}, qr/bin\/no_help_item: no '=item B<--help>, B<-h>' in the OPTIONS section/, 'there is a help item');
+    like($result->{output}, qr/lib\/DoubleDash\.pm: the NAME section isn't 'DoubleDash - what it does'/, 'NAME has a single hyphen');
     unlike($result->{output}, qr/^Use of uninitialized value/m, 'without warnings');
 };
 
@@ -139,6 +205,7 @@ subtest 'the help test' => sub {
     };
     my $dir = sample_dist('Dist::Zilla::Plugin::Author::HAYOBAAN::HelpTests', 'xt/author/help.t',
         'bin/good_script'   => $script->('good_script', '"good_script $VERSION\n"'),
+        'bin/sub/sub_script' => $script->('sub_script', '"sub_script $VERSION\n"'),
         'bin/wrong_version' => $script->('wrong_version', '"$VERSION\n"'),
         'bin/no_help'       => "#!/usr/bin/env perl\nwarn \"no help\\n\";\nexit 1;\n\n" . pod('no_help'),
         'bin/no_version_line' => $script->('no_version_line', '"no_version_line $VERSION\n"')
@@ -149,7 +216,9 @@ subtest 'the help test' => sub {
         [sort('bin/no_help --help shows the help', 'bin/no_help -h shows the help', 'bin/no_help --version shows its version',
             'bin/no_version_line: followed by the version line', 'bin/wrong_version --version shows its version')],
         'a script without help, without the version line, or with a wrong version fails') or diag($result->{output});
-    is(scalar @{ $result->{ok} }, 15, 'the other tests pass');
+    is(scalar @{ $result->{ok} }, 20, 'the other tests pass');
+    ok((grep { $_ eq 'bin/sub/sub_script --version shows its version' } @{ $result->{ok} }),
+        'also for a script in a subdirectory');
     ok((grep { $_ eq 'bin/good_script --version shows its version' } @{ $result->{ok} }),
         'a script that prints its name and version passes');
     like($result->{output}, qr/Expected: wrong_version 1\.002\n# Exit status: 0\n# STDOUT: 1\.002\n/,

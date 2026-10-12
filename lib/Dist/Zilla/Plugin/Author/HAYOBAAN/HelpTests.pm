@@ -44,7 +44,8 @@ Add the following to your F<dist.ini>:
 =head1 DESCRIPTION
 
 Adds the author test F<xt/author/help.t>. It checks every Perl script in the
-F<bin> directory:
+F<bin> and F<script> directories, also in subdirectories, but not symbolic
+links:
 
 =for :list
 * it shows its help with C<--help> and with C<-h>: it exits with status 0,
@@ -73,6 +74,7 @@ use strict;
 use warnings;
 use Test::More;
 
+use File::Find;
 use File::Spec;
 use File::Temp;
 
@@ -106,7 +108,12 @@ sub run_capturing {
     return ($status == -1 ? -1 : $status >> 8, read_file($stdout_fh->filename), read_file($stderr_fh->filename));
 }
 
-my @scripts = grep { -f $_ && read_file($_) =~ /\A#!\s*(?:\S*\/env\s+)?\S*perl/ } sort glob('bin/*');
+# The Perl scripts in bin and script, also in subdirectories, but not symbolic links
+my @scripts;
+find({ no_chdir => 1, wanted => sub {
+    push(@scripts, $_) if -f $_ && !-l $_ && read_file($_) =~ /\A#!\s*(?:\S*\/env\s+)?\S*perl/;
+} }, grep { -d } qw(bin script));
+@scripts = sort @scripts;
 plan skip_all => 'No scripts found' if !@scripts;
 
 plan tests => 5 * @scripts;

@@ -36,6 +36,7 @@ following plugins are (conditionally) installed and configured:
 * L<ExecDir|Dist::Zilla::Plugin::ExecDir>
 * L<ShareDir|Dist::Zilla::Plugin::ShareDir>
 * L<MakeMaker|Dist::Zilla::Plugin::MakeMaker> (default)
+* L<Author::HAYOBAAN::ManPages|Dist::Zilla::Plugin::Author::HAYOBAAN::ManPages> (with MakeMaker)
 * L<ModuleBuild|Dist::Zilla::Plugin::ModuleBuild> (optional)
 * L<Manifest|Dist::Zilla::Plugin::Manifest>
 * L<CopyFilesFromBuild|Dist::Zilla::Plugin::CopyFilesFromBuild>
@@ -222,6 +223,7 @@ require Dist::Zilla::Plugin::Author::HAYOBAAN::PodStructureTests;
 require Dist::Zilla::Plugin::Author::HAYOBAAN::HelpTests;
 require Dist::Zilla::Plugin::Author::HAYOBAAN::ScriptUnusedVarsTests;
 require Dist::Zilla::Plugin::Author::HAYOBAAN::CheckCopyrightYear;
+require Dist::Zilla::Plugin::Author::HAYOBAAN::ManPages;
 require Pod::Weaver::PluginBundle::Author::HAYOBAAN;
 require Pod::Weaver::Section::Author::HAYOBAAN::Bugs;
 require Dist::Zilla::Plugin::Test::Synopsis;
@@ -838,6 +840,8 @@ sub configure {
         $self->use_makemaker ? (
             # Build a Makefile.PL that uses ExtUtils::MakeMaker
             [ 'MakeMaker', { default_jobs => 9 } ],
+            # Name the manual, the version and the date in the man pages MakeMaker makes
+            'Author::HAYOBAAN::ManPages',
         ) : (),
         $self->use_modulebuild ? (
             # Build a Build.PL that uses Module::Build

@@ -1,6 +1,15 @@
 Revision history for Perl module {{$dist->name}}
 
 {{$NEXT}}
+  * Added the Author::HAYOBAAN::ManPages plugin, used with MakeMaker: the man
+    pages name their manual ("User Commands" or "Perl Programmers Reference
+    Guide"), the script or module with its version, and the release date
+  * PodStructureTests and HelpTests also check the scripts in subdirectories of
+    bin and script, but not symbolic links
+  * PodStructureTests: NAME is "name - what it does", with a single hyphen. A
+    script's SYNOPSIS holds only usage lines, and it has an OPTIONS section
+    with items written as B<--long>, B<-s> I<ARG>, including --help and
+    --version
   * Requires perl 5.014 (was 5.010)
   * appveyor.yml (CI configuration) is no longer included in the distribution
   * Added the Author::HAYOBAAN::NamingTests plugin: an author test that names
