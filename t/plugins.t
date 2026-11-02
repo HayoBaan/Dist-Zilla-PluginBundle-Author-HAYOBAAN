@@ -70,7 +70,7 @@ sub pod {
 
     my $authors = $options{authors} // "=head1 AUTHOR\n\nSome Author (someone at example.com)\n\n";
     my $description = exists $options{description} ? $options{description} : "=head1 DESCRIPTION\n\nDoes something.\n\n";
-    my $name_line = $options{name_line} // "$name - Does something";
+    my $name_line = $options{name_line} // "$name - does something";
     my $synopsis = $options{synopsis} // "  $name --help|-h\n\n  $name --version\n\n";
     my $options = $options{options} // '';
     return "=head1 NAME\n\n$name_line\n\n=head1 SYNOPSIS\n\n$synopsis"
@@ -165,6 +165,15 @@ subtest 'the pod-structure test' => sub {
         'bin/bad_items'         => "#!/usr/bin/env perl\n\n" . pod('bad_items', options => options_pod('B<-t>, B<--target>', 'B<--dir> DIR')),
         'bin/no_help_item'      => "#!/usr/bin/env perl\n\n" . pod('no_help_item',
             options => "=head1 OPTIONS\n\n=over 4\n\n=item B<--version>\n\nShows it.\n\n=back\n\n"),
+        'bin/capitalized'       => "#!/usr/bin/env perl\n\n" . pod('capitalized', options => options_pod(),
+            name_line => 'capitalized - Does something'),
+        'bin/script_to'         => "#!/usr/bin/env perl\n\n" . pod('script_to', options => options_pod(),
+            name_line => 'script_to - script to do something'),
+        'bin/full_stop'         => "#!/usr/bin/env perl\n\n" . pod('full_stop', options => options_pod(),
+            name_line => "full_stop - does something\nover two lines."),
+        'bin/acronym'           => "#!/usr/bin/env perl\n\n" . pod('acronym', options => options_pod(),
+            name_line => 'acronym - DNG files and their ExifTool tags'),
+        'lib/Capitalized.pm'    => "package Capitalized;\n1;\n\n" . pod('Capitalized', name_line => 'Capitalized - Does something.'),
         'lib/DoubleDash.pm'     => "package DoubleDash;\n1;\n\n" . pod('DoubleDash', name_line => 'DoubleDash -- Does something'),
         'lib/Twice.pm'          => "package Twice;\n1;\n\n" . pod('Twice') . "\n=head1 NAME\n\nTwice - Again\n\n=cut\n",
         'lib/StrayItem.pm'      => "package StrayItem;\n1;\n\n" . pod('StrayItem')
@@ -173,11 +182,14 @@ subtest 'the pod-structure test' => sub {
             . pod('Paragraphs', authors => "=head1 AUTHORS\n\nSome Author\n\nOther Author\n\n"),
     );
     my $result = run_test_script($dir, 'xt/author/pod-structure.t');
-    is_deeply([sort @{ $result->{ok} }], [sort map { "$_ has the standard POD structure" } qw(lib/Good.pm lib/Listed.pm bin/some_script)],
-        'complete PODs pass, also with authors as list items, and names with accents') or diag($result->{output});
+    is_deeply([sort @{ $result->{ok} }], [sort map { "$_ has the standard POD structure" } qw(lib/Good.pm lib/Listed.pm bin/some_script
+        bin/acronym lib/Capitalized.pm)],
+        'complete PODs pass, also with authors as list items, names with accents, a script description starting with '
+        . 'an acronym, and a module description in its own style') or diag($result->{output});
     is_deeply([sort @{ $result->{'not ok'} }],
         [sort map { "$_ has the standard POD structure" } qw(lib/NoDescription.pm lib/OneOfAuthors.pm lib/Paragraphs.pm lib/RealAddress.pm lib/StrayItem.pm lib/Twice.pm
-            bin/no_options bin/summary bin/bad_items bin/no_help_item lib/DoubleDash.pm)],
+            bin/no_options bin/summary bin/bad_items bin/no_help_item lib/DoubleDash.pm
+            bin/capitalized bin/script_to bin/full_stop)],
         'a missing section, a wrong heading, authors not in a list, a real address, a list item outside a list, '
         . 'and a section that appears twice fail');
     like($result->{output}, qr/lib\/StrayItem\.pm: '\* Outside the list' looks like a list item, but isn't in a list/,
@@ -192,6 +204,12 @@ subtest 'the pod-structure test' => sub {
         'and its argument in I<>');
     like($result->{output}, qr/bin\/no_help_item: no '=item B<--help>, B<-h>' in the OPTIONS section/, 'there is a help item');
     like($result->{output}, qr/lib\/DoubleDash\.pm: the NAME section isn't 'DoubleDash - what it does'/, 'NAME has a single hyphen');
+    like($result->{output}, qr/bin\/capitalized: the description 'Does something' starts with a capital/,
+        'a script description starts with a lowercase letter');
+    like($result->{output}, qr/bin\/script_to: the description 'script to do something' starts with 'Script to'/,
+        'and not with "Script to"');
+    like($result->{output}, qr/bin\/full_stop: the description 'does something over two lines\.' ends with a full stop/,
+        'and has no full stop, also over two lines');
     unlike($result->{output}, qr/^Use of uninitialized value/m, 'without warnings');
 };
 

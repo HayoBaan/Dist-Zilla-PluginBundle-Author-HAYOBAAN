@@ -57,6 +57,11 @@ a list item, for instance after a C<=for :list> whose items are separated by
 blank lines, but shows a literal C<*>;
 * NAME is the name of the module or script, a hyphen and what it does:
 C<name - does something>;
+* the description in the NAME of a script in F<bin> or F<script> follows the
+convention of man pages, as in C<ls - list directory contents>. It starts with
+a lowercase letter, usually a verb. A first word with more capitals, such as
+C<DNG> or C<ExifTool>, may start with a capital. It doesn't start with
+C<Script to>, and doesn't end with a full stop;
 * the SYNOPSIS of a script in F<bin> or F<script>, also in a subdirectory,
 holds only its usage lines. Each starts with the script's name, or with a command that pipes
 into it. A line indented further continues the usage line above it. Options go
@@ -160,6 +165,20 @@ sub author_problems {
     return @problems;
 }
 
+# Returns the problems with the description of a script, after its name in the
+# NAME section. It follows the convention of man pages: it starts with a
+# lowercase letter, or with a word with more capitals, such as DNG. It doesn't
+# start with "Script to" or end with a full stop.
+sub description_problems {
+    my ($description) = @_;
+
+    my @problems;
+    push(@problems, "the description '$description' starts with 'Script to'") if $description =~ /^script to\b/i;
+    push(@problems, "the description '$description' starts with a capital") if $description =~ /^[[:upper:]][[:lower:]]*\b/;
+    push(@problems, "the description '$description' ends with a full stop") if $description =~ /\.$/;
+    return @problems;
+}
+
 # Returns the problems with the SYNOPSIS of a script: each line must be a usage
 # line, starting with the script's name, or with a command that pipes into it.
 # A line indented further than the first one continues the usage line above it.
@@ -225,6 +244,8 @@ sub pod_problems {
         if exists $section{NAME} && $section{NAME} !~ /^\s*\Q$name\E - \S/;
     # A script in bin or script, also in a subdirectory, is a command
     if ($file =~ m{^(?:bin|script)/}) {
+        my ($description) = ($section{NAME} // '') =~ /^\s*\Q$name\E - (.*?)\s*$/s;
+        push(@problems, description_problems($description =~ s/\s+/ /gr)) if defined $description;
         push(@problems, synopsis_problems($name =~ s/^git-/git /r, $section{SYNOPSIS} // $section{USAGE} // ''));
         push(@problems, options_problems($section{OPTIONS}));
     }

@@ -10,6 +10,9 @@ Revision history for Perl module {{$dist->name}}
     script's SYNOPSIS holds only usage lines, and it has an OPTIONS section
     with items written as B<--long>, B<-s> I<ARG>, including --help and
     --version
+  * PodStructureTests: a script's description in NAME follows the man page
+    convention: it starts with a lowercase letter (or a word such as DNG), not
+    with "Script to", and has no final full stop
   * Requires perl 5.014 (was 5.010)
   * appveyor.yml (CI configuration) is no longer included in the distribution
   * Added the Author::HAYOBAAN::NamingTests plugin: an author test that names
