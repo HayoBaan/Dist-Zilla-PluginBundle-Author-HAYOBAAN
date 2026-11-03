@@ -14,7 +14,7 @@ use Dist::Zilla::Plugin::Author::HAYOBAAN::PodStructureTests;
 
 # Tests of the bundle's own plugins:
 # - a build with @Author::HAYOBAAN adds their author tests
-# - ManPages makes the man pages name their manual, version and date
+# - ManPages makes the man pages name their manual, version, and date
 # - CheckCopyrightYear stops a release when the copyright year isn't up to date
 # - the generated pod-structure and help tests pass and fail the right files
 

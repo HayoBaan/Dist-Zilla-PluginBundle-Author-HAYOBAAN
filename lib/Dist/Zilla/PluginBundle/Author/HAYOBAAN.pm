@@ -840,7 +840,7 @@ sub configure {
         $self->use_makemaker ? (
             # Build a Makefile.PL that uses ExtUtils::MakeMaker
             [ 'MakeMaker', { default_jobs => 9 } ],
-            # Name the manual, the version and the date in the man pages MakeMaker makes
+            # Name the manual, the version, and the date in the man pages MakeMaker makes
             'Author::HAYOBAAN::ManPages',
         ) : (),
         $self->use_modulebuild ? (
@@ -938,7 +938,7 @@ sub configure {
         $self->_add_test('PodCoverageTests'),
         # Checks pod links
         $self->_add_test('Author::HAYOBAAN::LinkCheck'),
-        # Checks the pod sections, authors and e-mail addresses
+        # Checks the pod sections, authors, and e-mail addresses
         $self->_add_test('Author::HAYOBAAN::PodStructureTests'),
         # Checks every script shows its help and version
         $self->_add_test('Author::HAYOBAAN::HelpTests'),

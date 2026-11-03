@@ -159,7 +159,7 @@ sub author_problems {
         push(@problems, 'several authors are written as a list: =over 4, then =item * and the author for each '
             . 'author, and =back');
     }
-    # A name holds letters (with accents), spaces, dots, hyphens and apostrophes
+    # A name holds letters (with accents), spaces, dots, hyphens, and apostrophes
     push(@problems, map { "author '$_' isn't written as 'Name' or 'Name (user at domain)'" }
         grep { !/^\p{L}[\p{L}\p{M}.' -]*?(?: \([^\s()\@]+ at [^\s()\@]+\.[^\s()\@]+\))?$/ } @authors);
     return @problems;
