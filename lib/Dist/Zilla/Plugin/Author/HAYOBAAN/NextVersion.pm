@@ -7,11 +7,11 @@ use warnings;
 
 =head1 DESCRIPTION
 
-Provides the next version number, just as
-L<Git::NextVersion|Dist::Zilla::Plugin::Git::NextVersion> would do,
-including specifying the version using the C<V> environment variable.
+Provides the next version number, just as L<Git::NextVersion|Dist::Zilla::Plugin::Git::NextVersion>
+would do, including specifying the version using the C<V> environment variable.
 
-Unlike L<Git::NextVersion|Dist::Zilla::Plugin::Git::NextVersion>, you are, however, able to influence I<if> and I<how> the version is bumped:
+Unlike L<Git::NextVersion|Dist::Zilla::Plugin::Git::NextVersion>, you are, however, able to
+influence I<if> and I<how> the version is bumped:
 
 =begin :list
 
@@ -29,8 +29,7 @@ Finally, setting the attribute L</keep_version> to a I<true> value will keep the
 
 =end :list
 
-Specifying a specific version using the C<V> environment variable,
-overrides all of these settings.
+Specifying a specific version using the C<V> environment variable, overrides all of these settings.
 
 =head1 USAGE
 
@@ -55,9 +54,8 @@ extends 'Dist::Zilla::Plugin::Git::NextVersion';
 
 =attr include_minor_version
 
-Specifies that a minor version should be included in the version
-string.  This will add C<_001> to the current version if the current
-version string did not already end in C<_I<xxx>>.
+Specifies that a minor version should be included in the version string. This will add C<_001> to
+the current version if the current version string did not already end in C<_I<xxx>>.
 
 Default: I<false>
 
@@ -72,8 +70,8 @@ has include_minor_version => (
 
 =attr remove_minor_version
 
-Specifies that an existing minor version should be removed from the existing version
-string.  This will remove any C<_I<xxx>> from the end of the current version string.
+Specifies that an existing minor version should be removed from the existing version string. This
+will remove any C<_I<xxx>> from the end of the current version string.
 
 Note: overrides L</include_minor_version>.
 
@@ -139,8 +137,7 @@ sub provide_version {
     return "$new_ver";
 }
 
-# Own version of the provide_version function, allows for duplicate
-# version when not version bumping
+# Own version of the provide_version function, allows for duplicate version when not version bumping
 sub before_release {
     my $self = shift;
 

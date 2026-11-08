@@ -43,10 +43,9 @@ Add the following to your F<dist.ini>:
 
 =head1 DESCRIPTION
 
-Adds the author test F<xt/author/pod-structure.t>. It checks the POD of the
-modules in F<lib>, and of the Perl scripts in F<bin> and F<script>. The test
-runs on the built distribution, so it sees the sections that
-L<Pod::Weaver> adds. It checks that:
+Adds the author test F<xt/author/pod-structure.t>. It checks the POD of the modules in F<lib>, and
+of the Perl scripts in F<bin> and F<script>. The test runs on the built distribution, so it sees the
+sections that L<Pod::Weaver> adds. It checks that:
 
 =for :list
 * the POD has the sections NAME, SYNOPSIS (or USAGE), DESCRIPTION (or

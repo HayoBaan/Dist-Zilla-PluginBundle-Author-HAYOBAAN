@@ -15,11 +15,9 @@ use Data::Section 0.004 -setup;
 
 =attr package_exemptions
 
-Space-separated regular expressions of package name components the test
-accepts despite not starting with an uppercase letter. The policy checks
-each component of a package name separately, so to accept
-C<File::stat::Extra>, exempt C<stat>. These are added to the policy's own
-default (C<main>).
+Space-separated regular expressions of package name components the test accepts despite not starting
+with an uppercase letter. The policy checks each component of a package name separately, so to
+accept C<File::stat::Extra>, exempt C<stat>. These are added to the policy's own default (C<main>).
 
 =cut
 
@@ -31,10 +29,9 @@ has package_exemptions => (
 
 =attr subroutine_exemptions
 
-Space-separated regular expressions of subroutine names the test accepts
-despite being mixed case, e.g. camelCase aliases kept for backward
-compatibility. These are added to the policy's own defaults (C<AUTOLOAD>,
-C<DESTROY>, the tie and Moose methods, etc.).
+Space-separated regular expressions of subroutine names the test accepts despite being mixed case,
+e.g. camelCase aliases kept for backward compatibility. These are added to the policy's own defaults
+(C<AUTOLOAD>, C<DESTROY>, the tie and Moose methods, etc.).
 
 =cut
 
@@ -82,19 +79,17 @@ Add the following to your F<dist.ini>:
 
 =head1 DESCRIPTION
 
-Adds the author test F<xt/author/naming.t>. It checks that names follow
-Perl's naming conventions, using the Perl::Critic policy
-L<Perl::Critic::Policy::NamingConventions::Capitalization>:
+Adds the author test F<xt/author/naming.t>. It checks that names follow Perl's naming conventions,
+using the Perl::Critic policy L<Perl::Critic::Policy::NamingConventions::Capitalization>:
 
 =for :list
 * subs and variables are all lowercase (snake_case), or all uppercase;
 * package names start with an uppercase letter (UpperCamelCase);
 * constants are all uppercase.
 
-This catches mixed-case names such as C<readFile>, but not run-together
-lowercase names such as C<headerlinetext>. The test ignores the
-distribution's Perl::Critic profile, so the rules are the same in every
-distribution. Names that must stay as they are can be exempted with
+This catches mixed-case names such as C<readFile>, but not run-together lowercase names such as
+C<headerlinetext>. The test ignores the distribution's Perl::Critic profile, so the rules are the
+same in every distribution. Names that must stay as they are can be exempted with
 L</package_exemptions> and L</subroutine_exemptions>.
 
 =head1 SEE ALSO

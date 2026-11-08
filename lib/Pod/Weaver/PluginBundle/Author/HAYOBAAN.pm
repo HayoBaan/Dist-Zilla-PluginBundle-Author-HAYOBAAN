@@ -7,8 +7,7 @@ use warnings;
 
 =head1 DESCRIPTION
 
-This is a L<Pod::Weaver> PluginBundle, set up according to HAYOBAAN's
-preferences.
+This is a L<Pod::Weaver> PluginBundle, set up according to HAYOBAAN's preferences.
 
 It's main features are:
 
@@ -99,8 +98,8 @@ or, these lines to your F<dist.ini> file:
   [PodWeaver]
   config_plugin = @Author::HAYOBAAN
 
-Alternatively you can also add the following line to your F<dist.ini>
-(this will also enable HAYOBAAN's L<Dist::Zilla> setup):
+Alternatively you can also add the following line to your F<dist.ini> (this will also enable
+HAYOBAAN's L<Dist::Zilla> setup):
 
   [@Author::HAYOBAAN]
 

@@ -31,12 +31,12 @@ Add the following to your F<dist.ini>, after the C<[MakeMaker]> plugin:
 
 =head1 DESCRIPTION
 
-MakeMaker makes the man pages of the scripts (section 1) and modules
-(section 3) with one B<pod2man> command per section. Their header then reads
-"User Contributed Perl Documentation", and their footer the version of Perl.
+MakeMaker makes the man pages of the scripts (section 1) and modules (section 3) with one B<pod2man>
+command per section. Their header then reads "User Contributed Perl Documentation", and their footer
+the version of Perl.
 
-This plugin adds a C<MY::manifypods> method to F<Makefile.PL>. It defines the
-C<POD2MAN> macro as MakeMaker does, and makes each man page with a B<pod2man> command of its own. Each page names:
+This plugin adds a C<MY::manifypods> method to F<Makefile.PL>. It defines the C<POD2MAN> macro as
+MakeMaker does, and makes each man page with a B<pod2man> command of its own. Each page names:
 
 =for :list
 * the kind of manual in its header: "User Commands" in section 1, "Perl

@@ -43,9 +43,8 @@ Add the following to your F<dist.ini>:
 
 =head1 DESCRIPTION
 
-Adds the author test F<xt/author/help.t>. It checks every Perl script in the
-F<bin> and F<script> directories, also in subdirectories, but not symbolic
-links:
+Adds the author test F<xt/author/help.t>. It checks every Perl script in the F<bin> and F<script>
+directories, also in subdirectories, but not symbolic links:
 
 =for :list
 * it shows its help with C<--help> and with C<-h>: it exits with status 0,

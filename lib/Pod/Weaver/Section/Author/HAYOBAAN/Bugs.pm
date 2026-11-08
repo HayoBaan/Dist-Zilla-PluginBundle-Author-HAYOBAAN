@@ -11,9 +11,8 @@ with 'Pod::Weaver::Role::Section';
 
 =head1 OVERVIEW
 
-Just like the original L<Section::Bugs|Pod::Weaver::Section::Bugs>
-plugin, this section plugin will produce a hunk of Pod giving bug
-reporting information for the document. However, instead of a
+Just like the original L<Section::Bugs|Pod::Weaver::Section::Bugs> plugin, this section plugin will
+produce a hunk of Pod giving bug reporting information for the document. However, instead of a
 text-only link, this plugin will create a proper, clickable, link.
 
 =head1 USAGE

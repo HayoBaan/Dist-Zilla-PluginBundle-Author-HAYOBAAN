@@ -23,8 +23,8 @@ binmode(Test::More->builder->$_, ':encoding(UTF-8)') for qw(output failure_outpu
 my $corpus = path('corpus/DZT')->absolute;
 my $current_year = (localtime)[5] + 1900;
 
-# Runs the test script in the directory, and returns a hash with the names of
-# its tests that passed (ok) and failed (not ok), and its whole output
+# Runs the test script in the directory, and returns a hash with the names of its tests that passed
+# (ok) and failed (not ok), and its whole output
 sub run_test_script {
     my ($dir, $script) = @_;
 
@@ -43,8 +43,8 @@ sub run_test_script {
     return \%result;
 }
 
-# Writes the files (path => content) to a new temporary directory, together
-# with the test script the plugin generates, and returns the directory
+# Writes the files (path => content) to a new temporary directory, together with the test script the
+# plugin generates, and returns the directory
 sub sample_dist {
     my ($plugin, $script, %files) = @_;
 
@@ -55,8 +55,7 @@ sub sample_dist {
     return $dir;
 }
 
-# The OPTIONS section of a script with only --help and --version, and one with
-# the given extra items
+# The OPTIONS section of a script with only --help and --version, and one with the given extra items
 sub options_pod {
     my (@items) = @_;
 
@@ -107,7 +106,8 @@ subtest 'ManPages' => sub {
     my $output = `"$^X" Makefile.PL 2>&1 && $make manifypods 2>&1`;
     is($?, 0, 'make manifypods succeeds') or diag($output);
     SKIP: {
-        # Perl installations without man directories, such as Strawberry Perl on Windows, make no man pages
+        # Perl installations without man directories, such as Strawberry Perl on Windows, make no
+        # man pages
         skip 'This perl makes no man pages', 2 if ($Config::Config{installman1dir} // '') =~ /^(?:|none)$/;
         my $th_line = sub { my ($page) = @_; my ($line) = grep { /^\.TH / } path($page)->lines_utf8; return $line // '' };
         like($th_line->('blib/man1/some_script.1'), qr/^\.TH SOME_SCRIPT 1 \Q$today\E "some_script 0\.018" "User Commands"$/,

@@ -38,13 +38,13 @@ Add the following to your F<dist.ini>:
 
 =head1 DESCRIPTION
 
-Checks before a release that the C<copyright_year> in F<dist.ini> ends with
-the current year, the year of the release. Pod::Weaver writes the copyright
-notice of every file from this year, so this keeps all notices up to date.
+Checks before a release that the C<copyright_year> in F<dist.ini> ends with the current year, the
+year of the release. Pod::Weaver writes the copyright notice of every file from this year, so this
+keeps all notices up to date.
 
-The year is a single year (C<2026>), or a range written with an en dash
-without spaces (C<2015–2026>). The release stops when the year is out of date
-or written differently, and says how to write it.
+The year is a single year (C<2026>), or a range written with an en dash without spaces
+(C<2015–2026>). The release stops when the year is out of date or written differently, and says how
+to write it.
 
 =cut
 

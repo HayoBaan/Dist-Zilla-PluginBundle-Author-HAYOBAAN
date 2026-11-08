@@ -10,9 +10,8 @@ version 0.016\_001
 
 # DESCRIPTION
 
-This is a [Dist::Zilla](https://metacpan.org/pod/Dist%3A%3AZilla) PluginBundle. It installs and configures
-[Dist::Zilla](https://metacpan.org/pod/Dist%3A%3AZilla) plugins according to HAYOBAAN's preferences. The
-following plugins are (conditionally) installed and configured:
+This is a [Dist::Zilla](https://metacpan.org/pod/Dist%3A%3AZilla) PluginBundle. It installs and configures [Dist::Zilla](https://metacpan.org/pod/Dist%3A%3AZilla) plugins according
+to HAYOBAAN's preferences. The following plugins are (conditionally) installed and configured:
 
 - [AutoVersion](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AAutoVersion)
 - [Author::HAYOBAAN::NextVersion](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AAuthor%3A%3AHAYOBAAN%3A%3ANextVersion)
@@ -91,42 +90,36 @@ following plugins are (conditionally) installed and configured:
 
 # OPTIONS
 
-The following additional command-line options are available for the `dzil`
-command. The `dzil` command itself doesn't know them, so give them after
-`--`, e.g. `dzil release -- --minor`. Each option can be negated with
-`--no-`, e.g. `--no-keep`.
+The following additional command-line options are available for the `dzil` command. The `dzil`
+command itself doesn't know them, so give them after `--`, e.g. `dzil release -- --minor`. Each
+option can be negated with `--no-`, e.g. `--no-keep`.
 
 ## --local-release-only
 
-Adding this option to the `dzil` command will set the
-["local\_release\_only"](#local_release_only) attribute to _true_.
+Adding this option to the `dzil` command will set the ["local\_release\_only"](#local_release_only) attribute to _true_.
 
-`--local`, `--local-only`, and `--local-release` are synonyms for
-this option.
+`--local`, `--local-only`, and `--local-release` are synonyms for this option.
 
 ## --make-minor-release
 
-Adding this option to the `dzil` command will set the
-["make\_minor\_release"](#make_minor_release) attribute to _true_.
+Adding this option to the `dzil` command will set the ["make\_minor\_release"](#make_minor_release) attribute to _true_.
 
-`--minor`, `--minor-release`, and `--make-minor` are synonyms for
-this option.
+`--minor`, `--minor-release`, and `--make-minor` are synonyms for this option.
 
 Note: Implied with ["--local-release-only"](#local-release-only), overridden by ["--make-major-release"](#make-major-release).
 
 ## --make-major-release
 
-Adding this option to the `dzil` command will set the
-["make\_major\_release"](#make_major_release) attribute to true.
+Adding this option to the `dzil` command will set the ["make\_major\_release"](#make_major_release) attribute to true.
 
-`--major`, `--major-release`, and `--make-major` are synonyms for
-this option.
+`--major`, `--major-release`, and `--make-major` are synonyms for this option.
 
 Note: Overrides ["--make-minor-release"](#make-minor-release).
 
 ## --keep-version
 
-Adding this option will force keep the version number the same (regardless of the other settings above!).
+Adding this option will force keep the version number the same (regardless of the other settings
+above!).
 
 `--keep` is a synonym for this option.
 
@@ -134,10 +127,9 @@ Adding this option will force keep the version number the same (regardless of th
 
 ## is\_cpan
 
-Specifies that this is a distribution that is destined for CPAN. When
-true, releases are uploaded to CPAN using
-[UploadToCPAN](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AUploadToCPAN). If false, releases
-are made using [FakeRelease](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AFakeRelease).
+Specifies that this is a distribution that is destined for CPAN. When true, releases are uploaded to
+CPAN using [UploadToCPAN](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AUploadToCPAN). If false, releases are made using
+[FakeRelease](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AFakeRelease).
 
 Default: _false_.
 
@@ -145,13 +137,12 @@ Default: _false_.
 
 Specifies that the distribution's repository is hosted on GitHub.
 
-Default: _false_ (note: setting ["is\_cpan"](#is_cpan) enforces ["is\_github\_hosted"](#is_github_hosted)
-to _true_)
+Default: _false_ (note: setting ["is\_cpan"](#is_cpan) enforces ["is\_github\_hosted"](#is_github_hosted) to _true_)
 
 ## git\_remote
 
-Specifies where to push the distribution on GitHub. Can be used
-multiple times to upload to multiple branches.
+Specifies where to push the distribution on GitHub. Can be used multiple times to upload to multiple
+branches.
 
 Default: `origin`
 
@@ -159,8 +150,7 @@ Default: `origin`
 
 Specifies that the distribution is not under git version control.
 
-Default: _false_ (note: setting ["is\_github\_hosted"](#is_github_hosted) enforces this
-setting to _false_)
+Default: _false_ (note: setting ["is\_github\_hosted"](#is_github_hosted) enforces this setting to _false_)
 
 ## local\_release\_only
 
@@ -171,21 +161,20 @@ Setting this to _true_ will:
 - inhibit checking the `Changes` file,
 - include a minor version number (e.g., `_001`) in the version string (see ["make\_minor\_release"](#make_minor_release)).
 
-When releasing, the ["run\_after\_release"](#run_after_release) code is still run so you can
-use this flag to _release_ a development version locally for further
-use or testing, without e.g., fixing a new major version number.
+When releasing, the ["run\_after\_release"](#run_after_release) code is still run. You can use this flag to _release_ a
+development version locally, for further use or testing, without e.g., fixing a new major version
+number.
 
-`local`, `local_only`, and `local_release` are synonyms for
-this setting.
+`local`, `local_only`, and `local_release` are synonyms for this setting.
 
 Default: _false_
 
 ## make\_minor\_release
 
-If the version string does not yet have a minor release number, this will add one with the value of `_001`.
+If the version string does not yet have a minor release number, this will add one with the value of
+`_001`.
 
-`minor`, `minor_release`, and `make_minor` are synonyms for this
-setting.
+`minor`, `minor_release`, and `make_minor` are synonyms for this setting.
 
 Default: value of ["local\_release\_only"](#local_release_only)
 
@@ -195,8 +184,7 @@ Note: Overridden by ["make\_major\_release"](#make_major_release).
 
 Removes any minor version from the version string.
 
-`major`, `major_release`, and `make_major` are synonyms for this
-setting.
+`major`, `major_release`, and `make_major` are synonyms for this setting.
 
 Default: _false_
 
@@ -225,7 +213,8 @@ Default: _false_
 Specifies commands to run after the release has been built (but not yet released). Multiple
 ["run\_after\_build"](#run_after_build) commands can be specified.
 
-The commands are run from the root of your development tree and has the following special symbols available:
+The commands are run from the root of your development tree and has the following special symbols
+available:
 
 - `%d` the directory in which the distribution was built
 - `%n` the name of the distribution
@@ -238,13 +227,11 @@ Default: _nothing_
 
 ## run\_after\_release
 
-Specifies commands to run after the release has been made. Use it to e.g.,
-automatically install your distibution after releasing. Multiple
-run\_after\_release commands can be specified.
+Specifies commands to run after the release has been made. Use it to e.g., automatically install
+your distibution after releasing. Multiple run\_after\_release commands can be specified.
 
-The commands are run from the root of your development tree and has
-the same symbols available as the ["run\_after\_build"](#run_after_build), plus the
-following:
+The commands are run from the root of your development tree and has the same symbols available as
+the ["run\_after\_build"](#run_after_build), plus the following:
 
 - `%a` the archive of the release
 
@@ -266,8 +253,7 @@ To not do anything:
 
 ## additional\_test
 
-Additional test plugin to use. Can be used multiple times to add more
-than one additional test.
+Additional test plugin to use. Can be used multiple times to add more than one additional test.
 
 By default the following tests are executed:
 
@@ -296,41 +282,37 @@ By default the following tests are executed:
 
 ## disable\_test
 
-Specifies the test you don't want to be run. Can bu used more than
-once to disable multiple tests.
+Specifies the test you don't want to be run. Can bu used more than once to disable multiple tests.
 
 Default: _none_ (i.e., run all default and ["additional\_test"](#additional_test) tests).
 
 ## max\_target\_perl
 
-Defines the highest minimum version of perl you intend to require.
-This is passed to [Test::MinimumVersion](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ATest%3A%3AMinimumVersion), which generates
-a `minimum-version.t` test that'll warn you if you accidentally used features
-from a higher version of perl than you wanted. (Having a lower required version
-of perl is okay.)
+Defines the highest minimum version of perl you intend to require. This is passed to
+[Test::MinimumVersion](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ATest%3A%3AMinimumVersion), which generates a
+`minimum-version.t` test that'll warn you if you accidentally used features from a higher version
+of perl than you wanted. (Having a lower required version of perl is okay.)
 
 Default: `5.006`
 
 ## naming\_package\_exemptions
 
-Space-separated regular expressions of package name components the naming test
-accepts despite not starting with an uppercase letter (e.g. `utf8` for
-`Cwd::utf8`). See [Dist::Zilla::Plugin::Author::HAYOBAAN::NamingTests](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AAuthor%3A%3AHAYOBAAN%3A%3ANamingTests).
+Space-separated regular expressions of package name components the naming test accepts despite not
+starting with an uppercase letter (e.g. `utf8` for `Cwd::utf8`). See
+[Dist::Zilla::Plugin::Author::HAYOBAAN::NamingTests](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AAuthor%3A%3AHAYOBAAN%3A%3ANamingTests).
 
 ## naming\_subroutine\_exemptions
 
-Space-separated regular expressions of subroutine names the naming test accepts
-despite being mixed case (e.g. camelCase aliases kept for backward
-compatibility). See [Dist::Zilla::Plugin::Author::HAYOBAAN::NamingTests](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AAuthor%3A%3AHAYOBAAN%3A%3ANamingTests).
+Space-separated regular expressions of subroutine names the naming test accepts despite being mixed
+case (e.g. camelCase aliases kept for backward compatibility). See
+[Dist::Zilla::Plugin::Author::HAYOBAAN::NamingTests](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AAuthor%3A%3AHAYOBAAN%3A%3ANamingTests).
 
 ## surgical
 
-If this is set to _true_,
-[SurgicalPodWeaver](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ASurgicalPodWeaver) is used
-instead of the standard [PodWeaver](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3APodWeaver)
-plugin. [SurgicalPodWeaver](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ASurgicalPodWeaver)
-only munges files that contain either a `# ABSTRACT` or a `#
-Dist::Zilla: +PodWeaver` line.
+If this is set to _true_, [SurgicalPodWeaver](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ASurgicalPodWeaver) is used
+instead of the standard [PodWeaver](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3APodWeaver) plugin.
+[SurgicalPodWeaver](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3ASurgicalPodWeaver) only munges files that contain either a
+`# ABSTRACT` or a `# Dist::Zilla: +PodWeaver` line.
 
 Default: _false_
 
@@ -342,49 +324,46 @@ Default: `@Author::HAYOBAAN`.
 
 ## tag\_format
 
-Specifies the format for tagging a release (see
-[Git::Tag](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AGit%3A%3ATag) for details).
+Specifies the format for tagging a release (see [Git::Tag](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AGit%3A%3ATag) for
+details).
 
 Default: `v%v%t`
 
 ## version\_regexp
 
-Specifies the regexp for versions (see
-[Git::NextVersion](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AGit%3A%3ANextVersion) for details).
+Specifies the regexp for versions (see [Git::NextVersion](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AGit%3A%3ANextVersion) for
+details).
 
 Default: `^v?([\d.]+(?:_\d+)?)(?:-TRIAL)?$`
 
 Note: Only used in case of git version controlled repositories
-([AutoVersion](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AAutoVersion) is used in case of
-non-git version controlled repositories).
+([AutoVersion](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AAutoVersion) is used in case of non-git version controlled
+repositories).
 
 # GITHUB AUTHORIZATION
 
-When the distribution is hosted on GitHub (see ["is\_github\_hosted"](#is_github_hosted)), a
-release updates the repository's homepage and description on GitHub with
-[GitHub::Update](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AGitHub%3A%3AUpdate). This needs a GitHub
-access token. A classic personal access token with the `public_repo` scope is
-enough for a public repository. Create one on GitHub under
-_Settings, Developer settings, Personal access tokens_.
+When the distribution is hosted on GitHub (see ["is\_github\_hosted"](#is_github_hosted)), a release updates the
+repository's homepage and description on GitHub with
+[GitHub::Update](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APlugin%3A%3AGitHub%3A%3AUpdate). This needs a GitHub access token. A classic
+personal access token with the `public_repo` scope is enough for a public repository. Create one on
+GitHub under _Settings, Developer settings, Personal access tokens_.
 
 The plugin looks for the credentials in two places:
 
-- The file `~/.github`, or its GPG-encrypted version `~/.github.gpg` (read
-with [Config::Identity::GitHub](https://metacpan.org/pod/Config%3A%3AIdentity%3A%3AGitHub)). It holds a `login` and a `token` line:
+- The file `~/.github`, or its GPG-encrypted version `~/.github.gpg` (read with
+[Config::Identity::GitHub](https://metacpan.org/pod/Config%3A%3AIdentity%3A%3AGitHub)). It holds a `login` and a `token` line:
 
         login your-github-username
         token ghp_...
 
-- The git config settings `github.user` and `github.token`, when there is
-no `~/.github` file:
+- The git config settings `github.user` and `github.token`, when there is no `~/.github` file:
 
         git config --global github.user your-github-username
         git config --global github.token ghp_...
 
-When neither holds a token, the plugin asks for a password. GitHub's API no
-longer accepts passwords, so the update then fails. A token in `~/.github` or
-the git config is stored in plain text. Use `~/.github.gpg` to keep it
-encrypted.
+When neither holds a token, the plugin asks for a password. GitHub's API no longer accepts
+passwords, so the update then fails. A token in `~/.github` or the git config is stored in plain
+text. Use `~/.github.gpg` to keep it encrypted.
 
 # BUGS
 
@@ -397,7 +376,8 @@ feature.
 
 # CREDITS
 
-I took inspiration from many people's [Dist::Zilla](https://metacpan.org/pod/Dist%3A%3AZilla) and [Pod::Weaver](https://metacpan.org/pod/Pod%3A%3AWeaver) PluginBundles. Most notably from:
+I took inspiration from many people's [Dist::Zilla](https://metacpan.org/pod/Dist%3A%3AZilla) and [Pod::Weaver](https://metacpan.org/pod/Pod%3A%3AWeaver) PluginBundles. Most notably
+from:
 
 - David Golden [DAGOLDEN](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APluginBundle%3A%3ADAGOLDEN)
 - Mike Doherty [DOHERTY](https://metacpan.org/pod/Dist%3A%3AZilla%3A%3APluginBundle%3A%3AAuthor%3A%3ADOHERTY)

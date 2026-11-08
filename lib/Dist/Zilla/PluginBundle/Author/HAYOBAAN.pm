@@ -8,9 +8,8 @@ use warnings;
 
 =head1 DESCRIPTION
 
-This is a L<Dist::Zilla> PluginBundle. It installs and configures
-L<Dist::Zilla> plugins according to HAYOBAAN's preferences. The
-following plugins are (conditionally) installed and configured:
+This is a L<Dist::Zilla> PluginBundle. It installs and configures L<Dist::Zilla> plugins according
+to HAYOBAAN's preferences. The following plugins are (conditionally) installed and configured:
 
 =for :list
 * L<AutoVersion|Dist::Zilla::Plugin::AutoVersion>
@@ -90,53 +89,46 @@ following plugins are (conditionally) installed and configured:
 
 =head1 OPTIONS
 
-The following additional command-line options are available for the C<dzil>
-command. The C<dzil> command itself doesn't know them, so give them after
-C<-->, e.g. C<dzil release -- --minor>. Each option can be negated with
-C<--no->, e.g. C<--no-keep>.
+The following additional command-line options are available for the C<dzil> command. The C<dzil>
+command itself doesn't know them, so give them after C<-->, e.g. C<dzil release -- --minor>. Each
+option can be negated with C<--no->, e.g. C<--no-keep>.
 
 =head2 --local-release-only
 
-Adding this option to the C<dzil> command will set the
-L</local_release_only> attribute to I<true>.
+Adding this option to the C<dzil> command will set the L</local_release_only> attribute to I<true>.
 
-C<--local>, C<--local-only>, and C<--local-release> are synonyms for
-this option.
+C<--local>, C<--local-only>, and C<--local-release> are synonyms for this option.
 
 =head2 --make-minor-release
 
-Adding this option to the C<dzil> command will set the
-L</make_minor_release> attribute to I<true>.
+Adding this option to the C<dzil> command will set the L</make_minor_release> attribute to I<true>.
 
-C<--minor>, C<--minor-release>, and C<--make-minor> are synonyms for
-this option.
+C<--minor>, C<--minor-release>, and C<--make-minor> are synonyms for this option.
 
 Note: Implied with L</--local-release-only>, overridden by L</--make-major-release>.
 
 =head2 --make-major-release
 
-Adding this option to the C<dzil> command will set the
-L</make_major_release> attribute to true.
+Adding this option to the C<dzil> command will set the L</make_major_release> attribute to true.
 
-C<--major>, C<--major-release>, and C<--make-major> are synonyms for
-this option.
+C<--major>, C<--major-release>, and C<--make-major> are synonyms for this option.
 
 Note: Overrides L</--make-minor-release>.
 
 =head2 --keep-version
 
-Adding this option will force keep the version number the same (regardless of the other settings above!).
+Adding this option will force keep the version number the same (regardless of the other settings
+above!).
 
 C<--keep> is a synonym for this option.
 
 =head1 GITHUB AUTHORIZATION
 
-When the distribution is hosted on GitHub (see L</is_github_hosted>), a
-release updates the repository's homepage and description on GitHub with
-L<GitHub::Update|Dist::Zilla::Plugin::GitHub::Update>. This needs a GitHub
-access token. A classic personal access token with the C<public_repo> scope is
-enough for a public repository. Create one on GitHub under
-I<Settings, Developer settings, Personal access tokens>.
+When the distribution is hosted on GitHub (see L</is_github_hosted>), a release updates the
+repository's homepage and description on GitHub with
+L<GitHub::Update|Dist::Zilla::Plugin::GitHub::Update>. This needs a GitHub access token. A classic
+personal access token with the C<public_repo> scope is enough for a public repository. Create one on
+GitHub under I<Settings, Developer settings, Personal access tokens>.
 
 The plugin looks for the credentials in two places:
 
@@ -144,30 +136,29 @@ The plugin looks for the credentials in two places:
 
 =item *
 
-The file F<~/.github>, or its GPG-encrypted version F<~/.github.gpg> (read
-with L<Config::Identity::GitHub>). It holds a C<login> and a C<token> line:
+The file F<~/.github>, or its GPG-encrypted version F<~/.github.gpg> (read with
+L<Config::Identity::GitHub>). It holds a C<login> and a C<token> line:
 
   login your-github-username
   token ghp_...
 
 =item *
 
-The git config settings C<github.user> and C<github.token>, when there is
-no F<~/.github> file:
+The git config settings C<github.user> and C<github.token>, when there is no F<~/.github> file:
 
   git config --global github.user your-github-username
   git config --global github.token ghp_...
 
 =back
 
-When neither holds a token, the plugin asks for a password. GitHub's API no
-longer accepts passwords, so the update then fails. A token in F<~/.github> or
-the git config is stored in plain text. Use F<~/.github.gpg> to keep it
-encrypted.
+When neither holds a token, the plugin asks for a password. GitHub's API no longer accepts
+passwords, so the update then fails. A token in F<~/.github> or the git config is stored in plain
+text. Use F<~/.github.gpg> to keep it encrypted.
 
 =head1 CREDITS
 
-I took inspiration from many people's L<Dist::Zilla> and L<Pod::Weaver> PluginBundles. Most notably from:
+I took inspiration from many people's L<Dist::Zilla> and L<Pod::Weaver> PluginBundles. Most notably
+from:
 
 =for :list
 * David Golden L<DAGOLDEN|Dist::Zilla::PluginBundle::DAGOLDEN>
@@ -254,10 +245,9 @@ sub mvp_aliases {
 
 =attr is_cpan
 
-Specifies that this is a distribution that is destined for CPAN. When
-true, releases are uploaded to CPAN using
-L<UploadToCPAN|Dist::Zilla::Plugin::UploadToCPAN>. If false, releases
-are made using L<FakeRelease|Dist::Zilla::Plugin::FakeRelease>.
+Specifies that this is a distribution that is destined for CPAN. When true, releases are uploaded to
+CPAN using L<UploadToCPAN|Dist::Zilla::Plugin::UploadToCPAN>. If false, releases are made using
+L<FakeRelease|Dist::Zilla::Plugin::FakeRelease>.
 
 Default: I<false>.
 
@@ -274,8 +264,7 @@ has is_cpan => (
 
 Specifies that the distribution's repository is hosted on GitHub.
 
-Default: I<false> (note: setting L</is_cpan> enforces L</is_github_hosted>
-to I<true>)
+Default: I<false> (note: setting L</is_cpan> enforces L</is_github_hosted> to I<true>)
 
 =cut
 
@@ -288,8 +277,8 @@ has is_github_hosted => (
 
 =attr git_remote
 
-Specifies where to push the distribution on GitHub. Can be used
-multiple times to upload to multiple branches.
+Specifies where to push the distribution on GitHub. Can be used multiple times to upload to multiple
+branches.
 
 Default: C<origin>
 
@@ -306,8 +295,7 @@ has git_remote => (
 
 Specifies that the distribution is not under git version control.
 
-Default: I<false> (note: setting L</is_github_hosted> enforces this
-setting to I<false>)
+Default: I<false> (note: setting L</is_github_hosted> enforces this setting to I<false>)
 
 =cut
 
@@ -328,12 +316,11 @@ Setting this to I<true> will:
 * inhibit checking the F<Changes> file,
 * include a minor version number (e.g., C<_001>) in the version string (see L</make_minor_release>).
 
-When releasing, the L</run_after_release> code is still run so you can
-use this flag to I<release> a development version locally for further
-use or testing, without e.g., fixing a new major version number.
+When releasing, the L</run_after_release> code is still run. You can use this flag to I<release> a
+development version locally, for further use or testing, without e.g., fixing a new major version
+number.
 
-C<local>, C<local_only>, and C<local_release> are synonyms for
-this setting.
+C<local>, C<local_only>, and C<local_release> are synonyms for this setting.
 
 Default: I<false>
 
@@ -348,10 +335,10 @@ has local_release_only => (
 
 =attr make_minor_release
 
-If the version string does not yet have a minor release number, this will add one with the value of C<_001>.
+If the version string does not yet have a minor release number, this will add one with the value of
+C<_001>.
 
-C<minor>, C<minor_release>, and C<make_minor> are synonyms for this
-setting.
+C<minor>, C<minor_release>, and C<make_minor> are synonyms for this setting.
 
 Default: value of L</local_release_only>
 
@@ -370,8 +357,7 @@ has make_minor_release => (
 
 Removes any minor version from the version string.
 
-C<major>, C<major_release>, and C<make_major> are synonyms for this
-setting.
+C<major>, C<major_release>, and C<make_major> are synonyms for this setting.
 
 Default: I<false>
 
@@ -436,7 +422,8 @@ has use_modulebuild => (
 Specifies commands to run after the release has been built (but not yet released). Multiple
 L</run_after_build> commands can be specified.
 
-The commands are run from the root of your development tree and has the following special symbols available:
+The commands are run from the root of your development tree and has the following special symbols
+available:
 
 =for :list
 * C<%d> the directory in which the distribution was built
@@ -459,13 +446,11 @@ has run_after_build => (
 
 =attr run_after_release
 
-Specifies commands to run after the release has been made. Use it to e.g.,
-automatically install your distibution after releasing. Multiple
-run_after_release commands can be specified.
+Specifies commands to run after the release has been made. Use it to e.g., automatically install
+your distibution after releasing. Multiple run_after_release commands can be specified.
 
-The commands are run from the root of your development tree and has
-the same symbols available as the L</run_after_build>, plus the
-following:
+The commands are run from the root of your development tree and has the same symbols available as
+the L</run_after_build>, plus the following:
 
 =for :list
 * C<%a> the archive of the release
@@ -497,8 +482,7 @@ has run_after_release => (
 
 =attr additional_test
 
-Additional test plugin to use. Can be used multiple times to add more
-than one additional test.
+Additional test plugin to use. Can be used multiple times to add more than one additional test.
 
 By default the following tests are executed:
 
@@ -537,8 +521,7 @@ has additional_test => (
 
 =attr disable_test
 
-Specifies the test you don't want to be run. Can bu used more than
-once to disable multiple tests.
+Specifies the test you don't want to be run. Can bu used more than once to disable multiple tests.
 
 Default: I<none> (i.e., run all default and L</additional_test> tests).
 
@@ -553,11 +536,10 @@ has disable_test => (
 
 =attr max_target_perl
 
-Defines the highest minimum version of perl you intend to require.
-This is passed to L<Test::MinimumVersion|Dist::Zilla::Plugin::Test::MinimumVersion>, which generates
-a F<minimum-version.t> test that'll warn you if you accidentally used features
-from a higher version of perl than you wanted. (Having a lower required version
-of perl is okay.)
+Defines the highest minimum version of perl you intend to require. This is passed to
+L<Test::MinimumVersion|Dist::Zilla::Plugin::Test::MinimumVersion>, which generates a
+F<minimum-version.t> test that'll warn you if you accidentally used features from a higher version
+of perl than you wanted. (Having a lower required version of perl is okay.)
 
 Default: C<5.006>
 
@@ -572,9 +554,9 @@ has max_target_perl => (
 
 =attr naming_package_exemptions
 
-Space-separated regular expressions of package name components the naming test
-accepts despite not starting with an uppercase letter (e.g. C<utf8> for
-C<Cwd::utf8>). See L<Dist::Zilla::Plugin::Author::HAYOBAAN::NamingTests>.
+Space-separated regular expressions of package name components the naming test accepts despite not
+starting with an uppercase letter (e.g. C<utf8> for C<Cwd::utf8>). See
+L<Dist::Zilla::Plugin::Author::HAYOBAAN::NamingTests>.
 
 =cut
 
@@ -587,9 +569,9 @@ has naming_package_exemptions => (
 
 =attr naming_subroutine_exemptions
 
-Space-separated regular expressions of subroutine names the naming test accepts
-despite being mixed case (e.g. camelCase aliases kept for backward
-compatibility). See L<Dist::Zilla::Plugin::Author::HAYOBAAN::NamingTests>.
+Space-separated regular expressions of subroutine names the naming test accepts despite being mixed
+case (e.g. camelCase aliases kept for backward compatibility). See
+L<Dist::Zilla::Plugin::Author::HAYOBAAN::NamingTests>.
 
 =cut
 
@@ -602,12 +584,10 @@ has naming_subroutine_exemptions => (
 
 =attr surgical
 
-If this is set to I<true>,
-L<SurgicalPodWeaver|Dist::Zilla::Plugin::SurgicalPodWeaver> is used
-instead of the standard L<PodWeaver|Dist::Zilla::Plugin::PodWeaver>
-plugin. L<SurgicalPodWeaver|Dist::Zilla::Plugin::SurgicalPodWeaver>
-only munges files that contain either a C<# ABSTRACT> or a C<#
-Dist::Zilla: +PodWeaver> line.
+If this is set to I<true>, L<SurgicalPodWeaver|Dist::Zilla::Plugin::SurgicalPodWeaver> is used
+instead of the standard L<PodWeaver|Dist::Zilla::Plugin::PodWeaver> plugin.
+L<SurgicalPodWeaver|Dist::Zilla::Plugin::SurgicalPodWeaver> only munges files that contain either a
+C<# ABSTRACT> or a C<# Dist::Zilla: +PodWeaver> line.
 
 Default: I<false>
 
@@ -637,8 +617,8 @@ has weaver_config => (
 
 =attr tag_format
 
-Specifies the format for tagging a release (see
-L<Git::Tag|Dist::Zilla::Plugin::Git::Tag> for details).
+Specifies the format for tagging a release (see L<Git::Tag|Dist::Zilla::Plugin::Git::Tag> for
+details).
 
 Default: C<v%v%t>
 
@@ -653,14 +633,14 @@ has tag_format => (
 
 =attr version_regexp
 
-Specifies the regexp for versions (see
-L<Git::NextVersion|Dist::Zilla::Plugin::Git::NextVersion> for details).
+Specifies the regexp for versions (see L<Git::NextVersion|Dist::Zilla::Plugin::Git::NextVersion> for
+details).
 
 Default: C<^v?([\d.]+(?:_\d+)?)(?:-TRIAL)?$>
 
 Note: Only used in case of git version controlled repositories
-(L<AutoVersion|Dist::Zilla::Plugin::AutoVersion> is used in case of
-non-git version controlled repositories).
+(L<AutoVersion|Dist::Zilla::Plugin::AutoVersion> is used in case of non-git version controlled
+repositories).
 
 =cut
 
@@ -886,12 +866,10 @@ sub configure {
             ) : (),
         ) : (),
 
-        # Extra test (gatherdir)
-        # Checks if perl code compiles correctly
+        # Extra test (gatherdir) Checks if perl code compiles correctly
         $self->_add_test('Test::Compile'),
 
-        # Extra tests (author)
-        # Checks Perl source code for best-practices
+        # Extra tests (author) Checks Perl source code for best-practices
         $self->_add_test('Test::Perl::Critic'),
         # Checks names follow Perl's naming conventions
         $self->_add_test([ 'Author::HAYOBAAN::NamingTests' => {
@@ -903,8 +881,7 @@ sub configure {
         # Checks for the use of tabs
         $self->_add_test('Test::NoTabs'),
 
-        # Extra tests (release)
-        # Checks to see if each module has the correct version set
+        # Extra tests (release) Checks to see if each module has the correct version set
         $self->_add_test('Test::Version'),
         # Checks the minimum perl version
         $self->_add_test([ 'Test::MinimumVersion' => { max_target_perl => $self->max_target_perl } ]),

@@ -34,11 +34,9 @@ Add the following to your F<dist.ini>:
 
 =head1 DESCRIPTION
 
-Adds the author test F<xt/author/pod-linkcheck.t>, which checks that the
-links in the POD resolve. It is Randy Stauner's
-L<Test::Pod::LinkCheck|Dist::Zilla::Plugin::Test::Pod::LinkCheck> plugin,
-modified by Hayo Baan. The test looks up modules on CPAN, instead of with the
-deprecated CPANPLUS.
+Adds the author test F<xt/author/pod-linkcheck.t>, which checks that the links in the POD resolve.
+It is Randy Stauner's L<Test::Pod::LinkCheck|Dist::Zilla::Plugin::Test::Pod::LinkCheck> plugin,
+modified by Hayo Baan. The test looks up modules on CPAN, instead of with the deprecated CPANPLUS.
 
 =head1 SEE ALSO
 
@@ -52,11 +50,9 @@ deprecated CPANPLUS.
 
 =head1 ACKNOWLEDGEMENTS
 
-This plugin is based on the
-L<Test::Pod::LinkCheck|Dist::Zilla::Plugin::Test::Pod::LinkCheck> plugin by
-Randy Stauner (rwstauner at cpan.org). That plugin is copyright (c) 2011 by
-Randy Stauner, under the same terms as the Perl 5 programming language
-system itself.
+This plugin is based on the L<Test::Pod::LinkCheck|Dist::Zilla::Plugin::Test::Pod::LinkCheck> plugin
+by Randy Stauner (rwstauner at cpan.org). That plugin is copyright (c) 2011 by Randy Stauner, under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
 

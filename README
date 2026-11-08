@@ -243,9 +243,9 @@ ATTRIBUTES
       * include a minor version number (e.g., _001) in the version string
       (see "make_minor_release").
 
-    When releasing, the "run_after_release" code is still run so you can
-    use this flag to release a development version locally for further use
-    or testing, without e.g., fixing a new major version number.
+    When releasing, the "run_after_release" code is still run. You can use
+    this flag to release a development version locally, for further use or
+    testing, without e.g., fixing a new major version number.
 
     local, local_only, and local_release are synonyms for this setting.
 

@@ -43,18 +43,17 @@ Add the following to your F<dist.ini>:
 
 =head1 DESCRIPTION
 
-Adds the author test F<xt/author/unused-vars-scripts.t>. It checks the Perl
-scripts in the F<bin> and F<script> directories for unused variables, with
-the Perl::Critic policy
+Adds the author test F<xt/author/unused-vars-scripts.t>. It checks the Perl scripts in the F<bin>
+and F<script> directories for unused variables, with the Perl::Critic policy
 L<Perl::Critic::Policy::Variables::ProhibitUnusedVarsStricter>.
 
-L<Dist::Zilla::Plugin::Test::UnusedVars> checks the modules, by inspecting
-their compiled code. That doesn't work for scripts, as loading a script runs
-it. This test checks the scripts statically instead. The policy also catches
-variables with an initializer and unused values unpacked from C<@_>.
+L<Dist::Zilla::Plugin::Test::UnusedVars> checks the modules, by inspecting their compiled code. That
+doesn't work for scripts, as loading a script runs it. This test checks the scripts statically
+instead. The policy also catches variables with an initializer and unused values unpacked from
+C<@_>.
 
-The test ignores the distribution's Perl::Critic profile, so the rules are
-the same in every distribution.
+The test ignores the distribution's Perl::Critic profile, so the rules are the same in every
+distribution.
 
 =head1 SEE ALSO
 
